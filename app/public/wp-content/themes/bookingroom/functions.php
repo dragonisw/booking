@@ -361,8 +361,288 @@ function bookingroom_add_home_meta_boxes()
         }
         add_meta_box('home_destinations_section', 'Danh sách Điểm đến (Chọn từ Gallery)', 'bookingroom_home_destinations_callback', 'page', 'normal', 'high');
     }
+
+    // ── About Page Meta Boxes ────────────────────────────────────────────────
+    if ($template == 'page-about.php') {
+        add_meta_box('ab_hero_box',       '🖼️ Hero – Ảnh nền & Tiêu đề',        'bookingroom_about_hero_cb',       'page', 'normal', 'high');
+        add_meta_box('ab_stats_box',      '📊 Thống kê (4 con số)',               'bookingroom_about_stats_cb',      'page', 'normal', 'high');
+        add_meta_box('ab_story_box',      '📖 Câu chuyện của chúng tôi',          'bookingroom_about_story_cb',      'page', 'normal', 'high');
+        add_meta_box('ab_features_box',   '✅ 3 Điểm nổi bật (trong section Story)', 'bookingroom_about_features_cb', 'page', 'normal', 'high');
+        add_meta_box('ab_values_box',     '💎 Giá trị cốt lõi (3 thẻ)',          'bookingroom_about_values_cb',     'page', 'normal', 'high');
+        add_meta_box('ab_milestones_box', '⏳ Cột mốc phát triển (4 mốc)',        'bookingroom_about_milestones_cb', 'page', 'normal', 'high');
+        add_meta_box('ab_team_box',       '👥 Đội ngũ (3 thành viên)',            'bookingroom_about_team_cb',       'page', 'normal', 'high');
+        add_meta_box('ab_testi_box',      '💬 Nhận xét khách hàng',               'bookingroom_about_testi_cb',      'page', 'normal', 'high');
+        add_meta_box('ab_cta_box',        '🚀 CTA Banner cuối trang',             'bookingroom_about_cta_cb',        'page', 'normal', 'high');
+    }
 }
 add_action('add_meta_boxes', 'bookingroom_add_home_meta_boxes');
+
+/* ── About page meta box helpers ── */
+
+function _abp_input_row( $label, $name, $value, $type = 'text', $placeholder = '' ) {
+    $s_input = 'width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;font-family:inherit;';
+    echo '<p><label style="font-weight:700;display:block;margin-bottom:4px;font-size:13px;">' . esc_html($label) . '</label>';
+    if ($type === 'textarea') {
+        echo '<textarea name="' . esc_attr($name) . '" rows="4" style="' . $s_input . 'resize:vertical;">' . esc_textarea($value) . '</textarea>';
+    } else {
+        echo '<input type="' . esc_attr($type) . '" name="' . esc_attr($name) . '" value="' . esc_attr($value) . '" placeholder="' . esc_attr($placeholder) . '" style="' . $s_input . '">';
+    }
+    echo '</p>';
+}
+
+function _abp_section_title( $label ) {
+    echo '<h3 style="margin:18px 0 10px;font-size:14px;color:#2563eb;border-bottom:2px solid #bfdbfe;padding-bottom:7px;">' . esc_html($label) . '</h3>';
+}
+
+function _abp_img_picker( $label, $name, $post_id ) {
+    $id  = get_post_meta($post_id, $name, true);
+    $url = $id ? wp_get_attachment_image_url($id, 'thumbnail') : '';
+    echo '<p><label style="font-weight:700;display:block;margin-bottom:6px;font-size:13px;">' . esc_html($label) . '</label>';
+    echo '<div style="display:flex;align-items:center;gap:12px;">';
+    if ($url) echo '<img src="' . esc_url($url) . '" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:2px solid #e2e8f0;">';
+    echo '<div>';
+    echo '<input type="hidden" name="' . esc_attr($name) . '" id="abp_' . esc_attr($name) . '" value="' . esc_attr($id) . '">';
+    echo '<button type="button" class="button abp-media-btn" data-target="abp_' . esc_attr($name) . '">Chọn ảnh</button>';
+    if ($id) echo ' <button type="button" class="button abp-media-remove" data-target="abp_' . esc_attr($name) . '" style="color:red;">✕ Xóa</button>';
+    echo '</div></div></p>';
+}
+
+/* Hero callback */
+function bookingroom_about_hero_cb($post) {
+    wp_nonce_field('abp_save_meta', 'abp_nonce');
+    $pid = $post->ID;
+    _abp_section_title('Ảnh nền Hero');
+    echo '<p><label style="font-weight:700;font-size:13px;">URL ảnh nền (hoặc upload bên dưới):</label><br>';
+    echo '<input type="text" name="_about_hero_bg_url" value="' . esc_attr(get_post_meta($pid,'_about_hero_bg_url',true)) . '" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;" placeholder="https://..."></p>';
+    _abp_img_picker('Hoặc chọn từ thư viện media', '_about_hero_bg_id', $pid);
+    _abp_section_title('Nội dung');
+    _abp_input_row('Tiêu đề (có thể dùng <span class="ab-blue">...</span> để đổi màu)', '_about_hero_title', get_post_meta($pid,'_about_hero_title',true), 'text', 'Về <span class="ab-blue">Chúng Tôi</span>');
+    _abp_input_row('Mô tả ngắn', '_about_hero_subtitle', get_post_meta($pid,'_about_hero_subtitle',true), 'textarea');
+    echo bookingroom_about_media_js();
+}
+
+/* Stats callback */
+function bookingroom_about_stats_cb($post) {
+    $pid = $post->ID;
+    $style_row = 'display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;';
+    echo '<div style="' . $style_row . '">';
+    for ($i = 1; $i <= 4; $i++) {
+        echo '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">';
+        echo '<div style="font-weight:700;font-size:12px;color:#2563eb;margin-bottom:8px;">Thống kê ' . $i . '</div>';
+        _abp_input_row('Số / Giá trị', "_about_stat{$i}_num", get_post_meta($pid, "_about_stat{$i}_num", true), 'text', '500+');
+        _abp_input_row('Nhãn',         "_about_stat{$i}_lbl", get_post_meta($pid, "_about_stat{$i}_lbl", true), 'text', 'Khách sạn');
+        echo '</div>';
+    }
+    echo '</div>';
+}
+
+/* Story callback */
+function bookingroom_about_story_cb($post) {
+    $pid = $post->ID;
+    _abp_section_title('Hình ảnh');
+    echo '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">';
+    _abp_img_picker('Ảnh chính (trái)', '_about_story_img1_id', $pid);
+    echo '<p><label style="font-weight:700;font-size:13px;">URL ảnh chính:</label><br><input type="text" name="_about_story_img1" value="' . esc_attr(get_post_meta($pid,'_about_story_img1',true)) . '" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;"></p>';
+    echo '</div>';
+    echo '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">';
+    _abp_img_picker('Ảnh phụ (góc phải)', '_about_story_img2_id', $pid);
+    echo '<p><label style="font-weight:700;font-size:13px;">URL ảnh phụ:</label><br><input type="text" name="_about_story_img2" value="' . esc_attr(get_post_meta($pid,'_about_story_img2',true)) . '" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;"></p>';
+    echo '</div>';
+    _abp_section_title('Nội dung');
+    _abp_input_row('Tiêu đề section (có thể dùng <span class="ab-accent">...</span> để gradient)', '_about_story_heading', get_post_meta($pid,'_about_story_heading',true), 'text');
+    _abp_input_row('Nội dung câu chuyện (HTML đơn giản)', '_about_story_text', get_post_meta($pid,'_about_story_text',true), 'textarea');
+    echo '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">';
+    _abp_input_row('Số nổi bật (badge)', '_about_story_badge_num', get_post_meta($pid,'_about_story_badge_num',true), 'text', '10+');
+    _abp_input_row('Nhãn badge', '_about_story_badge_lbl', get_post_meta($pid,'_about_story_badge_lbl',true), 'text', 'Năm kinh nghiệm');
+    _abp_input_row('Nút CTA – văn bản', '_about_story_cta_text', get_post_meta($pid,'_about_story_cta_text',true), 'text', 'Xem phòng nghỉ');
+    _abp_input_row('Nút CTA – URL', '_about_story_cta_url', get_post_meta($pid,'_about_story_cta_url',true), 'url');
+    echo '</div>';
+    echo bookingroom_about_media_js();
+}
+
+/* Features callback */
+function bookingroom_about_features_cb($post) {
+    $pid = $post->ID;
+    for ($i = 1; $i <= 3; $i++) {
+        echo '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:12px;">';
+        echo '<div style="font-weight:700;font-size:12px;color:#7c3aed;margin-bottom:8px;">Điểm nổi bật ' . $i . '</div>';
+        echo '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
+        _abp_input_row('Tiêu đề', "_about_feat{$i}_title", get_post_meta($pid, "_about_feat{$i}_title", true), 'text');
+        _abp_input_row('Mô tả',   "_about_feat{$i}_desc",  get_post_meta($pid, "_about_feat{$i}_desc",  true), 'text');
+        echo '</div></div>';
+    }
+}
+
+/* Values callback */
+function bookingroom_about_values_cb($post) {
+    $pid = $post->ID;
+    for ($i = 1; $i <= 3; $i++) {
+        echo '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:12px;">';
+        echo '<div style="font-weight:700;font-size:12px;color:#2563eb;margin-bottom:8px;">Giá trị ' . $i . '</div>';
+        echo '<div style="display:grid;grid-template-columns:1fr 2fr;gap:12px;">';
+        _abp_input_row('Tiêu đề', "_about_val{$i}_title", get_post_meta($pid, "_about_val{$i}_title", true));
+        _abp_input_row('Mô tả',   "_about_val{$i}_desc",  get_post_meta($pid, "_about_val{$i}_desc",  true));
+        echo '</div></div>';
+    }
+}
+
+/* Milestones callback */
+function bookingroom_about_milestones_cb($post) {
+    $pid = $post->ID;
+    for ($i = 1; $i <= 4; $i++) {
+        echo '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:12px;">';
+        echo '<div style="font-weight:700;font-size:12px;color:#0284c7;margin-bottom:8px;">Cột mốc ' . $i . '</div>';
+        echo '<div style="display:grid;grid-template-columns:80px 1fr 2fr;gap:12px;align-items:start;">';
+        _abp_input_row('Năm', "_about_ms{$i}_year",  get_post_meta($pid, "_about_ms{$i}_year",  true), 'text', '2015');
+        _abp_input_row('Tiêu đề', "_about_ms{$i}_title", get_post_meta($pid, "_about_ms{$i}_title", true));
+        _abp_input_row('Mô tả',   "_about_ms{$i}_desc",  get_post_meta($pid, "_about_ms{$i}_desc",  true));
+        echo '</div></div>';
+    }
+}
+
+/* Team callback */
+function bookingroom_about_team_cb($post) {
+    $pid = $post->ID;
+    for ($i = 1; $i <= 3; $i++) {
+        echo '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:12px;">';
+        echo '<div style="font-weight:700;font-size:12px;color:#0369a1;margin-bottom:8px;">Thành viên ' . $i . '</div>';
+        echo '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
+        _abp_input_row('Họ tên',  "_about_team{$i}_name", get_post_meta($pid, "_about_team{$i}_name", true));
+        _abp_input_row('Chức vụ', "_about_team{$i}_role", get_post_meta($pid, "_about_team{$i}_role", true));
+        echo '</div>';
+        _abp_img_picker('Ảnh đại diện', "_about_team{$i}_img_id", $pid);
+        echo '<p><label style="font-weight:700;font-size:13px;">Hoặc nhập URL ảnh:</label><br>';
+        echo '<input type="text" name="_about_team' . $i . '_img" value="' . esc_attr(get_post_meta($pid, "_about_team{$i}_img", true)) . '" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;"></p>';
+        echo '</div>';
+    }
+    echo bookingroom_about_media_js();
+}
+
+/* Testimonial callback */
+function bookingroom_about_testi_cb($post) {
+    $pid = $post->ID;
+    _abp_input_row('Nội dung trích dẫn', '_about_testi_quote', get_post_meta($pid,'_about_testi_quote',true), 'textarea');
+    echo '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
+    _abp_input_row('Tên khách hàng', '_about_testi_name', get_post_meta($pid,'_about_testi_name',true));
+    _abp_input_row('Chức vụ / Công ty', '_about_testi_role', get_post_meta($pid,'_about_testi_role',true));
+    echo '</div>';
+    _abp_img_picker('Ảnh avatar', '_about_testi_img_id', $pid);
+    echo '<p><label style="font-weight:700;font-size:13px;">Hoặc URL avatar:</label><br>';
+    echo '<input type="text" name="_about_testi_img" value="' . esc_attr(get_post_meta($pid,'_about_testi_img',true)) . '" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;"></p>';
+    echo bookingroom_about_media_js();
+}
+
+/* CTA callback */
+function bookingroom_about_cta_cb($post) {
+    $pid = $post->ID;
+    _abp_input_row('Tiêu đề CTA', '_about_cta_title', get_post_meta($pid,'_about_cta_title',true), 'text', 'Sẵn sàng cho chuyến nghỉ dưỡng hoàn hảo?');
+    _abp_input_row('Mô tả phụ',   '_about_cta_sub',   get_post_meta($pid,'_about_cta_sub',true), 'text');
+    echo '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">';
+    _abp_input_row('Nút 1 – văn bản', '_about_cta_btn1',     get_post_meta($pid,'_about_cta_btn1',true), 'text', 'Đặt phòng ngay');
+    _abp_input_row('Nút 1 – URL',     '_about_cta_btn1_url', get_post_meta($pid,'_about_cta_btn1_url',true), 'url');
+    _abp_input_row('Nút 2 – văn bản', '_about_cta_btn2',     get_post_meta($pid,'_about_cta_btn2',true), 'text', 'Liên hệ chúng tôi');
+    _abp_input_row('Nút 2 – URL',     '_about_cta_btn2_url', get_post_meta($pid,'_about_cta_btn2_url',true), 'url');
+    echo '</div>';
+}
+
+/* Media picker JS (enqueued once per page) */
+function bookingroom_about_media_js() {
+    static $printed = false;
+    if ($printed) return '';
+    $printed = true;
+    return '<script>
+    jQuery(function($){
+        $(".abp-media-btn").on("click", function(){
+            var targetId = $(this).data("target");
+            var frame = wp.media({ title:"Chọn ảnh", button:{text:"Sử dụng ảnh này"}, multiple:false });
+            frame.on("select", function(){
+                var att = frame.state().get("selection").first().toJSON();
+                $("#" + targetId).val(att.id).trigger("change");
+                if (!$("#" + targetId).siblings("img").length) {
+                    $("#" + targetId).before(\'<img src="\' + att.url + \'" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:2px solid #e2e8f0;margin-right:10px;">\');
+                } else {
+                    $("#" + targetId).siblings("img").attr("src", att.url);
+                }
+            });
+            frame.open();
+        });
+        $(".abp-media-remove").on("click", function(){
+            var targetId = $(this).data("target");
+            $("#" + targetId).val("").trigger("change");
+            $("#" + targetId).siblings("img").remove();
+        });
+    });
+    </script>';
+}
+
+/* Save all about page meta */
+function bookingroom_save_about_meta($post_id) {
+    if (!isset($_POST['abp_nonce']) || !wp_verify_nonce($_POST['abp_nonce'], 'abp_save_meta')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    // All simple text/url/textarea fields
+    $text_fields = [
+        '_about_hero_title', '_about_hero_subtitle', '_about_hero_bg_url',
+        '_about_stat1_num', '_about_stat1_lbl', '_about_stat2_num', '_about_stat2_lbl',
+        '_about_stat3_num', '_about_stat3_lbl', '_about_stat4_num', '_about_stat4_lbl',
+        '_about_story_heading', '_about_story_text', '_about_story_img1', '_about_story_img2',
+        '_about_story_badge_num', '_about_story_badge_lbl', '_about_story_cta_text', '_about_story_cta_url',
+        '_about_feat1_title', '_about_feat1_desc', '_about_feat2_title', '_about_feat2_desc',
+        '_about_feat3_title', '_about_feat3_desc',
+        '_about_val1_title', '_about_val1_desc', '_about_val2_title', '_about_val2_desc',
+        '_about_val3_title', '_about_val3_desc',
+        '_about_ms1_year', '_about_ms1_title', '_about_ms1_desc',
+        '_about_ms2_year', '_about_ms2_title', '_about_ms2_desc',
+        '_about_ms3_year', '_about_ms3_title', '_about_ms3_desc',
+        '_about_ms4_year', '_about_ms4_title', '_about_ms4_desc',
+        '_about_team1_name', '_about_team1_role', '_about_team1_img',
+        '_about_team2_name', '_about_team2_role', '_about_team2_img',
+        '_about_team3_name', '_about_team3_role', '_about_team3_img',
+        '_about_testi_quote', '_about_testi_name', '_about_testi_role', '_about_testi_img',
+        '_about_cta_title', '_about_cta_sub',
+        '_about_cta_btn1', '_about_cta_btn1_url', '_about_cta_btn2', '_about_cta_btn2_url',
+    ];
+    foreach ($text_fields as $field) {
+        if (isset($_POST[$field])) {
+            update_post_meta($post_id, $field, wp_kses_post(wp_unslash($_POST[$field])));
+        }
+    }
+
+    // Integer (media IDs) fields
+    $id_fields = [
+        '_about_hero_bg_id', '_about_story_img1_id', '_about_story_img2_id',
+        '_about_testi_img_id',
+        '_about_team1_img_id', '_about_team2_img_id', '_about_team3_img_id',
+    ];
+    foreach ($id_fields as $field) {
+        if (isset($_POST[$field])) {
+            $val = absint($_POST[$field]);
+            if ($val) update_post_meta($post_id, $field, $val);
+            else delete_post_meta($post_id, $field);
+        }
+    }
+
+    // If media ID is set, derive URL automatically
+    $img_map = [
+        '_about_hero_bg_id'    => '_about_hero_bg_url',
+        '_about_story_img1_id' => '_about_story_img1',
+        '_about_story_img2_id' => '_about_story_img2',
+        '_about_testi_img_id'  => '_about_testi_img',
+        '_about_team1_img_id'  => '_about_team1_img',
+        '_about_team2_img_id'  => '_about_team2_img',
+        '_about_team3_img_id'  => '_about_team3_img',
+    ];
+    foreach ($img_map as $id_field => $url_field) {
+        $id = absint(get_post_meta($post_id, $id_field, true));
+        if ($id) {
+            $url = wp_get_attachment_image_url($id, 'full');
+            if ($url) update_post_meta($post_id, $url_field, $url);
+        }
+    }
+}
+add_action('save_post', 'bookingroom_save_about_meta');
+
 
 function bookingroom_home_hero_callback($post)
 {
