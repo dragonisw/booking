@@ -642,7 +642,8 @@ Tags: tailwindcss, agency, booking
     border-bottom: 1px solid var(--br-footer-border);
 }
 
-.br-footer__heading-accent {
+.br-footer__heading-accent,
+.br-footer__heading-bar {
     display: inline-block;
     width: 3px;
     height: 16px;
@@ -701,33 +702,39 @@ Tags: tailwindcss, agency, booking
 }
 
 /* ---------- Newsletter ---------- */
-.br-footer__newsletter-desc {
+.br-footer__newsletter-desc,
+.br-footer__nl-desc {
     font-size: 0.875rem;
     line-height: 1.7;
     color: var(--br-footer-text);
     margin-bottom: 16px;
 }
 
-.br-footer__newsletter-form {
+.br-footer__newsletter-form,
+.br-footer__nl-form {
     margin-bottom: 28px;
 }
 
-.br-footer__newsletter-input-wrap {
+.br-footer__newsletter-input-wrap,
+.br-footer__nl-wrap {
     display: flex;
     border-radius: var(--br-footer-radius);
     overflow: hidden;
     border: 1px solid var(--br-footer-border);
     background: var(--br-footer-input-bg);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     transition: border-color var(--br-footer-transition);
 }
 
-.br-footer__newsletter-input-wrap:focus-within {
+.br-footer__newsletter-input-wrap:focus-within,
+.br-footer__nl-wrap:focus-within {
     border-color: var(--br-footer-accent);
     box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
 }
 
-.br-footer__newsletter-input {
+.br-footer__newsletter-input,
+.br-footer__nl-input {
     flex: 1;
     background: transparent;
     border: none;
@@ -739,11 +746,13 @@ Tags: tailwindcss, agency, booking
     min-width: 0;
 }
 
-.br-footer__newsletter-input::placeholder {
+.br-footer__newsletter-input::placeholder,
+.br-footer__nl-input::placeholder {
     color: #64748b;
 }
 
-.br-footer__newsletter-btn {
+.br-footer__newsletter-btn,
+.br-footer__nl-btn {
     flex-shrink: 0;
     padding: 0 16px;
     background: linear-gradient(135deg, var(--br-footer-accent), var(--br-footer-accent-2));
@@ -756,7 +765,8 @@ Tags: tailwindcss, agency, booking
     transition: opacity var(--br-footer-transition), transform var(--br-footer-transition);
 }
 
-.br-footer__newsletter-btn:hover {
+.br-footer__newsletter-btn:hover,
+.br-footer__nl-btn:hover {
     opacity: 0.9;
     transform: scale(1.05);
 }
@@ -844,25 +854,29 @@ Tags: tailwindcss, agency, booking
     color: var(--br-footer-link-hover);
 }
 
-.br-footer__bottom-nav {
+.br-footer__bottom-nav,
+.br-footer__legal-nav {
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-.br-footer__bottom-nav a {
+.br-footer__bottom-nav a,
+.br-footer__legal-nav a {
     font-size: 0.8125rem;
     color: #475569;
     text-decoration: none;
     transition: color var(--br-footer-transition);
 }
 
-.br-footer__bottom-nav a:hover {
+.br-footer__bottom-nav a:hover,
+.br-footer__legal-nav a:hover {
     color: var(--br-footer-link-hover);
 }
 
-.br-footer__bottom-nav span {
+.br-footer__bottom-nav span,
+.br-footer__legal-nav span {
     color: #334155;
 }
 
@@ -895,7 +909,8 @@ Tags: tailwindcss, agency, booking
 }
 
 /* ---------- Accessibility ---------- */
-.sr-only {
+.sr-only,
+.br-footer__sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -933,7 +948,8 @@ Tags: tailwindcss, agency, booking
         flex-direction: column;
         text-align: center;
     }
-    .br-footer__bottom-nav {
+    .br-footer__bottom-nav,
+    .br-footer__legal-nav {
         justify-content: center;
     }
     .br-footer__tagline {
