@@ -1,22 +1,4 @@
-name: Deploy to cPanel
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: sonatalodge.com
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/son14094/public_html/
+    - /bin/cp -R * $DEPLOYPATH
