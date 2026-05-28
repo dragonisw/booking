@@ -1,4 +1,4 @@
-<?php /* Template Name: destinations */ ?>
+<?php /* Template Name: Điểm đến */ ?>
 <?php get_header(); ?>
 
 <?php
