@@ -19,6 +19,6 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./wp-content/themes/
+          local-dir: ./
           server-dir: /domains/sonatalodge.com/public_html/wp-content/themes/
           dangerous-clean-slate: false
