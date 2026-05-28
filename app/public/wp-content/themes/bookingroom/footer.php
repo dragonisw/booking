@@ -146,10 +146,21 @@
                 </div>
 
                 <!-- Col 4: Điểm đến -->
+                <?php
+                // Lấy trang dùng template page-destination.php một lần, dùng chung
+                $footer_dest_pages = get_pages([
+                    'meta_key'   => '_wp_page_template',
+                    'meta_value' => 'page-destination.php',
+                    'number'     => 1,
+                ]);
+                $footer_dest_url = $footer_dest_pages
+                    ? get_permalink($footer_dest_pages[0]->ID)
+                    : home_url('/diem-den');
+                ?>
                 <div class="br-footer__col">
                     <h3 class="br-footer__heading">
                         <span class="br-footer__heading-bar" aria-hidden="true"></span>
-                        Điểm đến
+                        <a href="<?php echo esc_url($footer_dest_url); ?>" style="color:inherit;text-decoration:none;">Điểm đến</a>
                     </h3>
                     <?php if ( has_nav_menu('footer-destination') ) :
                         wp_nav_menu([
@@ -160,43 +171,32 @@
                             'fallback_cb'    => false,
                         ]);
                     else :
-                        // Fallback: tự động lấy trang dùng template page-destination.php
-                        $dest_page = get_pages([
-                            'meta_key'   => '_wp_page_template',
-                            'meta_value' => 'page-destination.php',
-                            'number'     => 1,
-                        ]);
                         // Lấy các điểm đến từ CPT 'destination' (nếu có)
-                        $dest_posts = get_posts([
+                        $footer_dest_posts = get_posts([
                             'post_type'      => 'destination',
                             'posts_per_page' => 6,
                             'post_status'    => 'publish',
                         ]);
                         ?>
                         <ul class="br-footer__nav">
-                            <?php if ( $dest_page ) : ?>
-                                <li>
-                                    <a href="<?php echo esc_url( get_permalink($dest_page[0]->ID) ); ?>">
-                                        Tất cả điểm đến
-                                    </a>
-                                </li>
-                            <?php endif; ?>
-                            <?php if ( $dest_posts ) :
-                                foreach ( $dest_posts as $dest ) : ?>
+                            <li>
+                                <a href="<?php echo esc_url($footer_dest_url); ?>">Tất cả điểm đến</a>
+                            </li>
+                            <?php if ( $footer_dest_posts ) :
+                                foreach ( $footer_dest_posts as $dest ) : ?>
                                     <li>
                                         <a href="<?php echo esc_url( get_permalink($dest->ID) ); ?>">
                                             <?php echo esc_html( $dest->post_title ); ?>
                                         </a>
                                     </li>
                                 <?php endforeach;
-                            else : ?>
-                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Đà Nẵng</a></li>
-                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Phú Quốc</a></li>
-                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Hội An</a></li>
-                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Hà Nội</a></li>
-                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Nha Trang</a></li>
-                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Sapa</a></li>
-                            <?php endif; ?>
+                            else :
+                                // Fallback tĩnh — tất cả trỏ về đúng trang page-destination.php
+                                $static_dests = ['Đà Nẵng', 'Phú Quốc', 'Hội An', 'Hà Nội', 'Nha Trang', 'Sapa'];
+                                foreach ( $static_dests as $city ) : ?>
+                                    <li><a href="<?php echo esc_url( $footer_dest_url ); ?>"><?php echo esc_html($city); ?></a></li>
+                                <?php endforeach;
+                            endif; ?>
                         </ul>
                     <?php endif; ?>
                 </div>
