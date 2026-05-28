@@ -512,8 +512,8 @@ Tags: tailwindcss, agency, booking
 /* ---------- Grid ---------- */
 .br-footer__grid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
-    gap: 48px;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr 1.3fr;
+    gap: 40px;
     align-items: start;
 }
 
@@ -923,10 +923,25 @@ Tags: tailwindcss, agency, booking
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
+    .br-footer__grid {
+        grid-template-columns: 1.6fr 1fr 1fr;
+        gap: 36px;
+    }
+    .br-footer__col--brand {
+        grid-column: span 3;
+    }
+    /* Col Điểm đến và Newsletter xuống hàng 2 */
+    .br-footer__col:nth-child(4),
+    .br-footer__col:nth-child(5) {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 900px) {
     .br-footer__grid {
         grid-template-columns: 1fr 1fr;
-        gap: 40px;
+        gap: 32px;
     }
     .br-footer__col--brand {
         grid-column: span 2;

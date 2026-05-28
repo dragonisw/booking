@@ -145,7 +145,63 @@
                     <?php endif; ?>
                 </div>
 
-                <!-- Col 4: Newsletter + Badges -->
+                <!-- Col 4: Điểm đến -->
+                <div class="br-footer__col">
+                    <h3 class="br-footer__heading">
+                        <span class="br-footer__heading-bar" aria-hidden="true"></span>
+                        Điểm đến
+                    </h3>
+                    <?php if ( has_nav_menu('footer-destination') ) :
+                        wp_nav_menu([
+                            'theme_location' => 'footer-destination',
+                            'menu_class'     => 'br-footer__nav',
+                            'container'      => false,
+                            'depth'          => 1,
+                            'fallback_cb'    => false,
+                        ]);
+                    else :
+                        // Fallback: tự động lấy trang dùng template page-destination.php
+                        $dest_page = get_pages([
+                            'meta_key'   => '_wp_page_template',
+                            'meta_value' => 'page-destination.php',
+                            'number'     => 1,
+                        ]);
+                        // Lấy các điểm đến từ CPT 'destination' (nếu có)
+                        $dest_posts = get_posts([
+                            'post_type'      => 'destination',
+                            'posts_per_page' => 6,
+                            'post_status'    => 'publish',
+                        ]);
+                        ?>
+                        <ul class="br-footer__nav">
+                            <?php if ( $dest_page ) : ?>
+                                <li>
+                                    <a href="<?php echo esc_url( get_permalink($dest_page[0]->ID) ); ?>">
+                                        Tất cả điểm đến
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                            <?php if ( $dest_posts ) :
+                                foreach ( $dest_posts as $dest ) : ?>
+                                    <li>
+                                        <a href="<?php echo esc_url( get_permalink($dest->ID) ); ?>">
+                                            <?php echo esc_html( $dest->post_title ); ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach;
+                            else : ?>
+                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Đà Nẵng</a></li>
+                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Phú Quốc</a></li>
+                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Hội An</a></li>
+                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Hà Nội</a></li>
+                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Nha Trang</a></li>
+                                <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Sapa</a></li>
+                            <?php endif; ?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Col 5: Newsletter + Badges -->
                 <div class="br-footer__col">
                     <h3 class="br-footer__heading">
                         <span class="br-footer__heading-bar" aria-hidden="true"></span>

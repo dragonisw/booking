@@ -68,9 +68,10 @@ function bookingroom_register_menus()
 {
     register_nav_menus(
         array(
-            'primary-menu'   => __('Primary Menu', 'bookingroom'),
-            'footer-explore' => __('Footer – Khám phá', 'bookingroom'),
-            'footer-support' => __('Footer – Hỗ trợ', 'bookingroom'),
+            'primary-menu'        => __('Primary Menu', 'bookingroom'),
+            'footer-explore'      => __('Footer – Khám phá', 'bookingroom'),
+            'footer-support'      => __('Footer – Hỗ trợ', 'bookingroom'),
+            'footer-destination'  => __('Footer – Điểm đến', 'bookingroom'),
         )
     );
 }
