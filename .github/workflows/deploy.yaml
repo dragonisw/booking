@@ -1,26 +1,5 @@
-name: Deploy HTML/PHP
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Upload Files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: /domains/sonatalodge.com/public_html/wp-content/themes/
-          dangerous-clean-slate: false
-
-          
+---
+deployment:
+  tasks:
+    - export DEPLOY_PATH=/home/son14094/public_html
+    - /bin/cp -r * $DEPLOY_PATH
