@@ -1,3 +1,15 @@
+﻿/*
+Theme Name: bookingroom
+Author: NGUYEN PHAN MINH
+Author URI: http://example.com
+Description: Booking Agency theme with Tailwind CSS
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: bookingroom
+Template: patterns-agency
+Tags: tailwindcss, agency, booking
+*/
 *,
 :after,
 :before {
@@ -417,21 +429,10 @@ video {
     font-weight: 700
 }
 
-/*
-Theme Name: bookingroom
-Author: NGUYEN PHAN MINH
-Author URI: http://example.com
-Description: Booking Agency theme with Tailwind CSS
-Version: 1.0
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: bookingroom
-Template: patterns-agency
-Tags: tailwindcss, agency, booking
-*/
+
 
 /* ============================================================
-   PROFESSIONAL FOOTER — BEM Stylesheet
+   PROFESSIONAL FOOTER â€” BEM Stylesheet
    ============================================================ */
 
 /* ---------- Design Tokens ---------- */
@@ -931,7 +932,7 @@ Tags: tailwindcss, agency, booking
     .br-footer__col--brand {
         grid-column: span 3;
     }
-    /* Col Điểm đến và Newsletter xuống hàng 2 */
+    /* Col Äiá»ƒm Ä‘áº¿n vÃ  Newsletter xuá»‘ng hÃ ng 2 */
     .br-footer__col:nth-child(4),
     .br-footer__col:nth-child(5) {
         grid-column: span 1;
