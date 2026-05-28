@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/son14094/domains/sonatalodge.com/public_html/
+    - /bin/cp -R * $DEPLOYPATH
