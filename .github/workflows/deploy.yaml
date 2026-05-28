@@ -23,13 +23,4 @@ jobs:
           server-dir: /domains/sonatalodge.com/public_html/wp-content/themes/
           dangerous-clean-slate: false
 
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/.github/**
-            **/logs/**
-            **/.DS_Store
-            **/wp-content/cache/**
-            **/wp-content/uploads/**
-            **/vendor/**
+          
