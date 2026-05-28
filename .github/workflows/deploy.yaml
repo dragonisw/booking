@@ -19,7 +19,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: domains/sonatalodge.com/public_html/  # Đường dẫn đến thư mục chứa code web của bạn
+          local-dir: ./app/public/wp-content/themes/bookingroom/
+          server-dir: domains/sonatalodge.com/public_html/wp-content/themes/bookingroom/  # Đường dẫn đến thư mục chứa code web của bạn
           port: 21
 
           exclude: |
