@@ -1,4 +1,4 @@
-<?php /* Template Name: Destinations */ ?>
+<?php /* Template Name: destinations */ ?>
 <?php get_header(); ?>
 
 <main class="bg-slate-50 min-h-screen">
