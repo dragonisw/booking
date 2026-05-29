@@ -111,7 +111,7 @@
                         ]);
                     else : ?>
                         <ul class="br-footer__nav">
-                            <li><a href="<?php echo esc_url( home_url('/destination') ); ?>">Địa điểm</a></li>
+                            <li><a href="<?php echo esc_url( home_url('/destinations') ); ?>">Địa điểm</a></li>
                             <li><a href="<?php echo esc_url( home_url('/services') ); ?>">Dịch vụ</a></li>
                             <li><a href="<?php echo esc_url( home_url('/uu-dai') ); ?>">Ưu đãi</a></li>
                             <li><a href="<?php echo esc_url( home_url('/blog') ); ?>">Blog</a></li>
@@ -147,10 +147,10 @@
 
                 <!-- Col 4: Điểm đến -->
                 <?php
-                // Lấy trang dùng template page-destination.php một lần, dùng chung
+                // Lấy trang dùng template page-destinations.php một lần, dùng chung
                 $footer_dest_pages = get_pages([
                     'meta_key'   => '_wp_page_template',
-                    'meta_value' => 'page-destination.php',
+                    'meta_value' => 'page-destinations.php',
                     'number'     => 1,
                 ]);
                 $footer_dest_url = $footer_dest_pages
@@ -171,9 +171,9 @@
                             'fallback_cb'    => false,
                         ]);
                     else :
-                        // Lấy các điểm đến từ CPT 'destination' (nếu có)
+                        // Lấy các điểm đến từ CPT 'destinations' (nếu có)
                         $footer_dest_posts = get_posts([
-                            'post_type'      => 'destination',
+                            'post_type'      => 'destinations',
                             'posts_per_page' => 6,
                             'post_status'    => 'publish',
                         ]);
