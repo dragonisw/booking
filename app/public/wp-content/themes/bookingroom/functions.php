@@ -57,6 +57,12 @@ require_once get_stylesheet_directory() . '/inc/destination-cpt.php';
 require_once get_stylesheet_directory() . '/inc/wp-hotel-booking-integration.php';
 
 /**
+ * Room Availability System
+ * Tìm phòng trống theo ngày: AJAX endpoint, price breakdown, shortcode [room_availability_form]
+ */
+require_once get_stylesheet_directory() . '/inc/room-availability.php';
+
+/**
  * Enqueue Admin Scripts for Media Uploader
  */
 function bookingroom_admin_scripts($hook) {
