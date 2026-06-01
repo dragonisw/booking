@@ -257,105 +257,558 @@ add_action('wp_ajax_nopriv_lookup_booking', 'bookingroom_lookup_booking');
  */
 function bookingroom_add_room_meta_boxes()
 {
+    // Meta box chính – Thông tin & Giá phòng
     add_meta_box(
         'room_details',
-        __('Thông tin phòng', 'bookingroom'),
+        '🛏️ Thông tin & Giá phòng',
         'bookingroom_room_details_callback',
         'room',
         'normal',
         'high'
     );
+
+    // Meta box bên – Số lượng & Số hiệu phòng
+    add_meta_box(
+        'room_inventory',
+        '🔢 Số lượng & Số hiệu phòng',
+        'bookingroom_room_inventory_callback',
+        'room',
+        'side',
+        'high'
+    );
+
+    // Meta box bên – Lịch trạng thái phòng
+    add_meta_box(
+        'room_availability_calendar',
+        '📅 Tình trạng đặt phòng (30 ngày tới)',
+        'bookingroom_room_availability_cb',
+        'room',
+        'normal',
+        'default'
+    );
 }
 add_action('add_meta_boxes', 'bookingroom_add_room_meta_boxes');
 
-function bookingroom_room_details_callback($post)
-{
-    wp_nonce_field('bookingroom_save_room_details', 'bookingroom_room_details_nonce');
+function bookingroom_room_details_callback( $post ) {
+    wp_nonce_field( 'bookingroom_save_room_details', 'bookingroom_room_details_nonce' );
 
-    $price = get_post_meta($post->ID, '_price', true);
-    $capacity = get_post_meta($post->ID, '_capacity', true);
-    $room_label = get_post_meta($post->ID, '_room_label', true);
-    $engine_room_id = get_post_meta($post->ID, '_engine_room_id', true);
+    $price          = get_post_meta( $post->ID, '_price',          true );
+    $weekend_price  = get_post_meta( $post->ID, '_weekend_price',  true );
+    $capacity       = get_post_meta( $post->ID, '_capacity',       true );
+    $room_label     = get_post_meta( $post->ID, '_room_label',     true );
+    $engine_room_id = get_post_meta( $post->ID, '_engine_room_id', true );
 
+    $s_card  = 'background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 18px;margin-bottom:14px;';
+    $s_label = 'font-weight:700;display:block;margin-bottom:5px;font-size:13px;color:#1e293b;';
+    $s_input = 'width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:13px;font-family:inherit;background:#fff;box-sizing:border-box;';
+    $s_desc  = 'display:block;color:#94a3b8;font-size:11.5px;margin-top:4px;';
+    $s_grid  = 'display:grid;grid-template-columns:1fr 1fr;gap:14px;';
     ?>
-    <?php
-    $weekend_price = get_post_meta($post->ID, '_weekend_price', true);
-    ?>
-    <p>
-        <label for="room_price"><strong><?php _e('Giá phòng trong tuần (T2–T5) (VNĐ):', 'bookingroom'); ?></strong></label>
-        <input type="number" id="room_price" name="room_price" value="<?php echo esc_attr($price); ?>" class="widefat" placeholder="VD: 1500000" />
-        <span class="description">Áp dụng: Thứ 2, Thứ 3, Thứ 4, Thứ 5</span>
-    </p>
-    <p>
-        <label for="room_weekend_price"><strong><?php _e('Giá phòng cuối tuần (T6–CN) (VNĐ):', 'bookingroom'); ?></strong></label>
-        <input type="number" id="room_weekend_price" name="room_weekend_price" value="<?php echo esc_attr($weekend_price); ?>" class="widefat" placeholder="VD: 2000000 (để trống = giống giá trong tuần)" />
-        <span class="description">Áp dụng: Thứ 6, Thứ 7, Chủ Nhật. Để trống nếu giá bằng với trong tuần.</span>
-    </p>
-    <p>
-        <label for="room_capacity"><?php _e('Sức chứa (người):', 'bookingroom'); ?></label>
-        <input type="text" id="room_capacity" name="room_capacity" value="<?php echo esc_attr($capacity); ?>"
-            class="widefat" />
-    </p>
-    <p>
-        <label for="room_label"><?php _e('Nhãn hiển thị (ví dụ: Lux Room):', 'bookingroom'); ?></label>
-        <input type="text" id="room_label" name="room_label" value="<?php echo esc_attr($room_label); ?>" class="widefat" />
-    </p>
-    <hr>
-    <p>
-        <label for="engine_room_id"><?php _e('ID Phòng trên Booking Engine (nếu có):', 'bookingroom'); ?></label>
-        <input type="text" id="engine_room_id" name="engine_room_id" value="<?php echo esc_attr($engine_room_id); ?>"
-            class="widefat" />
-        <span class="description">Dùng để trỏ trực tiếp đến loại phòng này trên ezCloud/Cloudbeds...</span>
-    </p>
-    <?php
 
+    <style>
+    #room_details .inside input[type=number]:focus,
+    #room_details .inside input[type=text]:focus,
+    #room_details .inside textarea:focus {
+        border-color:#d35400!important;
+        outline:none;
+        box-shadow:0 0 0 3px rgba(211,84,0,0.12);
+    }
+    .room-section-title {
+        font-size:12px;font-weight:800;text-transform:uppercase;
+        letter-spacing:.07em;color:#d35400;
+        margin:18px 0 10px;padding-bottom:6px;
+        border-bottom:2px solid #ffedd5;
+    }
+    </style>
+
+    <!-- Giá phòng -->
+    <div style="<?php echo $s_card; ?>">
+        <div class="room-section-title">💰 Cài đặt giá</div>
+        <div style="<?php echo $s_grid; ?>">
+            <div>
+                <label style="<?php echo $s_label; ?>">Giá trong tuần (T2–T5) <span style="color:red">*</span></label>
+                <input type="number" name="room_price" id="room_price"
+                    value="<?php echo esc_attr( $price ); ?>"
+                    style="<?php echo $s_input; ?>" placeholder="VD: 1500000" min="0">
+                <span style="<?php echo $s_desc; ?>">đ / đêm · Thứ 2, 3, 4, 5</span>
+            </div>
+            <div>
+                <label style="<?php echo $s_label; ?>">Giá cuối tuần (T6–CN)</label>
+                <input type="number" name="room_weekend_price" id="room_weekend_price"
+                    value="<?php echo esc_attr( $weekend_price ); ?>"
+                    style="<?php echo $s_input; ?>" placeholder="Để trống = giống giá trong tuần" min="0">
+                <span style="<?php echo $s_desc; ?>">đ / đêm · Thứ 6, 7, Chủ nhật</span>
+            </div>
+        </div>
+        <?php if ( $price ) : ?>
+        <div style="margin-top:10px;padding:10px 14px;background:linear-gradient(135deg,#fff7ed,#ffedd5);border-radius:8px;font-size:12px;color:#92400e;">
+            💡 Giá trong tuần: <strong><?php echo number_format( $price ); ?>đ</strong>
+            <?php if ( $weekend_price ) : ?> · Cuối tuần: <strong><?php echo number_format( $weekend_price ); ?>đ</strong><?php endif; ?>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- Thông tin cơ bản -->
+    <div style="<?php echo $s_card; ?>">
+        <div class="room-section-title">📋 Thông tin cơ bản</div>
+        <div style="<?php echo $s_grid; ?>">
+            <div>
+                <label style="<?php echo $s_label; ?>">Sức chứa tối đa (người)</label>
+                <input type="number" name="room_capacity" id="room_capacity"
+                    value="<?php echo esc_attr( $capacity ); ?>"
+                    style="<?php echo $s_input; ?>" placeholder="VD: 2" min="1">
+            </div>
+            <div>
+                <label style="<?php echo $s_label; ?>">Nhãn loại phòng</label>
+                <input type="text" name="room_label" id="room_label"
+                    value="<?php echo esc_attr( $room_label ); ?>"
+                    style="<?php echo $s_input; ?>" placeholder="VD: Deluxe Room, Suite...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Engine -->
+    <div style="<?php echo $s_card; ?>">
+        <div class="room-section-title">🔗 Booking Engine bên ngoài</div>
+        <label style="<?php echo $s_label; ?>">ID Phòng trên Booking Engine (ezCloud, Cloudbeds...)</label>
+        <input type="text" name="engine_room_id" id="engine_room_id"
+            value="<?php echo esc_attr( $engine_room_id ); ?>"
+            style="<?php echo $s_input; ?>" placeholder="Để trống nếu dùng hệ thống nội bộ">
+        <span style="<?php echo $s_desc; ?>">Dùng để link thẳng đến loại phòng này trên engine ngoài.</span>
+    </div>
+    <?php
 }
 
-function bookingroom_save_room_details($post_id)
-{
-    if (!isset($_POST['bookingroom_room_details_nonce'])) {
-        return;
-    }
+// ── Inventory Meta Box (Sidebar) ──────────────────────────────────────────
+function bookingroom_room_inventory_callback( $post ) {
+    $room_numbers = get_post_meta( $post->ID, '_room_numbers', true );
+    $room_quantity = get_post_meta( $post->ID, '_room_quantity', true );
 
-    if (!wp_verify_nonce($_POST['bookingroom_room_details_nonce'], 'bookingroom_save_room_details')) {
-        return;
+    // Tính số lượng từ _room_numbers nếu có
+    $numbers_arr = [];
+    if ( $room_numbers ) {
+        $numbers_arr = array_filter( array_map( 'trim', explode( ',', $room_numbers ) ) );
     }
+    $auto_count = count( $numbers_arr );
 
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
+    // Tổng hiệu lực
+    $total_units = $auto_count > 0 ? $auto_count : ( (int) $room_quantity ?: 10 );
+
+    // Đặt phòng hiện tại (đang trong khoảng hôm nay)
+    $today      = date( 'Y-m-d' );
+    $active_bks = new WP_Query([
+        'post_type'      => 'booking',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'fields'         => 'ids',
+        'meta_query'     => [
+            'relation' => 'AND',
+            [ 'key' => '_room_id', 'value' => $post->ID, 'compare' => '=' ],
+            [ 'key' => '_check_in',  'value' => $today, 'compare' => '<=', 'type' => 'DATE' ],
+            [ 'key' => '_check_out', 'value' => $today, 'compare' => '>',  'type' => 'DATE' ],
+            [ 'key' => '_status', 'value' => ['cancelled'], 'compare' => 'NOT IN' ],
+        ],
+    ]);
+    $occupied_now = $active_bks->found_posts;
+    $free_now     = max( 0, $total_units - $occupied_now );
+
+    $s_input = 'width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:13px;box-sizing:border-box;background:#fff;';
+    ?>
+
+    <style>
+    #room_inventory .inside { padding:10px 12px; }
+    #room_inventory input:focus, #room_inventory textarea:focus {
+        border-color:#d35400!important;outline:none;
+        box-shadow:0 0 0 3px rgba(211,84,0,0.1);
     }
-
-    if (!current_user_can('edit_post', $post_id)) {
-        return;
+    .br-inv-stat {
+        display:flex;align-items:center;justify-content:space-between;
+        padding:8px 10px;border-radius:8px;margin-bottom:6px;font-size:12px;
     }
-
-    if (isset($_POST['room_price'])) {
-        update_post_meta($post_id, '_price', sanitize_text_field($_POST['room_price']));
+    .br-tag { display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700; }
+    .br-number-tag {
+        display:inline-flex;align-items:center;justify-content:center;
+        width:34px;height:26px;background:#f1f5f9;border:1.5px solid #e2e8f0;
+        border-radius:6px;font-size:12px;font-weight:700;color:#1e293b;
+        cursor:pointer;transition:all .15s;
+        text-decoration:none;
     }
+    .br-number-tag:hover { background:#ffedd5;border-color:#d35400;color:#d35400; }
+    .br-number-tag.occupied { background:#fee2e2;border-color:#fca5a5;color:#dc2626; }
+    .br-number-tag.available { background:#dcfce7;border-color:#86efac;color:#16a34a; }
+    #br-room-numbers-preview { display:flex;flex-wrap:wrap;gap:5px;margin-top:8px; }
+    </style>
 
-    if (isset($_POST['room_weekend_price'])) {
-        $wp = sanitize_text_field($_POST['room_weekend_price']);
-        if ($wp !== '') {
-            update_post_meta($post_id, '_weekend_price', $wp);
-        } else {
-            delete_post_meta($post_id, '_weekend_price');
+    <!-- Tổng số phòng -->
+    <p style="margin:0 0 12px;">
+        <label style="font-weight:700;font-size:12px;display:block;margin-bottom:5px;color:#475569;text-transform:uppercase;letter-spacing:.05em;">
+            📦 Tổng số phòng vật lý
+        </label>
+        <input type="number" name="room_quantity" id="room_quantity"
+            value="<?php echo esc_attr( $room_quantity ?: $auto_count ?: 10 ); ?>"
+            min="1" max="9999" style="<?php echo $s_input; ?>">
+        <span style="display:block;color:#94a3b8;font-size:11px;margin-top:3px;">
+            ⚠ Nếu nhập danh sách số hiệu bên dưới, hệ thống sẽ dùng số lượng từ danh sách đó.
+        </span>
+    </p>
+
+    <!-- Tình trạng hiện tại -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+        <div class="br-inv-stat" style="background:#dcfce7;">
+            <span style="color:#15803d;font-weight:700;font-size:18px;"><?php echo $free_now; ?></span>
+            <span style="color:#16a34a;font-size:11px;font-weight:600;">Trống hôm nay</span>
+        </div>
+        <div class="br-inv-stat" style="background:#fee2e2;">
+            <span style="color:#b91c1c;font-weight:700;font-size:18px;"><?php echo $occupied_now; ?></span>
+            <span style="color:#dc2626;font-size:11px;font-weight:600;">Đang có khách</span>
+        </div>
+    </div>
+
+    <hr style="margin:0 0 12px;border:none;border-top:1px solid #f1f5f9;">
+
+    <!-- Số hiệu phòng -->
+    <label style="font-weight:700;font-size:12px;display:block;margin-bottom:5px;color:#475569;text-transform:uppercase;letter-spacing:.05em;">
+        🔑 Danh sách số hiệu phòng
+    </label>
+    <textarea name="room_numbers" id="room_numbers" rows="4"
+        style="<?php echo $s_input; ?>resize:vertical;font-family:monospace;"
+        placeholder="VD: 101, 102, 103, 201, 202"><?php echo esc_textarea( $room_numbers ); ?></textarea>
+    <span style="display:block;color:#94a3b8;font-size:11px;margin-top:3px;">
+        Cách nhau bởi dấu phẩy. Hệ thống dùng để hiển thị chọn phòng khi đặt.
+    </span>
+
+    <!-- Tự tạo số hiệu -->
+    <div style="margin-top:12px;padding:10px 12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;">
+        <div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:8px;text-transform:uppercase;">⚡ Tự tạo nhanh số hiệu</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-end;">
+            <div>
+                <div style="font-size:10px;color:#94a3b8;margin-bottom:3px;">Từ số</div>
+                <input type="number" id="gen_from" value="101" min="1" style="width:62px;padding:5px 7px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:13px;">
+            </div>
+            <div>
+                <div style="font-size:10px;color:#94a3b8;margin-bottom:3px;">Đến số</div>
+                <input type="number" id="gen_to" value="<?php echo esc_attr( $room_quantity ? 100 + $room_quantity : 110 ); ?>" min="1" style="width:62px;padding:5px 7px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:13px;">
+            </div>
+            <div>
+                <div style="font-size:10px;color:#94a3b8;margin-bottom:3px;">Tiền tố</div>
+                <input type="text" id="gen_prefix" value="" placeholder="VD: P, R" style="width:50px;padding:5px 7px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:13px;">
+            </div>
+            <button type="button" id="gen-room-numbers-btn"
+                style="padding:6px 12px;background:#d35400;color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;">
+                Tạo
+            </button>
+        </div>
+    </div>
+
+    <!-- Preview tags -->
+    <?php if ( ! empty( $numbers_arr ) ) : ?>
+    <div style="margin-top:12px;">
+        <div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">📌 Số hiệu hiện tại (<?php echo count($numbers_arr); ?> phòng)</div>
+        <div id="br-room-numbers-preview">
+            <?php
+            // Lấy các phòng đang có booking hôm nay
+            $booked_rooms_raw = [];
+            if ( $active_bks->found_posts > 0 ) {
+                foreach ( $active_bks->posts as $bid ) {
+                    $sel = get_post_meta( $bid, '_selected_rooms', true );
+                    if ( $sel ) {
+                        foreach ( array_map( 'trim', explode( ',', $sel ) ) as $rn ) {
+                            $booked_rooms_raw[] = $rn;
+                        }
+                    }
+                }
+            }
+            foreach ( $numbers_arr as $rnum ) :
+                $is_occ = in_array( $rnum, $booked_rooms_raw );
+                $cls    = $is_occ ? 'occupied' : 'available';
+                $title  = $is_occ ? 'Đang có khách' : 'Còn trống';
+            ?>
+                <span class="br-number-tag <?php echo $cls; ?>" title="<?php echo $title; ?>"><?php echo esc_html( $rnum ); ?></span>
+            <?php endforeach; ?>
+        </div>
+        <div style="font-size:10px;color:#94a3b8;margin-top:6px;">
+            <span style="background:#fee2e2;border:1px solid #fca5a5;padding:1px 5px;border-radius:4px;color:#dc2626;">Đỏ</span> = đang có khách &nbsp;
+            <span style="background:#dcfce7;border:1px solid #86efac;padding:1px 5px;border-radius:4px;color:#16a34a;">Xanh</span> = còn trống
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <script>
+    (function() {
+        // Tự tạo số hiệu phòng
+        document.getElementById('gen-room-numbers-btn').addEventListener('click', function() {
+            var from   = parseInt(document.getElementById('gen_from').value) || 1;
+            var to     = parseInt(document.getElementById('gen_to').value)   || 1;
+            var prefix = document.getElementById('gen_prefix').value.trim();
+            if (to < from) { alert('Số cuối phải lớn hơn số đầu.'); return; }
+            if (to - from > 499) { alert('Tối đa 500 số hiệu.'); return; }
+            var nums = [];
+            for (var i = from; i <= to; i++) nums.push(prefix + i);
+            var ta = document.getElementById('room_numbers');
+            var existing = ta.value.trim();
+            ta.value = existing ? existing + ', ' + nums.join(', ') : nums.join(', ');
+            // Cập nhật input tổng số phòng
+            var allNums = ta.value.split(',').filter(function(s){return s.trim();});
+            document.getElementById('room_quantity').value = allNums.length;
+            ta.focus();
+        });
+
+        // Đồng bộ số lượng khi sửa textarea
+        document.getElementById('room_numbers').addEventListener('input', function() {
+            var nums = this.value.split(',').filter(function(s){return s.trim();});
+            document.getElementById('room_quantity').value = nums.length > 0 ? nums.length : '';
+        });
+    })();
+    </script>
+    <?php
+}
+
+// ── Lịch tình trạng phòng (30 ngày tới) ─────────────────────────────────
+function bookingroom_room_availability_cb( $post ) {
+    $room_id   = $post->ID;
+    $today     = new DateTime( 'today' );
+    $end       = new DateTime( '+30 days' );
+
+    // Lấy tất cả booking đang active trong 30 ngày tới
+    $bookings = get_posts([
+        'post_type'      => 'booking',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'meta_query'     => [
+            'relation' => 'AND',
+            [ 'key' => '_room_id',  'value' => $room_id,               'compare' => '=' ],
+            [ 'key' => '_check_in',  'value' => $end->format('Y-m-d'), 'compare' => '<',  'type' => 'DATE' ],
+            [ 'key' => '_check_out', 'value' => $today->format('Y-m-d'), 'compare' => '>', 'type' => 'DATE' ],
+            [ 'key' => '_status',   'value' => ['cancelled'],           'compare' => 'NOT IN' ],
+        ],
+    ]);
+
+    // Xây dựng map ngày → danh sách booking
+    $day_map = [];
+    foreach ( $bookings as $b ) {
+        $ci = new DateTime( get_post_meta( $b->ID, '_check_in',  true ) );
+        $co = new DateTime( get_post_meta( $b->ID, '_check_out', true ) );
+        $st = get_post_meta( $b->ID, '_status', true ) ?: 'pending';
+        $nm = get_post_meta( $b->ID, '_customer_name', true ) ?: '—';
+        $cur = clone $ci;
+        while ( $cur < $co ) {
+            $dk = $cur->format( 'Y-m-d' );
+            if ( ! isset( $day_map[$dk] ) ) $day_map[$dk] = [];
+            $day_map[$dk][] = [ 'id' => $b->ID, 'name' => $nm, 'status' => $st ];
+            $cur->modify( '+1 day' );
         }
     }
 
-    if (isset($_POST['room_capacity'])) {
-        update_post_meta($post_id, '_capacity', sanitize_text_field($_POST['room_capacity']));
+    $status_colors = [
+        'pending'    => [ 'bg' => '#fef3c7', 'dot' => '#f59e0b', 'txt' => '#92400e' ],
+        'confirmed'  => [ 'bg' => '#d1fae5', 'dot' => '#10b981', 'txt' => '#065f46' ],
+        'checked_in' => [ 'bg' => '#dbeafe', 'dot' => '#3b82f6', 'txt' => '#1e40af' ],
+        'checked_out'=> [ 'bg' => '#ede9fe', 'dot' => '#8b5cf6', 'txt' => '#4c1d95' ],
+        'cancelled'  => [ 'bg' => '#fee2e2', 'dot' => '#ef4444', 'txt' => '#7f1d1d' ],
+    ];
+    $status_labels = [
+        'pending'    => 'Chờ XN',
+        'confirmed'  => 'Đã XN',
+        'checked_in' => 'Nhận phòng',
+        'checked_out'=> 'Trả phòng',
+        'cancelled'  => 'Đã huỷ',
+    ];
+    ?>
+
+    <style>
+    .br-cal-grid {
+        display:grid;
+        grid-template-columns:repeat(7,1fr);
+        gap:4px;
+        margin-top:12px;
+    }
+    .br-cal-head {
+        text-align:center;font-size:11px;font-weight:700;
+        color:#94a3b8;padding:4px 0;text-transform:uppercase;
+    }
+    .br-cal-day {
+        border:1.5px solid #f1f5f9;border-radius:8px;
+        padding:6px 4px;min-height:60px;
+        font-size:11px;position:relative;
+        background:#fff;transition:border-color .15s;
+    }
+    .br-cal-day:hover { border-color:#d35400; }
+    .br-cal-day.today { border-color:#d35400;background:#fff7ed; }
+    .br-cal-day.has-booking { background:#f0fdf4; }
+    .br-cal-day.full { background:#fef2f2;border-color:#fca5a5; }
+    .br-cal-day__num {
+        font-weight:800;font-size:13px;color:#1e293b;
+        display:block;margin-bottom:3px;
+    }
+    .br-cal-day.today .br-cal-day__num { color:#d35400; }
+    .br-cal-booking {
+        display:block;font-size:9px;font-weight:700;
+        padding:1.5px 4px;border-radius:3px;
+        margin-bottom:2px;white-space:nowrap;
+        overflow:hidden;text-overflow:ellipsis;
+        max-width:100%;cursor:pointer;
+    }
+    .br-cal-legend { display:flex;flex-wrap:wrap;gap:8px;margin-top:12px; }
+    .br-cal-legend-item { display:flex;align-items:center;gap:4px;font-size:11px;color:#64748b; }
+    .br-cal-legend-dot { width:8px;height:8px;border-radius:50%; }
+    .br-avail-bar {
+        display:flex;align-items:center;gap:8px;
+        padding:10px 14px;background:#f8fafc;
+        border-radius:8px;margin-bottom:14px;
+        font-size:12px;border:1px solid #e2e8f0;
+    }
+    </style>
+
+    <?php
+    // Thống kê tổng quan
+    $total_units = function_exists( 'bookingroom_get_room_total_units' )
+        ? bookingroom_get_room_total_units( $room_id )
+        : ( (int) get_post_meta( $room_id, '_room_quantity', true ) ?: 10 );
+    $booked_days = count( $day_map );
+    ?>
+
+    <div class="br-avail-bar">
+        <div style="width:10px;height:10px;border-radius:50%;background:#10b981;"></div>
+        <span>Tổng <?php echo $total_units; ?> phòng ·
+            <strong style="color:#16a34a;"><?php echo max(0, $booked_days); ?> ngày</strong> có booking trong 30 ngày tới
+        </span>
+        <a href="<?php echo admin_url('edit.php?post_type=booking&room_filter=' . $room_id); ?>"
+           style="margin-left:auto;color:#2563eb;font-weight:600;text-decoration:none;font-size:11px;">
+            Xem tất cả →
+        </a>
+    </div>
+
+    <?php
+    // Render lịch
+    $dow_labels = [ 'CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7' ];
+    $cal_start  = clone $today;
+    // Đưa về đầu tuần (CN)
+    $start_dow  = (int) $cal_start->format( 'w' );
+    $cal_start->modify( '-' . $start_dow . ' days' );
+
+    echo '<div class="br-cal-grid">';
+    foreach ( $dow_labels as $dl ) {
+        echo '<div class="br-cal-head">' . $dl . '</div>';
     }
 
-    if (isset($_POST['room_label'])) {
-        update_post_meta($post_id, '_room_label', sanitize_text_field($_POST['room_label']));
-    }
+    $cur = clone $cal_start;
+    $today_str = $today->format( 'Y-m-d' );
+    $end_str   = $end->format( 'Y-m-d' );
 
-    if (isset($_POST['engine_room_id'])) {
-        update_post_meta($post_id, '_engine_room_id', sanitize_text_field($_POST['engine_room_id']));
+    while ( $cur <= $end ) {
+        $dk      = $cur->format( 'Y-m-d' );
+        $day_num = $cur->format( 'j' );
+        $month   = $cur->format( 'n' );
+        $bks     = $day_map[$dk] ?? [];
+        $is_today = $dk === $today_str;
+        $in_range = $dk >= $today_str && $dk <= $end_str;
+        $n_booked = count( $bks );
+        $n_free   = max( 0, $total_units - $n_booked );
+
+        $cls = 'br-cal-day';
+        if ( $is_today ) $cls .= ' today';
+        if ( $n_booked > 0 && $n_free > 0 ) $cls .= ' has-booking';
+        if ( $n_free === 0 && $n_booked > 0 ) $cls .= ' full';
+        if ( ! $in_range ) $cls .= '' ; // past days lighter
+
+        echo '<div class="' . $cls . '">';
+        echo '<span class="br-cal-day__num">' . $day_num;
+        if ( $month != date('n') ) echo '<small style="color:#94a3b8;font-weight:400;font-size:9px;">/' . $month . '</small>';
+        echo '</span>';
+
+        // Show bookings
+        $shown = 0;
+        foreach ( $bks as $bk ) {
+            if ( $shown >= 2 ) {
+                echo '<span class="br-cal-booking" style="background:#f1f5f9;color:#64748b;">+' . ( count($bks) - 2 ) . ' nữa</span>';
+                break;
+            }
+            $sc = $status_colors[$bk['status']] ?? $status_colors['pending'];
+            $link = admin_url( 'post.php?post=' . $bk['id'] . '&action=edit' );
+            echo '<a href="' . esc_url($link) . '" class="br-cal-booking" ';
+            echo 'style="background:' . $sc['bg'] . ';color:' . $sc['txt'] . ';" ';
+            echo 'title="#' . $bk['id'] . ' · ' . esc_attr($bk['name']) . '">';
+            echo esc_html( mb_strimwidth( $bk['name'], 0, 8, '…' ) );
+            echo '</a>';
+            $shown++;
+        }
+
+        // Free rooms count
+        if ( $in_range ) {
+            $free_color = $n_free === 0 ? '#dc2626' : '#16a34a';
+            echo '<span style="position:absolute;bottom:3px;right:4px;font-size:9px;font-weight:800;color:' . $free_color . ';">';
+            echo $n_free . '/' . $total_units;
+            echo '</span>';
+        }
+
+        echo '</div>';
+        $cur->modify( '+1 day' );
     }
+    echo '</div>';
+    ?>
+
+    <!-- Legend -->
+    <div class="br-cal-legend">
+        <?php foreach ( $status_colors as $sk => $sv ) : ?>
+        <div class="br-cal-legend-item">
+            <div class="br-cal-legend-dot" style="background:<?php echo $sv['dot']; ?>;"></div>
+            <span><?php echo $status_labels[$sk] ?? $sk; ?></span>
+        </div>
+        <?php endforeach; ?>
+        <div class="br-cal-legend-item" style="margin-left:auto;">
+            <span style="font-size:10px;color:#94a3b8;">Số góc = <strong>trống/tổng</strong></span>
+        </div>
+    </div>
+    <?php
 }
 
-add_action('save_post', 'bookingroom_save_room_details');
+function bookingroom_save_room_details( $post_id ) {
+    if ( ! isset( $_POST['bookingroom_room_details_nonce'] ) ) return;
+    if ( ! wp_verify_nonce( $_POST['bookingroom_room_details_nonce'], 'bookingroom_save_room_details' ) ) return;
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+    if ( ! current_user_can( 'edit_post', $post_id ) ) return;
+
+    // Giá
+    if ( isset( $_POST['room_price'] ) ) {
+        update_post_meta( $post_id, '_price', absint( $_POST['room_price'] ) );
+    }
+    if ( isset( $_POST['room_weekend_price'] ) ) {
+        $wp = trim( $_POST['room_weekend_price'] );
+        $wp !== '' ? update_post_meta( $post_id, '_weekend_price', absint( $wp ) ) : delete_post_meta( $post_id, '_weekend_price' );
+    }
+
+    // Cơ bản
+    $text_fields = [
+        'room_capacity'   => '_capacity',
+        'room_label'      => '_room_label',
+        'engine_room_id'  => '_engine_room_id',
+    ];
+    foreach ( $text_fields as $post_key => $meta_key ) {
+        if ( isset( $_POST[$post_key] ) ) {
+            update_post_meta( $post_id, $meta_key, sanitize_text_field( $_POST[$post_key] ) );
+        }
+    }
+
+    // Số lượng phòng
+    if ( isset( $_POST['room_quantity'] ) ) {
+        $qty = absint( $_POST['room_quantity'] );
+        $qty > 0 ? update_post_meta( $post_id, '_room_quantity', $qty ) : delete_post_meta( $post_id, '_room_quantity' );
+    }
+
+    // Số hiệu phòng – làm sạch và chuẩn hóa
+    if ( isset( $_POST['room_numbers'] ) ) {
+        $raw     = sanitize_textarea_field( $_POST['room_numbers'] );
+        $nums    = array_unique( array_filter( array_map( 'trim', explode( ',', $raw ) ) ) );
+        $cleaned = implode( ', ', $nums );
+        $cleaned ? update_post_meta( $post_id, '_room_numbers', $cleaned ) : delete_post_meta( $post_id, '_room_numbers' );
+
+        // Đồng bộ _room_quantity với số lượng thực tế
+        if ( ! empty( $nums ) ) {
+            update_post_meta( $post_id, '_room_quantity', count( $nums ) );
+        }
+    }
+}
+add_action( 'save_post', 'bookingroom_save_room_details' );
 
 /**
  * Add Home Page Meta Boxes (Classic Editor Style)
