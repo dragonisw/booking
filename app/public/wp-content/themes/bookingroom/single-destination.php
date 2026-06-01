@@ -377,7 +377,7 @@ $related = get_posts(array(
                 ?>
                 <div style="background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid #f1f5f9;">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-                        <h2 class="dest-section-title" style="margin:0;">🛏️ Phòng nghỉ gợi ý</h2>
+                        <h2 class="dest-section-title" style="margin:0;">🛏️ Khách sạn/resort gợi ý</h2>
                         <a href="<?php echo esc_url($book_link); ?>" style="color:#2563eb;font-weight:700;font-size:13px;text-decoration:none;">Xem tất cả →</a>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:16px;">
