@@ -61,14 +61,37 @@
 
                     <!-- Right: Booking Form -->
                     <div class="lg:col-span-2 p-8 md:p-12">
-                        <?php
-                        $use_external = get_theme_mod('use_external_booking', 'no');
-                        $engine_url = get_theme_mod('booking_engine_url', '');
-                        $form_action = ($use_external === 'yes' && !empty($engine_url)) ? $engine_url : home_url('/rooms');
-                        ?>
-                        
+                    <?php
+                    /**
+                     * Xác định routing: WP Hotel Booking plugin hay hệ thống tự xây?
+                     * - Nếu WP Hotel Booking active → form submit đến archive hb_room
+                     * - Nếu không → giữ nguyên hành vi cũ (tìm post type 'room')
+                     */
+                    $wphb_active    = bookingroom_is_wphb_active();
+                    $use_external   = get_theme_mod('use_external_booking', 'no');
+                    $engine_url     = get_theme_mod('booking_engine_url', '');
+
+                    if ($wphb_active) {
+                        // WP Hotel Booking active → dùng archive hb_room
+                        $form_action = bookingroom_get_hbroom_archive_url();
+                    } elseif ($use_external === 'yes' && !empty($engine_url)) {
+                        // Booking engine ngoài
+                        $form_action = $engine_url;
+                    } else {
+                        // Fallback: archive post type 'room'
+                        $form_action = get_post_type_archive_link('room') ?: home_url('/rooms');
+                    }
+                    ?>
+
+                    <?php if ($wphb_active && shortcode_exists('hotel_booking_search_form')) : ?>
+                        <!-- Dùng shortcode search form của plugin nếu có -->
+                        <div class="hb-plugin-search-form">
+                            <?php echo do_shortcode('[hotel_booking_search_form]'); ?>
+                        </div>
+                    <?php else : ?>
+                        <!-- Custom search form (hoạt động cả khi plugin chưa active) -->
                         <form action="<?php echo esc_url($form_action); ?>" method="get" class="space-y-8">
-                            <?php if ($use_external !== 'yes'): ?>
+                            <?php if (!$wphb_active && $use_external !== 'yes') : ?>
                                 <input type="hidden" name="post_type" value="room">
                             <?php endif; ?>
 
@@ -77,7 +100,7 @@
                                 <div class="space-y-2">
                                     <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider">Ngày nhận phòng</label>
                                     <div class="relative">
-                                        <input type="date" id="booking-check-in" name="<?php echo ($use_external === 'yes') ? 'checkin' : 'check_in'; ?>" required
+                                        <input type="date" id="booking-check-in" name="check_in" required
                                             class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg">
                                     </div>
                                 </div>
@@ -86,7 +109,7 @@
                                 <div class="space-y-2">
                                     <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider">Ngày trả phòng</label>
                                     <div class="relative">
-                                        <input type="date" id="booking-check-out" name="<?php echo ($use_external === 'yes') ? 'checkout' : 'check_out'; ?>" required
+                                        <input type="date" id="booking-check-out" name="check_out" required
                                             class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg">
                                     </div>
                                 </div>
@@ -115,15 +138,27 @@
                                 </div>
                             </div>
 
-                            <!-- Location/Hotel Select (Optional if only one hotel) -->
+                            <!-- Chọn loại phòng -->
                             <div class="space-y-2">
                                 <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider">Chọn loại phòng (Không bắt buộc)</label>
-                                <select name="s" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg appearance-none cursor-pointer">
+                                <select name="<?php echo $wphb_active ? 'hb_room_type' : 's'; ?>"
+                                    class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg appearance-none cursor-pointer">
                                     <option value="">Tất cả các loại phòng</option>
                                     <?php
-                                    $rooms = get_posts(array('post_type' => 'room', 'posts_per_page' => -1));
-                                    foreach ($rooms as $room) {
-                                        echo '<option value="' . esc_attr($room->post_title) . '">' . esc_html($room->post_title) . '</option>';
+                                    if ($wphb_active) {
+                                        // Taxonomy của WP Hotel Booking
+                                        $room_types = get_terms(['taxonomy' => 'hb_room_type', 'hide_empty' => false]);
+                                        if (!is_wp_error($room_types) && !empty($room_types)) {
+                                            foreach ($room_types as $rt) {
+                                                echo '<option value="' . esc_attr($rt->slug) . '">' . esc_html($rt->name) . '</option>';
+                                            }
+                                        }
+                                    } else {
+                                        // Post type 'room' cũ
+                                        $rooms = get_posts(['post_type' => 'room', 'posts_per_page' => -1]);
+                                        foreach ($rooms as $room) {
+                                            echo '<option value="' . esc_attr($room->post_title) . '">' . esc_html($room->post_title) . '</option>';
+                                        }
                                     }
                                     ?>
                                 </select>
@@ -138,6 +173,7 @@
                                 </button>
                             </div>
                         </form>
+                    <?php endif; ?>
                     </div>
                 </div>
             </div>

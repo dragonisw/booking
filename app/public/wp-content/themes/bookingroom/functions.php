@@ -50,6 +50,13 @@ require_once get_stylesheet_directory() . '/inc/customer-manager.php';
 require_once get_stylesheet_directory() . '/inc/destination-cpt.php';
 
 /**
+ * WP Hotel Booking Integration (ThimPress)
+ * Kết nối theme với plugin WP Hotel Booking – template overrides, helper functions
+ * Plugin cần được cài và kích hoạt qua: Plugins → Add New → "WP Hotel Booking"
+ */
+require_once get_stylesheet_directory() . '/inc/wp-hotel-booking-integration.php';
+
+/**
  * Enqueue Admin Scripts for Media Uploader
  */
 function bookingroom_admin_scripts($hook) {
