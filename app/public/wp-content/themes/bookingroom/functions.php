@@ -63,6 +63,12 @@ require_once get_stylesheet_directory() . '/inc/wp-hotel-booking-integration.php
 require_once get_stylesheet_directory() . '/inc/room-availability.php';
 
 /**
+ * Room Admin Columns, Overview Page & Dashboard Widget
+ * Tổng số phòng theo từng loại, lịch trạng thái, xuất CSV
+ */
+require_once get_stylesheet_directory() . '/inc/room-admin-columns.php';
+
+/**
  * Enqueue Admin Scripts for Media Uploader
  */
 function bookingroom_admin_scripts($hook) {
