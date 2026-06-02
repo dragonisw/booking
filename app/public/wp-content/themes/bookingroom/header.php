@@ -71,17 +71,24 @@
             display: flex;
             align-items: center;
             z-index: 2;
-            pointer-events: none;  /* không chặn click của nav ở giữa */
         }
-        .header-logo > a {
-            pointer-events: auto;  /* chỉ link logo mới nhận click */
-        }
-        .header-logo a {
+        /* Text logo link (fallback) */
+        .header-logo > a,
+        .header-logo-link {
             display: flex;
             align-items: center;
             text-decoration: none;
             gap: 10px;
         }
+        /* Custom logo link (do WordPress tạo ra qua the_custom_logo()) */
+        .custom-logo-container,
+        .custom-logo-container a,
+        .custom-logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
         .header-logo .logo-icon {
             width: 40px;
             height: 40px;
@@ -220,10 +227,6 @@
             justify-content: flex-end;
             gap: 1rem;
             z-index: 2;
-            pointer-events: none;  /* không chặn click của nav ở giữa */
-        }
-        .header-actions > * {
-            pointer-events: auto;  /* các con trực tiếp (a, button) nhận click bình thường */
         }
 
         /* Nút Đặt phòng (desktop) */
@@ -480,20 +483,21 @@
 
             <!-- Logo -->
             <div class="header-logo">
-                <a href="<?php echo esc_url(home_url('/')); ?>">
-                    <?php if (has_custom_logo()): ?>
-                        <div class="custom-logo-container">
-                            <?php the_custom_logo(); ?>
-                        </div>
-                    <?php else: ?>
+                <?php if (has_custom_logo()): ?>
+                    <!-- the_custom_logo() đã tự tạo thẻ <a>, KHÔNG wrap thêm <a> nữa -->
+                    <div class="custom-logo-container">
+                        <?php the_custom_logo(); ?>
+                    </div>
+                <?php else: ?>
+                    <a href="<?php echo esc_url(home_url('/')); ?>" class="header-logo-link">
                         <div class="logo-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                             </svg>
                         </div>
                         <span class="site-name"><?php bloginfo('name'); ?></span>
-                    <?php endif; ?>
-                </a>
+                    </a>
+                <?php endif; ?>
             </div>
 
             <!-- Desktop Navigation -->
