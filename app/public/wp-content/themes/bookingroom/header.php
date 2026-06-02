@@ -246,13 +246,20 @@
             <!-- Desktop Navigation -->
             <nav class="hidden md:flex flex-none items-center justify-center">
                 <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'primary-menu',
-                    'container' => false,
-                    'menu_class' => 'flex space-x-8 text-sm font-semibold text-slate-600 whitespace-nowrap',
-                    'fallback_cb' => false,
-                    'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                ));
+                if (has_nav_menu('primary-menu')) {
+                    wp_nav_menu(array(
+                        'theme_location' => 'primary-menu',
+                        'container' => false,
+                        'menu_class' => 'flex space-x-8 text-sm font-semibold text-slate-600 whitespace-nowrap',
+                        'fallback_cb' => false,
+                        'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                    ));
+                } else {
+                    // Thông báo khi chưa gán menu (chỉ hiển thị cho admin)
+                    if (current_user_can('manage_options')) {
+                        echo '<p style="color:red;font-size:12px;padding:4px 8px;background:#fff3cd;border-radius:4px;">⚠ Chưa gán menu vào vị trí <strong>Primary Menu</strong>. <a href="' . admin_url('nav-menus.php') . '">Gán menu ngay</a></p>';
+                    }
+                }
                 ?>
             </nav>
 
