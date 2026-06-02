@@ -312,7 +312,7 @@
 <body <?php body_class('bg-slate-50 text-slate-900 font-inter' . (is_front_page() || is_home() || is_page_template('page-trang-chu.php') ? ' is-home-style' : '')); ?>>
     <?php wp_body_open(); ?>
 
-    <header id="masthead" style="background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.08);position:sticky;top:0;z-index:50;">
+    <header id="masthead" style="background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.08);position:sticky;top: 20px;z-index:50;">
         <div class="header-container">
 
             <!-- Logo -->
