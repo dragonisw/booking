@@ -51,33 +51,39 @@
             }
         }
 
-        /* ── Header Layout (Pure CSS, không phụ thuộc Tailwind CDN) ── */
+        /* ── Header Layout (Pure CSS — menu căn chính giữa tuyệt đối) ── */
         .header-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;          /* cần cho nav absolute */
             width: 100%;
             max-width: 1280px;
             margin: 0 auto;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 2rem;
             min-height: 4rem;
             box-sizing: border-box;
             transition: all 0.3s ease;
         }
 
-        /* Logo area */
+        /* Logo area — chiếm không gian bên trái */
         .header-logo-wrap {
             flex: 1;
             display: flex;
             align-items: center;
+            z-index: 1;
         }
 
-        /* Desktop Nav: ẩn trên mobile, hiện trên >=768px */
+        /* ── Desktop Nav: căn chính giữa tuyệt đối ── */
         #site-navigation {
             display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             align-items: center;
             justify-content: center;
-            flex: none;
+            z-index: 0;
         }
         @media (min-width: 768px) {
             #site-navigation {
@@ -89,8 +95,8 @@
         }
 
         /* Nav menu list */
-        #site-navigation ul#primary-menu-list {
-            display: flex;
+        #primary-menu-list {
+            display: flex !important;
             align-items: center;
             list-style: none;
             margin: 0;
@@ -99,13 +105,14 @@
             white-space: nowrap;
         }
 
-        /* Action area */
+        /* Action area — chiếm không gian bên phải */
         .header-actions {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: flex-end;
             gap: 1rem;
+            z-index: 1;
         }
 
         /* Nút đặt phòng: ẩn mobile, hiện desktop */
@@ -133,6 +140,7 @@
                 display: none !important;
             }
         }
+
 
         /* Home Page Transparent Header */
         .is-home-style #masthead:not(.is-scrolled) {
