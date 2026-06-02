@@ -71,6 +71,10 @@
             display: flex;
             align-items: center;
             z-index: 2;
+            pointer-events: none;  /* không chặn click của nav ở giữa */
+        }
+        .header-logo > a {
+            pointer-events: auto;  /* chỉ link logo mới nhận click */
         }
         .header-logo a {
             display: flex;
@@ -137,7 +141,8 @@
             transform: translate(-50%, -50%);
             display: none;
             align-items: center;
-            z-index: 1;
+            z-index: 3;  /* cao hơn logo (2) và actions (2) để nhận click */
+            pointer-events: auto;
         }
         @media (min-width: 768px) {
             #site-navigation {
@@ -215,6 +220,10 @@
             justify-content: flex-end;
             gap: 1rem;
             z-index: 2;
+            pointer-events: none;  /* không chặn click của nav ở giữa */
+        }
+        .header-actions > * {
+            pointer-events: auto;  /* các con trực tiếp (a, button) nhận click bình thường */
         }
 
         /* Nút Đặt phòng (desktop) */
