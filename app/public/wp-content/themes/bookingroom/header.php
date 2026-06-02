@@ -38,7 +38,6 @@
 
         #masthead.is-scrolled .header-container {
             height: 3.5rem;
-            /* h-14 */
         }
 
         /* WordPress Admin Bar Fix */
@@ -49,6 +48,89 @@
         @media screen and (max-width: 782px) {
             .admin-bar #masthead {
                 top: 46px;
+            }
+        }
+
+        /* ── Header Layout (Pure CSS, không phụ thuộc Tailwind CDN) ── */
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.5rem 1rem;
+            min-height: 4rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        /* Logo area */
+        .header-logo-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Desktop Nav: ẩn trên mobile, hiện trên >=768px */
+        #site-navigation {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex: none;
+        }
+        @media (min-width: 768px) {
+            #site-navigation {
+                display: flex !important;
+            }
+            .header-container {
+                min-height: 5rem;
+            }
+        }
+
+        /* Nav menu list */
+        #site-navigation ul#primary-menu-list {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+            white-space: nowrap;
+        }
+
+        /* Action area */
+        .header-actions {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Nút đặt phòng: ẩn mobile, hiện desktop */
+        .header-book-btn {
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .header-book-btn {
+                display: inline-block;
+            }
+        }
+
+        /* Nút hamburger: hiện mobile, ẩn desktop */
+        #mobile-menu-open {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #475569;
+        }
+        @media (min-width: 768px) {
+            #mobile-menu-open {
+                display: none !important;
             }
         }
 
@@ -67,18 +149,22 @@
 
         /* Premium Nav Link Styles */
         #masthead nav ul li a {
-            color: #475569 !important; /* slate-600 */
+            color: #475569 !important;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             padding: 0.5rem 0;
+            display: inline-block;
         }
 
         #masthead nav ul li a:hover {
-            color: #2563eb !important; /* blue-600 */
+            color: #2563eb !important;
         }
 
         #masthead nav ul li.current-menu-item a {
-            color: #2563eb !important; /* blue-600 */
+            color: #2563eb !important;
         }
 
         #masthead nav ul li a::after {
@@ -218,69 +304,61 @@
 <body <?php body_class('bg-slate-50 text-slate-900 font-inter' . (is_front_page() || is_home() || is_page_template('page-trang-chu.php') ? ' is-home-style' : '')); ?>>
     <?php wp_body_open(); ?>
 
-    <header id="masthead" class="bg-white shadow-sm sticky top-0 z-50 transition-all duration-300">
-        <div
-            class="container mx-auto px-4 min-h-[4rem] md:min-h-[5rem] py-2 flex items-center justify-between header-container transition-all duration-300">
+    <header id="masthead" style="background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.08);position:sticky;top:0;z-index:50;">
+        <div class="header-container">
+
             <!-- Logo -->
-            <div class="flex-1 flex items-center">
-                <a href="<?php echo esc_url(home_url('/')); ?>" class="flex items-center group">
+            <div class="header-logo-wrap">
+                <a href="<?php echo esc_url(home_url('/')); ?>" style="display:flex;align-items:center;text-decoration:none;">
                     <?php if (has_custom_logo()): ?>
                         <div class="custom-logo-container">
                             <?php the_custom_logo(); ?>
                         </div>
                     <?php else: ?>
-                        <div
-                            class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white mr-3 group-hover:bg-blue-700 transition-colors logo-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        <div class="logo-icon" style="width:40px;height:40px;background:#2563eb;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;margin-right:12px;flex-shrink:0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                         </div>
-                        <span
-                            class="text-xl font-bold text-slate-800 tracking-tight group-hover:text-blue-600 transition-colors"><?php bloginfo('name'); ?></span>
+                        <span style="font-size:1.25rem;font-weight:700;color:#1e293b;"><?php bloginfo('name'); ?></span>
                     <?php endif; ?>
                 </a>
             </div>
 
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex flex-none items-center justify-center">
+            <!-- Desktop Navigation (hiển thị bằng CSS thuần, không phụ thuộc Tailwind CDN) -->
+            <nav id="site-navigation" aria-label="Primary Menu">
                 <?php
-                if (has_nav_menu('primary-menu')) {
-                    wp_nav_menu(array(
-                        'theme_location' => 'primary-menu',
-                        'container' => false,
-                        'menu_class' => 'flex space-x-8 text-sm font-semibold text-slate-600 whitespace-nowrap',
-                        'fallback_cb' => false,
-                        'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                    ));
-                } else {
-                    // Thông báo khi chưa gán menu (chỉ hiển thị cho admin)
-                    if (current_user_can('manage_options')) {
-                        echo '<p style="color:red;font-size:12px;padding:4px 8px;background:#fff3cd;border-radius:4px;">⚠ Chưa gán menu vào vị trí <strong>Primary Menu</strong>. <a href="' . admin_url('nav-menus.php') . '">Gán menu ngay</a></p>';
-                    }
-                }
+                wp_nav_menu(array(
+                    'theme_location' => 'primary-menu',
+                    'container'      => false,
+                    'menu_id'        => 'primary-menu-list',
+                    'menu_class'     => '',
+                    'fallback_cb'    => function() {
+                        if (current_user_can('manage_options')) {
+                            echo '<p style="color:#b45309;font-size:12px;padding:4px 10px;background:#fef3c7;border-radius:6px;white-space:nowrap;">⚠ Chưa gán menu. <a href="' . admin_url('nav-menus.php') . '" style="color:#2563eb;">Gán ngay</a></p>';
+                        }
+                    },
+                    'items_wrap'     => '<ul id="primary-menu-list">%3$s</ul>',
+                ));
                 ?>
             </nav>
 
             <!-- Action Buttons -->
-            <div class="flex-1 flex items-center justify-end space-x-4">
-                <div class="hidden md:block">
-                    <a href="<?php echo esc_url(home_url('/booking')); ?>"
-                        class="bg-blue-600 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 header-btn">
-                        Đặt phòng ngay
-                    </a>
-                </div>
+            <div class="header-actions">
+                <!-- Nút đặt phòng (desktop) -->
+                <a href="<?php echo esc_url(home_url('/booking')); ?>" class="header-book-btn header-btn"
+                    style="background:#2563eb;color:#fff;padding:0.6rem 1.5rem;border-radius:9999px;font-weight:600;font-size:0.875rem;text-decoration:none;transition:all 0.2s;box-shadow:0 4px 12px rgba(37,99,235,0.3);white-space:nowrap;">
+                    Đặt phòng ngay
+                </a>
 
-                <!-- Mobile Menu Toggle -->
-                <button class="md:hidden p-2 text-slate-600" id="mobile-menu-open">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-7 6h7" />
+                <!-- Nút hamburger (mobile) -->
+                <button id="mobile-menu-open" aria-label="Mở menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                     </svg>
                 </button>
             </div>
+
         </div>
     </header>
 
