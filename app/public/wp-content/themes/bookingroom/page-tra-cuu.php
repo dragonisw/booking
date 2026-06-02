@@ -1,193 +1,504 @@
 <?php /* Template Name: Tra cứu thông tin */ ?>
 <?php get_header(); ?>
 
-<main class="bg-slate-50 min-h-[70vh] py-20">
-    <div class="container mx-auto px-4">
-        <div class="max-w-2xl mx-auto">
-            <!-- Header -->
-            <div class="text-center mb-12">
-                <h1 class="text-3xl font-bold text-slate-900 mb-4">TRA CỨU THÔNG TIN ĐẶT PHÒNG</h1>
-                <p class="text-slate-500">Vui lòng nhập số điện thoại và mã đặt phòng để kiểm tra trạng thái.</p>
-            </div>
+<style>
+/* ============================================================
+   TRANG TRA CỨU ĐẶT PHÒNG — Pure CSS, không phụ thuộc Tailwind
+   ============================================================ */
 
-            <!-- Lookup Form -->
-            <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
-                <!-- Decorative element -->
-                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-16 -mt-16 opacity-50"></div>
-                
-                <form id="lookup-form" class="relative z-10 space-y-6">
-                    <div class="space-y-2">
-                        <label for="lookup_phone" class="block text-sm font-bold text-slate-700 ml-1">Số điện thoại</label>
-                        <div class="relative">
-                            <input type="tel" id="lookup_phone" name="phone" required
-                                class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 px-6 focus:ring-4 focus:ring-blue-100 focus:border-blue-600 outline-none transition-all placeholder:text-slate-400 text-lg"
-                                placeholder="Nhập số điện thoại khi đặt phòng">
-                            <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                            </div>
-                        </div>
-                    </div>
+.tracuu-page {
+    min-height: 80vh;
+    padding: 80px 1.5rem 4rem;
+    background: #f8fafc;
+    box-sizing: border-box;
+}
+.admin-bar .tracuu-page       { padding-top: 112px; }
+@media screen and (max-width: 782px) {
+    .admin-bar .tracuu-page   { padding-top: 126px; }
+}
 
-                    <div class="space-y-2">
-                        <label for="lookup_id" class="block text-sm font-bold text-slate-700 ml-1">Mã đặt phòng</label>
-                        <div class="relative">
-                            <input type="text" id="lookup_id" name="booking_id" required
-                                class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 px-6 focus:ring-4 focus:ring-blue-100 focus:border-blue-600 outline-none transition-all placeholder:text-slate-400 text-lg"
-                                placeholder="Ví dụ: 1234">
-                            <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01M15 7h.01M15 11h.01M15 15h.01M19 7h.01M19 11h.01M19 15h.01M7 19h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            </div>
-                        </div>
-                    </div>
+/* ── Hero heading ── */
+.tracuu-hero {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.tracuu-hero h1 {
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.6rem;
+    letter-spacing: -0.02em;
+}
+.tracuu-hero p {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.65;
+}
 
-                    <div class="pt-4">
-                        <button type="submit"
-                            class="w-full bg-blue-600 text-white font-bold py-5 rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 hover:shadow-blue-300 transform hover:-translate-y-1 active:scale-[0.98] flex items-center justify-center text-lg">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            Tra cứu ngay
-                        </button>
-                    </div>
-                </form>
+/* ── Card wrapper ── */
+.tracuu-card-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    position: relative;
+}
 
-                <!-- Results Area -->
-                <div id="lookup-results" class="hidden mt-12 pt-8 border-t border-slate-100 animate-fade-in">
-                    <!-- Result content will be injected here -->
-                </div>
+/* Decorative blobs */
+.tracuu-card-wrap::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -60px;
+    right: -60px;
+    pointer-events: none;
+}
+.tracuu-card-wrap::after {
+    content: '';
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -40px;
+    left: -40px;
+    pointer-events: none;
+}
 
-                <!-- Loading State -->
-                <div id="lookup-loading" class="hidden absolute inset-0 bg-white/80 backdrop-blur-sm z-20 flex items-center justify-center rounded-[2.5rem]">
-                    <div class="flex flex-col items-center">
-                        <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                        <p class="mt-4 font-bold text-slate-600">Đang kiểm tra...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+/* ── Card ── */
+.tracuu-card {
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.04);
+    border: 1px solid #f1f5f9;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
+@media (min-width: 480px) {
+    .tracuu-card { padding: 3rem; }
+}
+
+/* ── Form ── */
+.tracuu-form-group {
+    margin-bottom: 1.25rem;
+}
+.tracuu-form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.45rem;
+    letter-spacing: 0.01em;
+}
+.tracuu-input-wrap {
+    position: relative;
+}
+.tracuu-input-wrap input {
+    width: 100%;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 0.9rem 3.2rem 0.9rem 1.1rem;
+    font-size: 0.95rem;
+    color: #1e293b;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    box-sizing: border-box;
+    font-family: inherit;
+    -webkit-appearance: none;
+}
+.tracuu-input-wrap input::placeholder { color: #94a3b8; }
+.tracuu-input-wrap input:focus {
+    border-color: #2563eb;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+.tracuu-input-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #cbd5e1;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+/* Submit button */
+.tracuu-btn-submit {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    margin-top: 1.5rem;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+    font-family: inherit;
+    letter-spacing: 0.01em;
+}
+.tracuu-btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37,99,235,0.45);
+}
+.tracuu-btn-submit:active { transform: translateY(0); }
+.tracuu-btn-submit svg    { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* ── Loading overlay ── */
+#tracuu-loading {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 20;
+    border-radius: 24px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+#tracuu-loading.is-loading {
+    display: flex;
+}
+.tracuu-spinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid #e0e7ff;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: tracuu-spin 0.75s linear infinite;
+    flex-shrink: 0;   /* ← quan trọng: không bị co giãn */
+}
+@keyframes tracuu-spin {
+    to { transform: rotate(360deg); }
+}
+#tracuu-loading p {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+    margin: 0;
+}
+
+/* ── Results area ── */
+#tracuu-results {
+    display: none;
+    margin-top: 2rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid #f1f5f9;
+    animation: tracuu-fadein 0.35s ease-out;
+}
+#tracuu-results.is-visible {
+    display: block;
+}
+@keyframes tracuu-fadein {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Result header */
+.result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.result-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* Status badge */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+.status-badge.confirmed  { background: #d1fae5; color: #065f46; }
+.status-badge.pending    { background: #fff7ed; color: #92400e; }
+.status-badge.cancelled  { background: #fee2e2; color: #991b1b; }
+.status-badge.checked-in { background: #dbeafe; color: #1e40af; }
+.status-badge.default    { background: #f1f5f9; color: #475569; }
+
+/* Info grid */
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+}
+.result-grid-item p:first-child {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    margin: 0 0 0.25rem;
+}
+.result-grid-item p:last-child {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+/* Info notice */
+.result-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.9rem 1rem;
+    background: #eff6ff;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    color: #475569;
+    line-height: 1.55;
+}
+.result-notice svg {
+    width: 18px;
+    height: 18px;
+    color: #3b82f6;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* Error state */
+.result-error {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+.result-error-icon {
+    width: 56px;
+    height: 56px;
+    background: #fef2f2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    flex-shrink: 0;
+}
+.result-error-icon svg {
+    width: 26px;
+    height: 26px;
+    color: #ef4444;
+}
+.result-error h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.35rem;
+}
+.result-error p {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0;
+}
+</style>
+
+<main class="tracuu-page">
+
+    <!-- Hero -->
+    <div class="tracuu-hero">
+        <h1>Tra cứu Thông tin Đặt phòng</h1>
+        <p>Vui lòng nhập số điện thoại và mã đặt phòng để kiểm tra trạng thái.</p>
     </div>
+
+    <!-- Card -->
+    <div class="tracuu-card-wrap">
+        <div class="tracuu-card">
+
+            <!-- Loading overlay -->
+            <div id="tracuu-loading">
+                <div class="tracuu-spinner"></div>
+                <p>Đang kiểm tra...</p>
+            </div>
+
+            <!-- Form -->
+            <form id="tracuu-form" novalidate>
+
+                <div class="tracuu-form-group">
+                    <label for="lookup_phone">Số điện thoại</label>
+                    <div class="tracuu-input-wrap">
+                        <input type="tel" id="lookup_phone" name="phone" required
+                            placeholder="Nhập số điện thoại khi đặt phòng"
+                            autocomplete="tel">
+                        <svg class="tracuu-input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="tracuu-form-group">
+                    <label for="lookup_id">Mã đặt phòng</label>
+                    <div class="tracuu-input-wrap">
+                        <input type="text" id="lookup_id" name="booking_id" required
+                            placeholder="Ví dụ: 1234"
+                            inputmode="numeric">
+                        <svg class="tracuu-input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01M15 7h.01M15 11h.01M15 15h.01M19 7h.01M19 11h.01M19 15h.01M7 19h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <button type="submit" class="tracuu-btn-submit">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    Tra cứu ngay
+                </button>
+            </form>
+
+            <!-- Results -->
+            <div id="tracuu-results"></div>
+
+        </div><!-- /.tracuu-card -->
+    </div><!-- /.tracuu-card-wrap -->
+
 </main>
 
 <script>
-jQuery(document).ready(function($) {
-    $('#lookup-form').on('submit', function(e) {
-        e.preventDefault();
-        
-        const $form = $(this);
-        const $results = $('#lookup-results');
-        const $loading = $('#lookup-loading');
-        
-        const phone = $('#lookup_phone').val();
-        const bookingId = $('#lookup_id').val();
-        
-        performLookup(phone, bookingId);
-    });
+(function () {
+    'use strict';
 
+    var form      = document.getElementById('tracuu-form');
+    var results   = document.getElementById('tracuu-results');
+    var loading   = document.getElementById('tracuu-loading');
+    var phoneInp  = document.getElementById('lookup_phone');
+    var idInp     = document.getElementById('lookup_id');
+
+    /* ── Helpers ── */
+    function showLoading() {
+        loading.classList.add('is-loading');
+        results.classList.remove('is-visible');
+    }
+    function hideLoading() {
+        loading.classList.remove('is-loading');
+    }
+
+    function getStatusBadge(status) {
+        var map = {
+            'confirmed':  ['confirmed',  'Đã xác nhận'],
+            'publish':    ['confirmed',  'Đã xác nhận'],
+            'pending':    ['pending',    'Chờ xử lý'],
+            'checked_in': ['checked-in', 'Nhận phòng'],
+            'cancelled':  ['cancelled',  'Đã huỷ'],
+        };
+        var info = map[status] || ['default', status];
+        return '<span class="status-badge ' + info[0] + '">' + info[1] + '</span>';
+    }
+
+    function renderSuccess(data) {
+        results.innerHTML =
+            '<div class="result-header">' +
+                '<h3>Kết quả tìm thấy</h3>' +
+                getStatusBadge(data.status) +
+            '</div>' +
+            '<div class="result-grid">' +
+                '<div class="result-grid-item"><p>Khách hàng</p><p>' + (data.customer_name || '—') + '</p></div>' +
+                '<div class="result-grid-item"><p>Phòng</p><p>' + (data.room_title || '—') + '</p></div>' +
+                '<div class="result-grid-item"><p>Ngày nhận phòng</p><p>' + (data.check_in || '—') + '</p></div>' +
+                '<div class="result-grid-item"><p>Ngày trả phòng</p><p>' + (data.check_out || '—') + '</p></div>' +
+            '</div>' +
+            '<div class="result-notice">' +
+                '<svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>' +
+                '<span>Có thắc mắc? Liên hệ hotline <strong>1900 6067</strong> để được hỗ trợ.</span>' +
+            '</div>';
+        results.classList.add('is-visible');
+    }
+
+    function renderError(message) {
+        results.innerHTML =
+            '<div class="result-error">' +
+                '<div class="result-error-icon">' +
+                    '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">' +
+                        '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>' +
+                    '</svg>' +
+                '</div>' +
+                '<h3>Không tìm thấy thông tin</h3>' +
+                '<p>' + (message || 'Vui lòng kiểm tra lại số điện thoại và mã đặt phòng.') + '</p>' +
+            '</div>';
+        results.classList.add('is-visible');
+    }
+
+    /* ── AJAX lookup ── */
     function performLookup(phone, bookingId) {
-        const $results = $('#lookup-results');
-        const $loading = $('#lookup-loading');
+        if (!phone || !bookingId) {
+            renderError('Vui lòng điền đầy đủ số điện thoại và mã đặt phòng.');
+            results.classList.add('is-visible');
+            return;
+        }
 
-        $loading.removeClass('hidden');
-        $results.addClass('hidden');
-        
-        $.ajax({
-            url: booking_ajax.ajax_url,
-            type: 'POST',
-            data: {
-                action: 'lookup_booking',
-                phone: phone,
-                booking_id: bookingId,
-                nonce: booking_ajax.nonce
-            },
-            success: function(response) {
+        showLoading();
+
+        // Dùng Fetch API thay jQuery
+        var formData = new FormData();
+        formData.append('action', 'lookup_booking');
+        formData.append('phone', phone);
+        formData.append('booking_id', bookingId);
+        formData.append('nonce', (typeof booking_ajax !== 'undefined') ? booking_ajax.nonce : '');
+
+        var ajaxUrl = (typeof booking_ajax !== 'undefined') ? booking_ajax.ajax_url : '/wp-admin/admin-ajax.php';
+
+        fetch(ajaxUrl, { method: 'POST', body: formData })
+            .then(function (res) { return res.json(); })
+            .then(function (response) {
+                hideLoading();
                 if (response.success) {
-                    const data = response.data;
-                    let statusHtml = '';
-                    
-                    switch(data.status) {
-                        case 'publish':
-                        case 'confirmed':
-                            statusHtml = '<span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-bold">Đã xác nhận</span>';
-                            break;
-                        case 'pending':
-                            statusHtml = '<span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-xs font-bold">Chờ xử lý</span>';
-                            break;
-                        default:
-                            statusHtml = '<span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-bold">' + data.status + '</span>';
-                    }
-
-                    $results.html(`
-                        <div class="space-y-6">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-xl font-bold text-slate-900">Kết quả tìm thấy</h3>
-                                ${statusHtml}
-                            </div>
-                            
-                            <div class="grid grid-cols-2 gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                                <div>
-                                    <p class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-1">Khách hàng</p>
-                                    <p class="font-bold text-slate-800">${data.customer_name}</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-1">Phòng</p>
-                                    <p class="font-bold text-slate-800">${data.room_title}</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-1">Ngày nhận</p>
-                                    <p class="font-bold text-slate-800">${data.check_in}</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-1">Ngày trả</p>
-                                    <p class="font-bold text-slate-800">${data.check_out}</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 text-sm text-slate-500 bg-blue-50 p-4 rounded-2xl">
-                                <svg class="w-5 h-5 text-blue-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                                <p>Nếu có bất kỳ thắc mắc nào, vui lòng liên hệ hotline <strong>1900 6067</strong> để được hỗ trợ.</p>
-                            </div>
-                        </div>
-                    `).removeClass('hidden');
+                    renderSuccess(response.data);
                 } else {
-                    $results.html(`
-                        <div class="text-center py-8">
-                            <div class="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            </div>
-                            <h3 class="text-lg font-bold text-slate-900 mb-1">Không tìm thấy thông tin</h3>
-                            <p class="text-slate-500">${response.data.message}</p>
-                        </div>
-                    `).removeClass('hidden');
+                    renderError(response.data ? response.data.message : null);
                 }
-            },
-            error: function() {
-                alert('Có lỗi xảy ra trong quá trình kết nối.');
-            },
-            complete: function() {
-                $loading.addClass('hidden');
-            }
+            })
+            .catch(function () {
+                hideLoading();
+                renderError('Lỗi kết nối. Vui lòng thử lại sau.');
+            });
+    }
+
+    /* ── Form submit ── */
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            performLookup(phoneInp.value.trim(), idInp.value.trim());
         });
     }
 
-    // Check for URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlBookingId = urlParams.get('booking_id');
-    const urlPhone = urlParams.get('phone');
-    
-    if (urlBookingId && urlPhone) {
-        $('#lookup_id').val(urlBookingId);
-        $('#lookup_phone').val(urlPhone);
-        performLookup(urlPhone, urlBookingId);
+    /* ── Auto-lookup từ URL params ── */
+    var params = new URLSearchParams(window.location.search);
+    var urlPhone = params.get('phone');
+    var urlId    = params.get('booking_id');
+    if (urlPhone && urlId) {
+        if (phoneInp) phoneInp.value = urlPhone;
+        if (idInp)    idInp.value    = urlId;
+        performLookup(urlPhone, urlId);
     }
-});
+})();
 </script>
-
-<style>
-@keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-in {
-    animation: fade-in 0.4s ease-out forwards;
-}
-</style>
 
 <?php get_footer(); ?>
