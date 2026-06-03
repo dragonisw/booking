@@ -1025,3 +1025,13 @@ video {
 .admin-bar .br-footer {
     scroll-margin-top: 32px;
 }
+
+/* Fix missing Tailwind responsive display classes */
+@media (min-width: 768px) {
+    .md\:block {
+        display: block !important;
+    }
+    .md\:hidden {
+        display: none !important;
+    }
+}

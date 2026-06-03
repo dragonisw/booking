@@ -246,7 +246,11 @@
                                 </div>
                             </div>
                         </div>
-                    <?php endwhile; endif; ?>
+                    <?php endwhile; else: ?>
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 text-center text-slate-500">
+                            Không tìm thấy phòng nghỉ nào phù hợp.
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
