@@ -111,6 +111,12 @@
             </div>
 
             <!-- TABLE OF ROOMS -->
+            <style>
+                @media (min-width: 768px) {
+                    .md\:block { display: block !important; }
+                    .md\:hidden { display: none !important; }
+                }
+            </style>
             <div class="bg-white rounded-3xl shadow-2xl shadow-slate-200/50 p-6 md:p-12 border border-slate-100">
                 <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-8 pb-4 border-b border-slate-100 uppercase tracking-tight">
                     DANH SÁCH THÔNG TIN PHÒNG THEO NGÀY QUÝ KHÁCH CHỌN
@@ -191,6 +197,7 @@
                 <!-- Mobile Card Layout -->
                 <div class="block md:hidden space-y-6">
                     <?php
+                    rewind_posts();
                     if (have_posts()) :
                         while (have_posts()) : the_post();
                             $price = get_post_meta(get_the_ID(), '_price', true) ?: 1500000;
