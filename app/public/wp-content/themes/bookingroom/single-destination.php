@@ -362,18 +362,18 @@ $related = get_posts(array(
                 </div>
                 <?php endif; ?>
 
-                <!-- Rooms at this destination -->
+                <!-- Hotels at this destination -->
                 <?php
-                $rooms = get_posts(array(
-                    'post_type'      => 'room',
+                $hotels = get_posts(array(
+                    'post_type'      => 'hotel',
                     'posts_per_page' => 3,
                     's'              => $title,
                     'post_status'    => 'publish',
                 ));
-                if (!$rooms) {
-                    $rooms = get_posts(array('post_type' => 'room', 'posts_per_page' => 3, 'post_status' => 'publish'));
+                if (!$hotels) {
+                    $hotels = get_posts(array('post_type' => 'hotel', 'posts_per_page' => 3, 'post_status' => 'publish'));
                 }
-                if ($rooms):
+                if ($hotels):
                 ?>
                 <div style="background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid #f1f5f9;">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
@@ -381,15 +381,15 @@ $related = get_posts(array(
                         <a href="<?php echo esc_url($book_link); ?>" style="color:#2563eb;font-weight:700;font-size:13px;text-decoration:none;">Xem tất cả →</a>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:16px;">
-                    <?php foreach ($rooms as $room):
-                        $room_price = get_post_meta($room->ID, '_price', true) ?: 1500000;
-                        $room_thumb = get_the_post_thumbnail_url($room->ID, 'medium');
+                    <?php foreach ($hotels as $hotel):
+                        $hotel_price = get_post_meta($hotel->ID, '_price', true) ?: 1500000;
+                        $hotel_thumb = get_the_post_thumbnail_url($hotel->ID, 'medium');
                     ?>
-                        <a href="<?php echo get_permalink($room->ID); ?>" style="display:flex;gap:16px;align-items:center;padding:14px;background:#f8fafc;border-radius:12px;text-decoration:none;transition:background .2s;" onmouseenter="this.style.background='#eff6ff'" onmouseleave="this.style.background='#f8fafc'">
-                            <img src="<?php echo $room_thumb ?: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=200'; ?>" alt="" style="width:80px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0;">
+                        <a href="<?php echo get_permalink($hotel->ID); ?>" style="display:flex;gap:16px;align-items:center;padding:14px;background:#f8fafc;border-radius:12px;text-decoration:none;transition:background .2s;" onmouseenter="this.style.background='#eff6ff'" onmouseleave="this.style.background='#f8fafc'">
+                            <img src="<?php echo $hotel_thumb ?: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=200'; ?>" alt="" style="width:80px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0;">
                             <div style="flex:1;min-width:0;">
-                                <h4 style="margin:0 0 4px;font-size:14px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?php echo esc_html($room->post_title); ?></h4>
-                                <p style="margin:0;font-size:12px;color:#94a3b8;">Từ <strong style="color:#f97316;"><?php echo number_format($room_price); ?>đ</strong>/đêm</p>
+                                <h4 style="margin:0 0 4px;font-size:14px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?php echo esc_html($hotel->post_title); ?></h4>
+                                <p style="margin:0;font-size:12px;color:#94a3b8;">Từ <strong style="color:#f97316;"><?php echo number_format($hotel_price); ?>đ</strong>/đêm</p>
                             </div>
                             <svg width="16" height="16" fill="none" stroke="#94a3b8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </a>
