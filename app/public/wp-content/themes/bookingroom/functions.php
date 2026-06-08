@@ -69,6 +69,12 @@ require_once get_stylesheet_directory() . '/inc/room-availability.php';
 require_once get_stylesheet_directory() . '/inc/room-admin-columns.php';
 
 /**
+ * SMS Manager
+ * Twilio SMS API integration & Customizer settings
+ */
+require_once get_stylesheet_directory() . '/inc/sms-manager.php';
+
+/**
  * Enqueue Admin Scripts for Media Uploader
  */
 function bookingroom_admin_scripts($hook) {

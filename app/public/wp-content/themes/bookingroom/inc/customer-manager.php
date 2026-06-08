@@ -187,6 +187,63 @@ function br_send_confirmation_email($booking_id) {
     </div>";
 
     $headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . $site . ' <' . get_bloginfo('admin_email') . '>');
+    $email_sent = wp_mail($email, $subject, $body, $headers);
+
+    // Gửi SMS cho khách hàng
+    $phone = get_post_meta($booking_id, '_phone', true);
+    if ( $phone && function_exists('bookingroom_send_sms') ) {
+        $sms_msg = "Xac nhan: Dat phong #{$booking_id} cua quy khach da duoc xac nhan. Nhan phong: {$ci_fmt}. Tra phong: {$co_fmt}. Cam on!";
+        bookingroom_send_sms($phone, $sms_msg);
+    }
+
+    return $email_sent;
+}
+
+/**
+ * Gửi email chờ xử lý (pending) cho khách hàng khi vừa đặt phòng
+ */
+function br_send_pending_booking_email($booking_id) {
+    $email   = get_post_meta($booking_id, '_email', true);
+    $name    = get_post_meta($booking_id, '_customer_name', true) ?: 'Quý khách';
+    $room_id = get_post_meta($booking_id, '_room_id', true);
+    $ci      = get_post_meta($booking_id, '_check_in', true);
+    $co      = get_post_meta($booking_id, '_check_out', true);
+    $rooms   = get_post_meta($booking_id, '_selected_rooms', true);
+
+    if (!$email) return false;
+
+    $site    = get_bloginfo('name');
+    $subject = "⏳ Yêu cầu đặt phòng #{$booking_id} đang chờ xử lý – {$site}";
+
+    $ci_fmt = $ci ? date_i18n('d/m/Y', strtotime($ci)) : '—';
+    $co_fmt = $co ? date_i18n('d/m/Y', strtotime($co)) : '—';
+    $room_name = $room_id ? get_the_title($room_id) : '—';
+
+    $body = "
+    <div style='font-family:Inter,sans-serif;max-width:600px;margin:auto;background:#f8fafc;border-radius:16px;overflow:hidden;'>
+      <div style='background:linear-gradient(135deg,#f59e0b,#d97706);padding:32px;text-align:center;'>
+        <h1 style='color:#fff;margin:0;font-size:24px;'>⏳ Yêu cầu đang được xử lý!</h1>
+      </div>
+      <div style='padding:32px;background:#fff;'>
+        <p style='font-size:16px;color:#1e293b;'>Xin chào <strong>{$name}</strong>,</p>
+        <p style='color:#475569;'>Chúng tôi đã nhận được yêu cầu đặt phòng của bạn. Đơn đặt phòng này hiện đang trong trạng thái <strong>Chờ xác nhận</strong>. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.</p>
+        <div style='background:#f1f5f9;border-radius:12px;padding:20px;margin:20px 0;'>
+          <table style='width:100%;border-collapse:collapse;font-size:14px;'>
+            <tr><td style='padding:8px;color:#64748b;'>🔖 Mã đặt phòng</td><td style='padding:8px;font-weight:700;color:#1e293b;'>#{$booking_id}</td></tr>
+            <tr><td style='padding:8px;color:#64748b;'>🛏️ Loại phòng</td><td style='padding:8px;font-weight:600;'>{$room_name}</td></tr>
+            <tr><td style='padding:8px;color:#64748b;'>🔢 Số phòng</td><td style='padding:8px;'>" . esc_html($rooms ?: '—') . "</td></tr>
+            <tr><td style='padding:8px;color:#64748b;'>📅 Nhận phòng</td><td style='padding:8px;font-weight:600;'>{$ci_fmt}</td></tr>
+            <tr><td style='padding:8px;color:#64748b;'>📅 Trả phòng</td><td style='padding:8px;font-weight:600;'>{$co_fmt}</td></tr>
+          </table>
+        </div>
+        <p style='color:#64748b;font-size:13px;'>Nếu có thắc mắc, vui lòng liên hệ hotline: <strong>" . get_theme_mod('bookingroom_hotline', '0123 456 789') . "</strong></p>
+      </div>
+      <div style='background:#f1f5f9;padding:16px;text-align:center;font-size:12px;color:#94a3b8;'>
+        © " . date('Y') . " {$site}. Cảm ơn bạn đã chọn chúng tôi!
+      </div>
+    </div>";
+
+    $headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . $site . ' <' . get_bloginfo('admin_email') . '>');
     return wp_mail($email, $subject, $body, $headers);
 }
 
@@ -476,6 +533,24 @@ function br_process_booking_enhanced() {
 
     // Gửi email thông báo cho ADMIN
     br_notify_admin_new_booking($booking_id, $name, $phone, $email, $room_id, $check_in, $check_out, $selected_rooms, $total_price);
+
+    // Gửi email pending cho KHÁCH HÀNG
+    br_send_pending_booking_email($booking_id);
+
+    // Gửi SMS thông báo
+    if ( function_exists('bookingroom_send_sms') ) {
+        // SMS cho khách
+        $ci_fmt = date('d/m', strtotime($check_in));
+        $sms_customer = "Ban da dat phong thanh cong tai " . get_bloginfo('name') . ". Ma: #{$booking_id}. Ngay den: {$ci_fmt}. Chung toi se som lien he xac nhan.";
+        bookingroom_send_sms($phone, $sms_customer);
+
+        // SMS cho Admin
+        $admin_phone = get_theme_mod('bookingroom_hotline', ''); 
+        if ( !empty($admin_phone) ) {
+            $sms_admin = "Co dat phong moi #{$booking_id} tu KH {$name}. SDT: {$phone}. Vui long kiem tra!";
+            bookingroom_send_sms($admin_phone, $sms_admin);
+        }
+    }
 
     wp_send_json_success(array(
         'message'    => '🎉 Đặt phòng thành công! Mã đặt phòng: #' . $booking_id . '. Chúng tôi sẽ liên hệ xác nhận sớm nhất.',
