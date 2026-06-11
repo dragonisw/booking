@@ -574,12 +574,13 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                             </div>
 
                             <!-- CTA Button -->
+                            <div id="tt_book_warning" style="display: none;" class="text-sm font-bold text-red-500 bg-red-50 border border-red-200 rounded-xl p-3 text-center mb-3">Vui lòng chọn ngày nhận và trả phòng!</div>
                             <a href="<?php echo esc_url(get_permalink() . ($query_str ? rtrim($query_str,'&') . '&step=book' : '?step=book')); ?>" id="tt_book_link"
                                class="tt-book-btn">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 Đặt phòng ngay
                             </a>
-                            <p class="text-center text-xs text-slate-400 -mt-2">Bạn sẽ chưa bị trừ tiền ngay lúc này</p>
+                            <p class="text-center text-xs text-slate-400 mt-3">Bạn sẽ chưa bị trừ tiền ngay lúc này</p>
                         </div>
                     </div>
 
@@ -752,6 +753,22 @@ document.addEventListener('DOMContentLoaded', function() {
         if (bookLink) {
             bookLink.href = basePermalink + '?check_in=' + checkInEl.value + '&check_out=' + checkOutEl.value + '&step=book';
         }
+    }
+
+    if (bookLink) {
+        bookLink.addEventListener('click', function(e) {
+            if (!checkInEl.value || !checkOutEl.value) {
+                e.preventDefault(); // Prevent navigation
+                document.getElementById('tt_book_warning').style.display = 'block';
+                if (!checkInEl.value) {
+                    checkInEl.focus();
+                } else {
+                    checkOutEl.focus();
+                }
+            } else {
+                document.getElementById('tt_book_warning').style.display = 'none';
+            }
+        });
     }
 
     if (checkInEl)  checkInEl.addEventListener('change', calcPrice);
