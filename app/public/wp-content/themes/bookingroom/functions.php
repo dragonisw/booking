@@ -298,6 +298,16 @@ function bookingroom_add_room_meta_boxes()
         'normal',
         'default'
     );
+
+    // Tiện nghi & Chính sách phòng
+    add_meta_box(
+        'room_features',
+        '✨ Tiện nghi & Chính sách phòng',
+        'bookingroom_room_features_callback',
+        'room',
+        'normal',
+        'high'
+    );
 }
 add_action('add_meta_boxes', 'bookingroom_add_room_meta_boxes');
 
@@ -774,6 +784,48 @@ function bookingroom_room_availability_cb( $post ) {
     <?php
 }
 
+function bookingroom_room_features_callback( $post ) {
+    $amenities = get_post_meta( $post->ID, '_room_amenities', true ) ?: [];
+    $policies = get_post_meta( $post->ID, '_room_policies', true );
+    
+    $common_amenities = [
+        'wifi' => 'Wi-Fi tốc độ cao',
+        'ac' => 'Điều hòa nhiệt độ',
+        'tv' => 'Smart TV 4K',
+        'bathtub' => 'Bồn tắm riêng',
+        'safe' => 'Két an toàn',
+        'minibar' => 'Minibar & Trà/Cà phê',
+        'phone' => 'Điện thoại phòng',
+        'balcony' => 'Ban công/Cửa sổ lớn',
+        'laundry' => 'Dịch vụ giặt là'
+    ];
+    ?>
+    <div style="padding:10px 0;">
+        <p style="font-weight:700;margin-bottom:10px;color:#1e293b;">Tiện nghi phòng</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;background:#f8fafc;padding:15px;border:1px solid #e2e8f0;border-radius:8px;">
+            <?php foreach ( $common_amenities as $key => $label ) : ?>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                    <input type="checkbox" name="room_amenities[]" value="<?php echo esc_attr($key); ?>" <?php checked( in_array( $key, $amenities ) ); ?> style="margin:0;">
+                    <span style="font-size:13px;"><?php echo esc_html($label); ?></span>
+                </label>
+            <?php endforeach; ?>
+        </div>
+        
+        <p style="font-weight:700;margin-bottom:10px;color:#1e293b;">Chính sách phòng</p>
+        <?php 
+        wp_editor( $policies, 'room_policies', array(
+            'textarea_name' => 'room_policies',
+            'media_buttons' => true,
+            'textarea_rows' => 6,
+            'teeny'         => true,
+            'editor_css'    => '<style>.wp-editor-area{font-family:inherit;}</style>'
+        ) );
+        ?>
+        <p style="color:#94a3b8;font-size:11px;margin-top:6px;">Chính sách hủy, yêu cầu nhận phòng... có thể gõ nội dung tùy ý ở đây.</p>
+    </div>
+    <?php
+}
+
 function bookingroom_save_room_details( $post_id ) {
     if ( ! isset( $_POST['bookingroom_room_details_nonce'] ) ) return;
     if ( ! wp_verify_nonce( $_POST['bookingroom_room_details_nonce'], 'bookingroom_save_room_details' ) ) return;
@@ -818,6 +870,18 @@ function bookingroom_save_room_details( $post_id ) {
         if ( ! empty( $nums ) ) {
             update_post_meta( $post_id, '_room_quantity', count( $nums ) );
         }
+    }
+
+    // Tiện nghi & Chính sách
+    if ( isset( $_POST['room_amenities'] ) && is_array( $_POST['room_amenities'] ) ) {
+        $amenities = array_map( 'sanitize_text_field', $_POST['room_amenities'] );
+        update_post_meta( $post_id, '_room_amenities', $amenities );
+    } else {
+        delete_post_meta( $post_id, '_room_amenities' );
+    }
+
+    if ( isset( $_POST['room_policies'] ) ) {
+        update_post_meta( $post_id, '_room_policies', wp_kses_post( wp_unslash( $_POST['room_policies'] ) ) );
     }
 }
 add_action( 'save_post', 'bookingroom_save_room_details' );

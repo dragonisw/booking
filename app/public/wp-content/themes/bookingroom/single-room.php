@@ -52,18 +52,66 @@
                         <hr class="border-slate-100 mb-10">
 
                         <!-- Amenities -->
-                        <h3 class="text-xl font-bold mb-6">Tiện nghi phòng</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            <div class="flex items-center gap-3 text-slate-600">
-                                <div class="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8.111 16.404a5.5 5.5 0 117.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.314 6.364c5.857-5.858 15.355-5.858 21.213 0"></path></svg></div>
-                                <span class="text-sm font-medium">Wi-Fi miễn phí</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-slate-600">
-                                <div class="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-blue-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 2v2m0 16v2m10-10h-2M4 12H2m15.364-7.364l-1.414 1.414M7.05 16.95l-1.414 1.414M16.95 16.95l1.414 1.414M7.05 7.05L5.636 5.636"></path></svg></div>
-                                <span class="text-sm font-medium">Máy lạnh</span>
-                            </div>
-                            <!-- More amenities... -->
+                        <?php 
+                        $amenities = get_post_meta(get_the_ID(), '_room_amenities', true) ?: []; 
+                        $policies = get_post_meta(get_the_ID(), '_room_policies', true);
+                        ?>
+                        
+                        <?php if ( ! empty( $amenities ) ) : ?>
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                            Tiện nghi phòng
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+                            <?php 
+                            $amenity_icons = [
+                                'wifi' => '<path d="M8.111 16.404a5.5 5.5 0 117.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.314 6.364c5.857-5.858 15.355-5.858 21.213 0"></path>',
+                                'ac' => '<path d="M12 2v2m0 16v2m10-10h-2M4 12H2m15.364-7.364l-1.414 1.414M7.05 16.95l-1.414 1.414M16.95 16.95l1.414 1.414M7.05 7.05L5.636 5.636"></path>',
+                                'tv' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>',
+                                'bathtub' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>',
+                                'safe' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>',
+                                'minibar' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path>',
+                                'phone' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>',
+                                'balcony' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>',
+                                'laundry' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>',
+                            ];
+                            $common_amenities = [
+                                'wifi' => 'Wi-Fi tốc độ cao',
+                                'ac' => 'Điều hòa nhiệt độ',
+                                'tv' => 'Smart TV 4K',
+                                'bathtub' => 'Bồn tắm riêng',
+                                'safe' => 'Két an toàn',
+                                'minibar' => 'Minibar & Trà/Cà phê',
+                                'phone' => 'Điện thoại phòng',
+                                'balcony' => 'Ban công/Cửa sổ lớn',
+                                'laundry' => 'Dịch vụ giặt là'
+                            ];
+                            ?>
+                            <?php foreach ( $amenities as $amn ) : 
+                                if (!isset($common_amenities[$amn])) continue;
+                                $svg_path = isset($amenity_icons[$amn]) ? $amenity_icons[$amn] : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
+                            ?>
+                                <div class="flex items-center gap-3 text-slate-600">
+                                    <div class="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-blue-600">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><?php echo $svg_path; ?></svg>
+                                    </div>
+                                    <span class="text-sm font-medium"><?php echo esc_html($common_amenities[$amn]); ?></span>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
+                        <?php endif; ?>
+
+                        <!-- Policies -->
+                        <?php if ( ! empty( $policies ) ) : ?>
+                            <hr class="border-slate-100 my-10">
+                            <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Chính sách phòng
+                            </h3>
+                            <div class="prose prose-slate max-w-none text-sm text-slate-600 mb-10">
+                                <?php echo wp_kses_post( wpautop( $policies ) ); ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Room Selection -->
