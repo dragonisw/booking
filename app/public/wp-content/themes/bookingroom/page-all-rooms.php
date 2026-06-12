@@ -7,29 +7,25 @@ get_header(); ?>
 <!-- Thêm tạm Tailwind CDN để render các class mới mà không cần build lại style.css -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<main class="bg-slate-50 min-h-screen pb-24">
-    <!-- Hero Section -->
-    <section class="relative py-32 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 overflow-hidden">
-        <!-- Đã xóa thẻ img tải từ Unsplash để tránh lỗi broken image / nhiễu màn hình -->
-        <div class="absolute inset-0 bg-black/20"></div>
-        <div class="container mx-auto px-4 relative z-10 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg tracking-tight">
-                Khám Phá Các Hạng Phòng
-            </h1>
-            <p class="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto font-light leading-relaxed mb-8">
-                Trải nghiệm không gian nghỉ dưỡng đẳng cấp với tiện nghi hiện đại và thiết kế tinh tế.
-            </p>
-            <nav class="flex justify-center items-center text-slate-300 text-sm gap-3">
-                <a href="<?php echo home_url(); ?>" class="hover:text-white transition-colors">Trang chủ</a>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                <span class="text-white font-medium">Tất cả phòng</span>
-            </nav>
-        </div>
-    </section>
+<style>
+    /* Custom styles for the Poshanu-inspired layout */
+    .room-title-serif {
+        font-family: 'Playfair Display', Georgia, serif;
+    }
+</style>
 
-    <!-- Rooms Grid Section -->
-    <section class="container mx-auto px-4 -mt-16 relative z-20">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<main class="bg-white min-h-screen pb-24">
+    <!-- Header Spacing -->
+    <div class="pt-10 pb-16 text-center">
+        <h1 class="text-3xl md:text-5xl font-bold text-orange-600 uppercase tracking-widest room-title-serif mb-4">
+            PHÒNG NGHỈ
+        </h1>
+        <div class="w-16 h-0.5 bg-orange-500 mx-auto"></div>
+    </div>
+
+    <!-- Rooms List Section -->
+    <section class="container mx-auto px-4 max-w-6xl">
+        <div class="space-y-24 md:space-y-32">
             <?php
             $args = array(
                 'post_type' => 'room',
@@ -43,77 +39,86 @@ get_header(); ?>
             if ($rooms_query->have_posts()) :
                 while ($rooms_query->have_posts()) : $rooms_query->the_post();
                     $price = get_post_meta(get_the_ID(), '_price', true) ?: 1500000;
-                    $capacity = get_post_meta(get_the_ID(), '_capacity', true) ?: '2 Khách';
+                    $capacity = get_post_meta(get_the_ID(), '_capacity', true) ?: '2 người';
                     $size = get_post_meta(get_the_ID(), '_size', true) ?: '35m²';
                     $bed_type = get_post_meta(get_the_ID(), '_bed_type', true) ?: '1 Giường đôi';
+                    $view = get_post_meta(get_the_ID(), '_view', true) ?: 'Hướng vườn';
                     $terms = get_the_terms(get_the_ID(), 'room_category');
             ?>
-                <!-- Room Card -->
-                <article class="bg-white rounded-[2.5rem] overflow-hidden shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 group flex flex-col border border-slate-100/50 relative">
-                    
-                    <!-- Image Wrapper -->
-                    <div class="relative h-80 overflow-hidden">
-                        <a href="<?php the_permalink(); ?>" class="block h-full w-full">
+                <!-- Single Room Row -->
+                <article class="room-row">
+                    <!-- Main Image (Full width of container) -->
+                    <div class="relative w-full h-[300px] md:h-[450px] lg:h-[550px] overflow-hidden group">
+                        <a href="<?php the_permalink(); ?>" class="block w-full h-full">
                             <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('large', array('class' => 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out')); ?>
+                                <?php the_post_thumbnail('1536x1536', array('class' => 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-700')); ?>
                             <?php else : ?>
-                                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" alt="Room Default">
+                                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="<?php the_title(); ?>">
                             <?php endif; ?>
                         </a>
-                        
-                        <!-- Top Badges -->
-                        <div class="absolute top-6 left-6 flex flex-wrap gap-2">
-                            <?php if ($terms) : foreach ($terms as $term) : ?>
-                                <span class="bg-white/90 backdrop-blur-md text-slate-800 text-[11px] uppercase font-bold px-4 py-2 rounded-2xl shadow-lg">
-                                    <?php echo esc_html($term->name); ?>
-                                </span>
-                            <?php endforeach; endif; ?>
-                        </div>
                     </div>
+                    
+                    <!-- Content Overlapping Area -->
+                    <div class="flex flex-col lg:flex-row relative z-10 -mt-10 md:-mt-20 lg:-mt-24 mx-4 md:mx-8 lg:mx-0">
+                        
+                        <!-- Left Overlapping White Box -->
+                        <div class="lg:w-5/12 bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-6 md:p-8 lg:p-10 lg:ml-12 border-t-[3px] border-orange-500 text-center flex flex-col items-center">
+                            
+                            <!-- Thumbnails (Fake slider look) -->
+                            <div class="flex gap-2 justify-center mb-6">
+                                <?php 
+                                // Show featured image as thumbnail 1, and placeholder as 2
+                                $thumb_url = get_the_post_thumbnail_url(get_the_ID(), 'thumbnail') ?: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=150&q=80';
+                                ?>
+                                <img src="<?php echo esc_url($thumb_url); ?>" class="w-20 h-14 md:w-24 md:h-16 object-cover border border-slate-200" alt="thumb">
+                                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=150&q=80" class="w-20 h-14 md:w-24 md:h-16 object-cover border border-slate-200" alt="thumb">
+                            </div>
 
-                    <!-- Content -->
-                    <div class="p-8 flex flex-col flex-grow">
-                        <div class="flex justify-between items-start mb-4">
-                            <h2 class="text-2xl font-bold text-slate-900 leading-tight">
-                                <a href="<?php the_permalink(); ?>" class="hover:text-blue-600 transition-colors">
+                            <!-- Title -->
+                            <h2 class="text-2xl md:text-3xl font-bold text-[#e65c00] uppercase mb-4 tracking-wider room-title-serif">
+                                <a href="<?php the_permalink(); ?>" class="hover:text-orange-400 transition-colors">
                                     <?php the_title(); ?>
                                 </a>
                             </h2>
-                        </div>
-                        
-                        <p class="text-slate-500 text-sm mb-6 line-clamp-2 leading-relaxed">
-                            <?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?>
-                        </p>
 
-                        <!-- Amenities -->
-                        <div class="grid grid-cols-2 gap-y-4 gap-x-2 mb-8 mt-auto">
-                            <div class="flex items-center text-slate-600 text-sm">
-                                <svg class="w-5 h-5 mr-2.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                <?php echo esc_html($capacity); ?>
-                            </div>
-                            <div class="flex items-center text-slate-600 text-sm">
-                                <svg class="w-5 h-5 mr-2.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
-                                <?php echo esc_html($size); ?>
-                            </div>
-                            <div class="flex items-center text-slate-600 text-sm col-span-2">
-                                <svg class="w-5 h-5 mr-2.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                                <?php echo esc_html($bed_type); ?>
+                            <!-- Meta Info Icons -->
+                            <div class="flex flex-wrap justify-center items-center gap-3 md:gap-5 text-xs md:text-sm text-slate-500">
+                                <span class="flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                    <?php echo esc_html($view); ?>
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                                    <?php echo esc_html($size); ?>
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                    <?php echo esc_html($capacity); ?>
+                                </span>
                             </div>
                         </div>
 
-                        <!-- Footer -->
-                        <div class="flex items-center justify-between pt-6 border-t border-slate-100">
-                            <div>
-                                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider block mb-1">Giá từ</span>
-                                <div class="flex items-baseline">
-                                    <span class="text-2xl font-extrabold text-blue-600"><?php echo number_format($price); ?>đ</span>
-                                    <span class="text-slate-500 text-sm ml-1">/ đêm</span>
-                                </div>
+                        <!-- Right Description and Buttons -->
+                        <div class="lg:w-7/12 pt-8 lg:pt-32 lg:pl-16 pb-4">
+                            <p class="text-slate-600 leading-relaxed text-sm md:text-base mb-8">
+                                <?php 
+                                $excerpt = get_the_excerpt();
+                                echo !empty($excerpt) ? wp_trim_words($excerpt, 40, '...') : 'Mỗi phòng đều được thiết kế hiện đại và tiện nghi sang trọng, được bố trí thành không gian riêng biệt là phòng ngủ, phòng khách, và phòng tắm. Phòng có cửa sổ rộng, không gian thoáng đãng mang lại trải nghiệm nghỉ dưỡng hoàn hảo.';
+                                ?>
+                            </p>
+                            
+                            <!-- Action Buttons -->
+                            <div class="flex flex-wrap items-center gap-4">
+                                <a href="<?php the_permalink(); ?>" class="px-6 py-2.5 border border-slate-300 text-slate-500 hover:border-[#e65c00] hover:text-[#e65c00] transition-colors uppercase text-xs font-bold tracking-widest bg-white">
+                                    XEM CHI TIẾT <span class="ml-1">></span>
+                                </a>
+                                <a href="<?php the_permalink(); ?>?booking=1" class="px-8 py-2.5 border border-[#e65c00] text-[#e65c00] hover:bg-[#e65c00] hover:text-white transition-colors uppercase text-xs font-bold tracking-widest flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    BOOKING
+                                </a>
                             </div>
-                            <a href="<?php the_permalink(); ?>" class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 group-hover:scale-110">
-                                <svg class="w-5 h-5 transform -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                            </a>
                         </div>
+
                     </div>
                 </article>
             <?php 
@@ -121,12 +126,8 @@ get_header(); ?>
                 wp_reset_postdata();
             else :
             ?>
-                <div class="col-span-full bg-white rounded-3xl p-12 text-center shadow-sm">
-                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-100 mb-6">
-                        <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Chưa có phòng nào</h3>
-                    <p class="text-slate-500 max-w-md mx-auto">Hiện tại chúng tôi đang cập nhật danh sách phòng. Vui lòng quay lại sau nhé!</p>
+                <div class="text-center p-12 text-slate-500">
+                    Chưa có phòng nào được cập nhật.
                 </div>
             <?php endif; ?>
         </div>
