@@ -1297,7 +1297,7 @@
                     <h2 class="text-3xl font-bold text-slate-900 mb-2">Phòng nghỉ sang trọng</h2>
                     <p class="text-slate-500">Trải nghiệm không gian sống đẳng cấp với tiện nghi hiện đại</p>
                 </div>
-                <a href="<?php echo esc_url(home_url('/rooms')) ?>"
+                <a href="<?php echo esc_url(home_url('/all-rooms')) ?>"
                     class="text-blue-600 font-bold hover:underline flex items-center">
                     Xem tất cả phòng <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
