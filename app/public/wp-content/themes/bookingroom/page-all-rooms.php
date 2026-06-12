@@ -6,11 +6,9 @@ get_header(); ?>
 
 <main class="bg-slate-50 min-h-screen pb-24">
     <!-- Hero Section -->
-    <section class="relative py-32 bg-slate-900 overflow-hidden">
-        <div class="absolute inset-0 opacity-60">
-            <img src="https://images.unsplash.com/photo-1542314831-c6a4d2706864?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-slate-900/60 to-slate-900"></div>
+    <section class="relative py-32 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 overflow-hidden">
+        <!-- Đã xóa thẻ img tải từ Unsplash để tránh lỗi broken image / nhiễu màn hình -->
+        <div class="absolute inset-0 bg-black/20"></div>
         <div class="container mx-auto px-4 relative z-10 text-center">
             <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg tracking-tight">
                 Khám Phá Các Hạng Phòng
