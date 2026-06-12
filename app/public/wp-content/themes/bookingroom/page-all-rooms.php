@@ -4,6 +4,9 @@ Template Name: Tất cả phòng (Giao diện mới)
 */
 get_header(); ?>
 
+<!-- Thêm tạm Tailwind CDN để render các class mới mà không cần build lại style.css -->
+<script src="https://cdn.tailwindcss.com"></script>
+
 <main class="bg-slate-50 min-h-screen pb-24">
     <!-- Hero Section -->
     <section class="relative py-32 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 overflow-hidden">
