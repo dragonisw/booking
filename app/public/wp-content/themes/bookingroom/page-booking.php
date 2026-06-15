@@ -180,18 +180,21 @@
 
             <!-- Trust Badges -->
             <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="flex flex-col items-center text-center opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ba/Tripadvisor_Logo.svg/1200px-Tripadvisor_Logo.svg.png" alt="Tripadvisor" class="h-8 md:h-12 object-contain mb-4">
+                <?php
+                $partners = [
+                    'tripadvisor' => ['name' => 'Tripadvisor', 'default' => 'https://logo.clearbit.com/tripadvisor.com'],
+                    'booking'     => ['name' => 'Booking.com', 'default' => 'https://logo.clearbit.com/booking.com'],
+                    'agoda'       => ['name' => 'Agoda',       'default' => 'https://logo.clearbit.com/agoda.com'],
+                    'expedia'     => ['name' => 'Expedia',     'default' => 'https://logo.clearbit.com/expedia.com'],
+                ];
+                foreach ($partners as $id => $data) :
+                    $custom_logo = get_theme_mod("partner_logo_{$id}", '');
+                    $img_src = $custom_logo ? $custom_logo : $data['default'];
+                ?>
+                <div class="flex flex-col items-center justify-center text-center opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
+                    <img src="<?php echo esc_url($img_src); ?>" alt="<?php echo esc_attr($data['name']); ?>" class="h-8 md:h-12 object-contain">
                 </div>
-                <div class="flex flex-col items-center text-center opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/2560px-Booking.com_logo.svg.png" alt="Booking.com" class="h-8 md:h-12 object-contain mb-4">
-                </div>
-                <div class="flex flex-col items-center text-center opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Agoda_logo.svg/1200px-Agoda_logo.svg.png" alt="Agoda" class="h-8 md:h-12 object-contain mb-4">
-                </div>
-                <div class="flex flex-col items-center text-center opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Expedia_Logo_2023.svg/1200px-Expedia_Logo_2023.svg.png" alt="Expedia" class="h-8 md:h-12 object-contain mb-4">
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

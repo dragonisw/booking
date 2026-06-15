@@ -1778,11 +1778,39 @@ function bookingroom_single_room_template($template) {
             $info_template = locate_template(array('single-thongtin.php'));
             if (!empty($info_template)) {
                 return $info_template;
-            }
         }
     }
     return $template;
 }
 add_filter('template_include', 'bookingroom_single_room_template', 20);
 
+/**
+ * Partner Logos Customizer (Agoda, Booking, etc.)
+ */
+function bookingroom_partner_logos_customizer( $wp_customize ) {
+    $wp_customize->add_section( 'bookingroom_partners', array(
+        'title'    => __( 'Đối tác đặt phòng (Agoda, Booking...)', 'bookingroom' ),
+        'priority' => 130,
+    ) );
 
+    $partners = array(
+        'tripadvisor' => 'Tripadvisor',
+        'booking'     => 'Booking.com',
+        'agoda'       => 'Agoda',
+        'expedia'     => 'Expedia',
+    );
+
+    foreach ( $partners as $id => $label ) {
+        $wp_customize->add_setting( "partner_logo_{$id}", array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ) );
+
+        $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "partner_logo_{$id}", array(
+            'label'    => sprintf( __( 'Logo %s', 'bookingroom' ), $label ),
+            'section'  => 'bookingroom_partners',
+            'settings' => "partner_logo_{$id}",
+        ) ) );
+    }
+}
+add_action( 'customize_register', 'bookingroom_partner_logos_customizer' );
