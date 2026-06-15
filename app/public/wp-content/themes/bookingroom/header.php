@@ -219,6 +219,36 @@
             background: #ffffff;
         }
 
+        /* ── Language Switcher ── */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #475569;
+        }
+        .lang-switcher a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.2s;
+        }
+        .lang-switcher a:hover,
+        .lang-switcher a.active {
+            color: #2563eb;
+        }
+        .lang-switcher .sep {
+            color: #cbd5e1;
+            font-weight: 400;
+        }
+        .is-home-style #masthead:not(.is-scrolled) .lang-switcher {
+            color: rgba(255,255,255,0.9);
+        }
+        .is-home-style #masthead:not(.is-scrolled) .lang-switcher a:hover,
+        .is-home-style #masthead:not(.is-scrolled) .lang-switcher a.active {
+            color: #ffffff;
+        }
+
         /* ── Header Actions (phải) ── */
         .header-actions {
             flex: 1;
@@ -523,6 +553,13 @@
 
             <!-- Actions -->
             <div class="header-actions">
+                <!-- Language Switcher -->
+                <div class="lang-switcher">
+                    <a href="?lang=vi" class="active">VNI</a>
+                    <span class="sep">|</span>
+                    <a href="?lang=en">ENG</a>
+                </div>
+
                 <!-- Nút đặt phòng (desktop) -->
                 <a href="<?php echo esc_url(home_url('/booking')); ?>" class="btn-booking">
                     Đặt phòng ngay
