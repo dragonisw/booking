@@ -554,11 +554,13 @@
             <!-- Actions -->
             <div class="header-actions">
                 <!-- Language Switcher -->
-                <div class="lang-switcher">
-                    <a href="?lang=vi" class="active">VNI</a>
-                    <span class="sep">|</span>
-                    <a href="?lang=en">ENG</a>
-                </div>
+               <div class="lang-switcher">
+    <?php if ( function_exists( 'pll_the_languages' ) ) : ?>
+        <ul style="display:flex; list-style:none; margin:0; padding:0; gap:6px;">
+            <?php pll_the_languages( array( 'display_names_as' => 'slug', 'hide_current' => 0 ) ); ?>
+        </ul>
+    <?php endif; ?>
+</div>
 
                 <!-- Nút đặt phòng (desktop) -->
                 <a href="<?php echo esc_url(home_url('/booking')); ?>" class="btn-booking">
