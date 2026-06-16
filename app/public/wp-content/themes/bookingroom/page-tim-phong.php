@@ -40,13 +40,13 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                     <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
-                    Kiểm tra phòng trống theo ngày
+                    <?php echo t('Kiểm tra phòng trống theo ngày', 'Check room availability by date'); ?>
                 </div>
                 <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
-                    Tìm phòng nghỉ<br>
-                    <span class="text-orange-400">hoàn hảo cho bạn</span>
+                    <?php echo t('Tìm phòng nghỉ<br>', 'Find your perfect<br>'); ?>
+                    <span class="text-orange-400"><?php echo t('hoàn hảo cho bạn', 'stay'); ?></span>
                 </h1>
-                <p class="text-slate-300 text-base">Nhập ngày và số khách để xem ngay danh sách phòng còn trống cùng giá chi tiết.</p>
+                <p class="text-slate-300 text-base"><?php echo t('Nhập ngày và số khách để xem ngay danh sách phòng còn trống cùng giá chi tiết.', 'Enter dates and guests to instantly see available rooms and detailed prices.'); ?></p>
             </div>
         </div>
     </section>
@@ -61,12 +61,12 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
                     <span class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-black">🔍</span>
-                    Kiểm tra phòng trống
+                    <?php echo t('Kiểm tra phòng trống', 'Check Availability'); ?>
                 </h2>
                 <?php if ($pre_ci && $pre_co) : ?>
                 <span class="text-sm text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg font-medium">
                     <?php echo date('d/m/Y', strtotime($pre_ci)); ?> → <?php echo date('d/m/Y', strtotime($pre_co)); ?>
-                    · <?php echo $pre_nights; ?> đêm
+                    · <?php echo $pre_nights; ?> <?php echo t('đêm', 'nights'); ?>
                 </span>
                 <?php endif; ?>
             </div>
@@ -77,7 +77,7 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                 <!-- Check-in -->
                 <div class="xl:col-span-1">
                     <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-2">
-                        📅 Ngày nhận phòng
+                        📅 <?php echo t('Ngày nhận phòng', 'Check-in Date'); ?>
                     </label>
                     <input type="date" id="br_check_in" name="check_in" required
                         value="<?php echo esc_attr($pre_ci); ?>"
@@ -88,7 +88,7 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                 <!-- Check-out -->
                 <div class="xl:col-span-1">
                     <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-2">
-                        📅 Ngày trả phòng
+                        📅 <?php echo t('Ngày trả phòng', 'Check-out Date'); ?>
                     </label>
                     <input type="date" id="br_check_out" name="check_out" required
                         value="<?php echo esc_attr($pre_co); ?>"
@@ -98,11 +98,11 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                 <!-- Guests -->
                 <div class="xl:col-span-1">
                     <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-2">
-                        👥 Số khách
+                        👥 <?php echo t('Số khách', 'Guests'); ?>
                     </label>
                     <div class="avail-input bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-2 flex items-center gap-3 focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-200 transition-all">
                         <div class="flex flex-col items-center gap-0 flex-1">
-                            <span class="text-[9px] font-bold text-slate-400 uppercase">Người lớn</span>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase"><?php echo t('Người lớn', 'Adults'); ?></span>
                             <div class="flex items-center gap-2">
                                 <button type="button" class="br-counter-btn w-6 h-6 text-base font-black text-slate-500 hover:text-orange-500 transition-colors leading-none flex items-center justify-center" data-target="br_adults" data-action="minus">−</button>
                                 <input type="number" id="br_adults" name="adults" value="<?php echo $pre_adults; ?>" min="1" max="10" readonly class="w-8 text-center font-black text-slate-800 text-base border-none bg-transparent outline-none" style="-moz-appearance:textfield">
@@ -111,7 +111,7 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                         </div>
                         <div class="w-px h-8 bg-slate-200"></div>
                         <div class="flex flex-col items-center gap-0 flex-1">
-                            <span class="text-[9px] font-bold text-slate-400 uppercase">Trẻ em</span>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase"><?php echo t('Trẻ em', 'Children'); ?></span>
                             <div class="flex items-center gap-2">
                                 <button type="button" class="br-counter-btn w-6 h-6 text-base font-black text-slate-500 hover:text-orange-500 transition-colors leading-none flex items-center justify-center" data-target="br_children" data-action="minus">−</button>
                                 <input type="number" id="br_children" name="children" value="<?php echo $pre_children; ?>" min="0" max="10" readonly class="w-8 text-center font-black text-slate-800 text-base border-none bg-transparent outline-none" style="-moz-appearance:textfield">
@@ -124,11 +124,11 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                 <!-- Room Type -->
                 <div class="xl:col-span-1">
                     <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-2">
-                        🛏️ Loại phòng
+                        🛏️ <?php echo t('Loại phòng', 'Room Type'); ?>
                     </label>
                     <select id="br_room_type" name="room_type"
                         class="avail-input w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-3.5 text-slate-800 font-semibold text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all cursor-pointer appearance-none">
-                        <option value="">Tất cả loại phòng</option>
+                        <option value=""><?php echo t('Tất cả loại phòng', 'All room types'); ?></option>
                         <?php
                         if ( ! is_wp_error( $room_types ) && ! empty( $room_types ) ) {
                             foreach ( $room_types as $rt ) {
@@ -148,19 +148,19 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                             <circle cx="11" cy="11" r="8" stroke-width="2.5"/>
                             <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2.5"/>
                         </svg>
-                        <span>Tìm phòng trống</span>
+                        <span><?php echo t('Tìm phòng trống', 'Find available rooms'); ?></span>
                     </button>
                 </div>
             </form>
 
             <!-- Quick date presets -->
             <div class="flex flex-wrap gap-2 mt-5 pt-5 border-t border-slate-100">
-                <span class="text-xs text-slate-400 font-medium self-center">Chọn nhanh:</span>
-                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-nights="1">Tối nay (1 đêm)</button>
-                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-nights="2">2 đêm</button>
-                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-nights="3">3 đêm</button>
-                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-nights="7">1 tuần</button>
-                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-type="weekend">Cuối tuần này</button>
+                <span class="text-xs text-slate-400 font-medium self-center"><?php echo t('Chọn nhanh:', 'Quick select:'); ?></span>
+                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-nights="1"><?php echo t('Tối nay (1 đêm)', 'Tonight (1 night)'); ?></button>
+                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-nights="2"><?php echo t('2 đêm', '2 nights'); ?></button>
+                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-nights="3"><?php echo t('3 đêm', '3 nights'); ?></button>
+                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-nights="7"><?php echo t('1 tuần', '1 week'); ?></button>
+                <button type="button" class="preset-btn text-xs px-3 py-1.5 bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-slate-600 hover:text-orange-600 rounded-lg font-semibold transition-all" data-type="weekend"><?php echo t('Cuối tuần này', 'This weekend'); ?></button>
             </div>
         </div>
 
@@ -168,7 +168,7 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
         <div id="br-avail-loading" class="hidden">
             <div class="flex flex-col items-center py-20 gap-4 text-slate-400">
                 <div class="w-12 h-12 border-4 border-slate-200 border-t-orange-500 rounded-full animate-spin"></div>
-                <p class="font-semibold">Đang tìm phòng trống...</p>
+                <p class="font-semibold"><?php echo t('Đang tìm phòng trống...', 'Finding available rooms...'); ?></p>
             </div>
         </div>
 
@@ -181,16 +181,16 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                 $ci_ts = strtotime( $pre_ci );
                 $co_ts = strtotime( $pre_co );
                 $available_count = count( array_filter( $rooms, fn($r) => $r['free_units'] > 0 ) );
-                $days = [ 'Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7' ];
+                $days = [ t('Chủ nhật', 'Sunday'), t('Thứ 2', 'Monday'), t('Thứ 3', 'Tuesday'), t('Thứ 4', 'Wednesday'), t('Thứ 5', 'Thursday'), t('Thứ 6', 'Friday'), t('Thứ 7', 'Saturday') ];
             ?>
                 <!-- Summary bar -->
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-to-r from-[#d35400] to-[#b84300] text-white rounded-2xl p-5 mb-6 shadow-lg">
                     <div>
                         <div class="text-2xl font-black">
-                            <?php echo $available_count > 0 ? "{$available_count} loại phòng còn trống" : 'Không có phòng trống'; ?>
+                            <?php echo $available_count > 0 ? sprintf(t('%d loại phòng còn trống', '%d room types available'), $available_count) : t('Không có phòng trống', 'No rooms available'); ?>
                         </div>
                         <div class="text-orange-200 text-sm mt-1">
-                            <?php echo $pre_nights; ?> đêm · <?php echo $pre_adults; ?> người lớn<?php echo $pre_children ? " + {$pre_children} trẻ em" : ''; ?>
+                            <?php echo $pre_nights; ?> <?php echo t('đêm', 'nights'); ?> · <?php echo $pre_adults; ?> <?php echo t('người lớn', 'adults'); ?><?php echo $pre_children ? " + {$pre_children} " . t('trẻ em', 'children') : ''; ?>
                         </div>
                     </div>
                     <div class="flex gap-3 flex-wrap">
@@ -208,8 +208,8 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                         <svg class="w-16 h-16 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Không có phòng trống</h3>
-                        <p class="text-slate-500">Vui lòng thử chọn ngày khác hoặc loại phòng khác.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2"><?php echo t('Không có phòng trống', 'No rooms available'); ?></h3>
+                        <p class="text-slate-500"><?php echo t('Vui lòng thử chọn ngày khác hoặc loại phòng khác.', 'Please try choosing different dates or room types.'); ?></p>
                     </div>
                 <?php else : ?>
 
@@ -242,18 +242,18 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                             <div class="absolute top-3 right-3">
                                 <?php if ($is_avail) : ?>
                                 <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
-                                    ✓ <?php echo $room['free_units']; ?> phòng trống
+                                    ✓ <?php echo $room['free_units']; ?> <?php echo t('phòng trống', 'rooms available'); ?>
                                 </span>
                                 <?php else : ?>
                                 <span class="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full">
-                                    ✗ Hết phòng
+                                    ✗ <?php echo t('Hết phòng', 'Fully booked'); ?>
                                 </span>
                                 <?php endif; ?>
                             </div>
 
                             <div class="absolute bottom-3 right-3 bg-white/95 backdrop-blur rounded-xl px-3 py-2 shadow">
                                 <div class="text-[#d35400] font-black text-sm"><?php echo number_format($room['price']); ?>đ</div>
-                                <div class="text-slate-400 text-[9px] font-medium">/ đêm</div>
+                                <div class="text-slate-400 text-[9px] font-medium">/ <?php echo t('đêm', 'night'); ?></div>
                             </div>
                         </div>
 
@@ -272,14 +272,14 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                             <div class="flex items-center gap-5 text-sm text-slate-500">
                                 <span class="flex items-center gap-1.5">
                                     <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                                    <?php echo $room['capacity']; ?> khách
+                                    <?php echo $room['capacity']; ?> <?php echo t('khách', 'guests'); ?>
                                 </span>
                                 <span class="flex items-center gap-1.5">
                                     <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                                    <?php echo $pre_nights; ?> đêm
+                                    <?php echo $pre_nights; ?> <?php echo t('đêm', 'nights'); ?>
                                 </span>
                                 <span class="flex items-center gap-1.5 text-<?php echo $is_avail ? 'blue' : 'red'; ?>-600 font-semibold">
-                                    <?php echo $is_avail ? $room['free_units'] . '/' . $room['total_units'] . ' phòng' : 'Hết phòng'; ?>
+                                    <?php echo $is_avail ? $room['free_units'] . '/' . $room['total_units'] . ' ' . t('phòng', 'rooms') : t('Hết phòng', 'Fully booked'); ?>
                                 </span>
                             </div>
 
@@ -288,20 +288,20 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                             <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 text-sm space-y-2">
                                 <?php if ($pb['weekday_nights'] > 0 && $pb['weekend_nights'] > 0) : ?>
                                 <div class="flex justify-between text-slate-500">
-                                    <span>Trong tuần (<?php echo $pb['weekday_nights']; ?> đêm)</span>
+                                    <span><?php echo t('Trong tuần', 'Weekdays'); ?> (<?php echo $pb['weekday_nights']; ?> <?php echo t('đêm', 'nights'); ?>)</span>
                                     <span class="font-semibold"><?php echo number_format($pb['weekday_price']); ?>đ</span>
                                 </div>
                                 <div class="flex justify-between text-slate-500">
-                                    <span>Cuối tuần (<?php echo $pb['weekend_nights']; ?> đêm)</span>
+                                    <span><?php echo t('Cuối tuần', 'Weekend'); ?> (<?php echo $pb['weekend_nights']; ?> <?php echo t('đêm', 'nights'); ?>)</span>
                                     <span class="font-semibold"><?php echo number_format($pb['weekend_price']); ?>đ</span>
                                 </div>
                                 <?php else : ?>
                                 <div class="flex justify-between text-slate-500">
-                                    <span><?php echo $pb['total_nights']; ?> đêm × <?php echo number_format($room['price']); ?>đ</span>
+                                    <span><?php echo $pb['total_nights']; ?> <?php echo t('đêm', 'nights'); ?> × <?php echo number_format($room['price']); ?>đ</span>
                                 </div>
                                 <?php endif; ?>
                                 <div class="flex justify-between items-center pt-2 border-t border-slate-200">
-                                    <span class="font-bold text-slate-900">Tổng cộng</span>
+                                    <span class="font-bold text-slate-900"><?php echo t('Tổng cộng', 'Total'); ?></span>
                                     <span class="text-xl font-black text-[#d35400]"><?php echo number_format($pb['subtotal']); ?>đ</span>
                                 </div>
                             </div>
@@ -312,12 +312,12 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                                 <?php if ($is_avail) : ?>
                                 <a href="<?php echo esc_url($book_url); ?>"
                                    class="block w-full text-center bg-[#d35400] hover:bg-[#b84300] text-white font-bold py-3.5 rounded-2xl transition-all shadow-md hover:shadow-lg hover:shadow-orange-200/50">
-                                    Đặt phòng ngay →
+                                    <?php echo t('Đặt phòng ngay →', 'Book Now →'); ?>
                                 </a>
                                 <?php else : ?>
                                 <a href="<?php echo get_permalink($room['id']); ?>"
                                    class="block w-full text-center bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl">
-                                    Xem chi tiết phòng
+                                    <?php echo t('Xem chi tiết phòng', 'View room details'); ?>
                                 </a>
                                 <?php endif; ?>
                             </div>
@@ -336,8 +336,8 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Chọn ngày để tìm phòng</h3>
-                    <p class="text-slate-500 max-w-sm mx-auto">Nhập ngày nhận phòng và trả phòng phía trên để xem danh sách phòng còn trống.</p>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2"><?php echo t('Chọn ngày để tìm phòng', 'Select dates to find rooms'); ?></h3>
+                    <p class="text-slate-500 max-w-sm mx-auto"><?php echo t('Nhập ngày nhận phòng và trả phòng phía trên để xem danh sách phòng còn trống.', 'Enter check-in and check-out dates above to see available rooms.'); ?></p>
                 </div>
             <?php endif; ?>
         </div>
@@ -454,13 +454,13 @@ document.addEventListener('DOMContentLoaded', function () {
         var nonceVal  = document.querySelector('[name="br_avail_nonce"]')?.value || nonce;
 
         if (!checkIn || !checkOut) {
-            alert('Vui lòng chọn ngày nhận phòng và trả phòng.');
+            alert('<?php echo t('Vui lòng chọn ngày nhận phòng và trả phòng.', 'Please select check-in and check-out dates.'); ?>');
             return;
         }
 
         // UI
         submitBtn.disabled = true;
-        submitBtn.querySelector('span').textContent = 'Đang tìm...';
+        submitBtn.querySelector('span').textContent = '<?php echo t('Đang tìm...', 'Searching...'); ?>';
         if (loading)  loading.classList.remove('hidden');
         if (results)  results.innerHTML = '';
 
@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(function(res) {
                 if (loading) loading.classList.add('hidden');
                 if (!res.success) {
-                    results.innerHTML = buildError(res.data?.message || 'Có lỗi xảy ra.');
+                    results.innerHTML = buildError(res.data?.message || '<?php echo t('Có lỗi xảy ra.', 'An error occurred.'); ?>');
                     return;
                 }
                 results.innerHTML = buildResults(res.data, checkIn, checkOut, adults, children);
@@ -497,27 +497,27 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(function() {
                 if (loading) loading.classList.add('hidden');
-                results.innerHTML = buildError('Kết nối thất bại. Vui lòng thử lại.');
+                results.innerHTML = buildError('<?php echo t('Kết nối thất bại. Vui lòng thử lại.', 'Connection failed. Please try again.'); ?>');
             })
             .finally(function() {
                 submitBtn.disabled = false;
-                submitBtn.querySelector('span').textContent = 'Tìm phòng trống';
+                submitBtn.querySelector('span').textContent = '<?php echo t('Tìm phòng trống', 'Find available rooms'); ?>';
             });
     });
 
     // ── Build Results HTML (client-side) ──────────────────────────────
     function fmt(n) { return new Intl.NumberFormat('vi-VN').format(n); }
     function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-    var DAYS = ['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
+    var DAYS = ['<?php echo t("Chủ nhật", "Sunday"); ?>','<?php echo t("Thứ 2", "Monday"); ?>','<?php echo t("Thứ 3", "Tuesday"); ?>','<?php echo t("Thứ 4", "Wednesday"); ?>','<?php echo t("Thứ 5", "Thursday"); ?>','<?php echo t("Thứ 6", "Friday"); ?>','<?php echo t("Thứ 7", "Saturday"); ?>'];
 
     function buildResults(d, ci, co, adults, children) {
         var html = '';
         var availMsg = d.available_count > 0
-            ? '<span class="text-2xl font-black">' + d.available_count + ' loại phòng còn trống</span>'
-            : '<span class="text-2xl font-black">Không có phòng trống</span>';
+            ? '<span class="text-2xl font-black">' + d.available_count + ' <?php echo t("loại phòng còn trống", "room types available"); ?></span>'
+            : '<span class="text-2xl font-black"><?php echo t("Không có phòng trống", "No rooms available"); ?></span>';
 
         html += '<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-to-r from-[#d35400] to-[#b84300] text-white rounded-2xl p-5 mb-6 shadow-lg">';
-        html += '<div>' + availMsg + '<div class="text-orange-200 text-sm mt-1">' + d.nights + ' đêm · ' + adults + ' NL' + (children ? ' + ' + children + ' TE' : '') + '</div></div>';
+        html += '<div>' + availMsg + '<div class="text-orange-200 text-sm mt-1">' + d.nights + ' <?php echo t("đêm", "nights"); ?> · ' + adults + ' <?php echo t("người lớn", "adults"); ?>' + (children ? ' + ' + children + ' <?php echo t("trẻ em", "children"); ?>' : '') + '</div></div>';
         html += '<div class="flex gap-3 flex-wrap">';
         html += '<div class="bg-white/15 backdrop-blur px-4 py-2 rounded-xl text-sm font-semibold">📅 ' + d.ci_dow + ', ' + d.ci_display + '</div>';
         html += '<div class="bg-white/15 backdrop-blur px-4 py-2 rounded-xl text-sm font-semibold">📅 ' + d.co_dow + ', ' + d.co_display + '</div>';
@@ -544,32 +544,32 @@ document.addEventListener('DOMContentLoaded', function () {
         if (pb && pb.total_nights > 0) {
             priceBreakdownHtml += '<div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 text-sm space-y-2">';
             if (pb.weekday_nights > 0 && pb.weekend_nights > 0) {
-                priceBreakdownHtml += '<div class="flex justify-between text-slate-500"><span>Trong tuần (' + pb.weekday_nights + ' đêm)</span><span class="font-semibold">' + fmt(pb.weekday_price) + 'đ</span></div>';
-                priceBreakdownHtml += '<div class="flex justify-between text-slate-500"><span>Cuối tuần (' + pb.weekend_nights + ' đêm)</span><span class="font-semibold">' + fmt(pb.weekend_price) + 'đ</span></div>';
+                priceBreakdownHtml += '<div class="flex justify-between text-slate-500"><span><?php echo t("Trong tuần", "Weekdays"); ?> (' + pb.weekday_nights + ' <?php echo t("đêm", "nights"); ?>)</span><span class="font-semibold">' + fmt(pb.weekday_price) + 'đ</span></div>';
+                priceBreakdownHtml += '<div class="flex justify-between text-slate-500"><span><?php echo t("Cuối tuần", "Weekend"); ?> (' + pb.weekend_nights + ' <?php echo t("đêm", "nights"); ?>)</span><span class="font-semibold">' + fmt(pb.weekend_price) + 'đ</span></div>';
             } else {
-                priceBreakdownHtml += '<div class="flex justify-between text-slate-500"><span>' + pb.total_nights + ' đêm × ' + fmt(room.price) + 'đ</span></div>';
+                priceBreakdownHtml += '<div class="flex justify-between text-slate-500"><span>' + pb.total_nights + ' <?php echo t("đêm", "nights"); ?> × ' + fmt(room.price) + 'đ</span></div>';
             }
-            priceBreakdownHtml += '<div class="flex justify-between items-center pt-2 border-t border-slate-200"><span class="font-bold text-slate-900">Tổng cộng</span><span class="text-xl font-black text-[#d35400]">' + fmt(pb.subtotal) + 'đ</span></div>';
+            priceBreakdownHtml += '<div class="flex justify-between items-center pt-2 border-t border-slate-200"><span class="font-bold text-slate-900"><?php echo t("Tổng cộng", "Total"); ?></span><span class="text-xl font-black text-[#d35400]">' + fmt(pb.subtotal) + 'đ</span></div>';
             priceBreakdownHtml += '</div>';
         }
 
         var ctaHtml = isAvail
-            ? '<a href="' + esc(bookUrl) + '" class="block w-full text-center bg-[#d35400] hover:bg-[#b84300] text-white font-bold py-3.5 rounded-2xl transition-all shadow-md hover:shadow-lg">Đặt phòng ngay →</a>'
-            : '<a href="' + esc(room.permalink) + '" class="block w-full text-center bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl">Xem chi tiết phòng</a>';
+            ? '<a href="' + esc(bookUrl) + '" class="block w-full text-center bg-[#d35400] hover:bg-[#b84300] text-white font-bold py-3.5 rounded-2xl transition-all shadow-md hover:shadow-lg"><?php echo t("Đặt phòng ngay →", "Book Now →"); ?></a>'
+            : '<a href="' + esc(room.permalink) + '" class="block w-full text-center bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl"><?php echo t("Xem chi tiết phòng", "View room details"); ?></a>';
 
         return '<div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl border-2 ' + (isAvail ? 'border-slate-100 hover:border-orange-300' : 'border-slate-100 opacity-70') + ' transition-all duration-300 group flex flex-col">'
             + '<div class="relative h-52 overflow-hidden bg-slate-200">'
             + '<img src="' + esc(room.thumbnail) + '" alt="' + esc(room.title) + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">'
             + (room.type_name ? '<div class="absolute top-3 left-3 bg-[#d35400] text-white text-[10px] font-black uppercase px-3 py-1 rounded-full">' + esc(room.type_name) + '</div>' : '')
-            + '<div class="absolute top-3 right-3"><span class="' + (isAvail ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600') + ' text-xs font-bold px-3 py-1 rounded-full">' + (isAvail ? '✓ ' + room.free_units + ' phòng trống' : '✗ Hết phòng') + '</span></div>'
-            + '<div class="absolute bottom-3 right-3 bg-white/95 backdrop-blur rounded-xl px-3 py-2 shadow"><div class="text-[#d35400] font-black text-sm">' + fmt(room.price) + 'đ</div><div class="text-slate-400 text-[9px] font-medium">/ đêm</div></div>'
+            + '<div class="absolute top-3 right-3"><span class="' + (isAvail ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600') + ' text-xs font-bold px-3 py-1 rounded-full">' + (isAvail ? '✓ ' + room.free_units + ' <?php echo t("phòng trống", "rooms available"); ?>' : '✗ <?php echo t("Hết phòng", "Fully booked"); ?>') + '</span></div>'
+            + '<div class="absolute bottom-3 right-3 bg-white/95 backdrop-blur rounded-xl px-3 py-2 shadow"><div class="text-[#d35400] font-black text-sm">' + fmt(room.price) + 'đ</div><div class="text-slate-400 text-[9px] font-medium">/ <?php echo t("đêm", "night"); ?></div></div>'
             + '</div>'
             + '<div class="p-6 flex flex-col flex-1 gap-4">'
             + '<div><h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-[#d35400] transition-colors">' + esc(room.title) + '</h3>'
             + (room.excerpt ? '<p class="text-slate-500 text-sm leading-relaxed">' + esc(room.excerpt) + '</p>' : '') + '</div>'
             + '<div class="flex items-center gap-5 text-sm text-slate-500">'
-            + '<span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>' + room.capacity + ' khách</span>'
-            + '<span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' + d.nights + ' đêm</span>'
+            + '<span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>' + room.capacity + ' <?php echo t("khách", "guests"); ?></span>'
+            + '<span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' + d.nights + ' <?php echo t("đêm", "nights"); ?></span>'
             + '</div>'
             + priceBreakdownHtml
             + '<div class="mt-auto pt-2">' + ctaHtml + '</div>'
@@ -579,8 +579,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function buildNoResults() {
         return '<div class="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-200">'
             + '<div class="w-16 h-16 text-slate-300 mx-auto mb-4"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>'
-            + '<h3 class="text-xl font-bold text-slate-900 mb-2">Không có phòng trống</h3>'
-            + '<p class="text-slate-500">Vui lòng thử chọn ngày khác hoặc loại phòng khác.</p></div>';
+            + '<h3 class="text-xl font-bold text-slate-900 mb-2"><?php echo t("Không có phòng trống", "No rooms available"); ?></h3>'
+            + '<p class="text-slate-500"><?php echo t("Vui lòng thử chọn ngày khác hoặc loại phòng khác.", "Please try choosing different dates or room types."); ?></p></div>';
     }
 
     function buildError(msg) {

@@ -330,8 +330,8 @@ add_shortcode( 'room_availability_form', 'bookingroom_availability_shortcode' );
 
 function bookingroom_availability_shortcode( $atts ) {
     $atts = shortcode_atts( [
-        'title'     => 'Tìm phòng trống',
-        'subtitle'  => 'Kiểm tra phòng trống theo ngày',
+        'title'     => t('Tìm phòng trống', 'Find available rooms'),
+        'subtitle'  => t('Kiểm tra phòng trống theo ngày', 'Check availability by date'),
         'style'     => 'card', // 'card' | 'inline' | 'hero'
     ], $atts );
 
@@ -344,8 +344,8 @@ function bookingroom_availability_shortcode( $atts ) {
  * Render form tìm phòng trống.
  */
 function bookingroom_render_availability_form( $args = [] ) {
-    $title    = $args['title']    ?? 'Tìm phòng trống';
-    $subtitle = $args['subtitle'] ?? 'Kiểm tra phòng trống theo ngày';
+    $title    = $args['title']    ?? t('Tìm phòng trống', 'Find available rooms');
+    $subtitle = $args['subtitle'] ?? t('Kiểm tra phòng trống theo ngày', 'Check availability by date');
     $style    = $args['style']    ?? 'card';
 
     $use_hb   = bookingroom_is_wphb_active();
@@ -368,7 +368,7 @@ function bookingroom_render_availability_form( $args = [] ) {
                 <div class="br-avail-field">
                     <label for="br_check_in">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        Nhận phòng
+                        <?php echo t('Nhận phòng', 'Check-in'); ?>
                     </label>
                     <input type="date" id="br_check_in" name="check_in" required
                         min="<?php echo date('Y-m-d'); ?>"
@@ -378,7 +378,7 @@ function bookingroom_render_availability_form( $args = [] ) {
                 <div class="br-avail-field">
                     <label for="br_check_out">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        Trả phòng
+                        <?php echo t('Trả phòng', 'Check-out'); ?>
                     </label>
                     <input type="date" id="br_check_out" name="check_out" required
                         placeholder="dd/mm/yyyy">
@@ -387,11 +387,11 @@ function bookingroom_render_availability_form( $args = [] ) {
                 <div class="br-avail-field br-avail-guests">
                     <label>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        Khách
+                        <?php echo t('Khách', 'Guests'); ?>
                     </label>
                     <div class="br-guest-pickers">
                         <div class="br-guest-picker">
-                            <span>Người lớn</span>
+                            <span><?php echo t('Người lớn', 'Adults'); ?></span>
                             <div class="br-counter">
                                 <button type="button" class="br-counter-btn" data-target="br_adults" data-action="minus">−</button>
                                 <input type="number" id="br_adults" name="adults" value="2" min="1" max="10" readonly>
@@ -399,7 +399,7 @@ function bookingroom_render_availability_form( $args = [] ) {
                             </div>
                         </div>
                         <div class="br-guest-picker">
-                            <span>Trẻ em</span>
+                            <span><?php echo t('Trẻ em', 'Children'); ?></span>
                             <div class="br-counter">
                                 <button type="button" class="br-counter-btn" data-target="br_children" data-action="minus">−</button>
                                 <input type="number" id="br_children" name="children" value="0" min="0" max="10" readonly>
@@ -413,10 +413,10 @@ function bookingroom_render_availability_form( $args = [] ) {
                 <div class="br-avail-field">
                     <label for="br_room_type">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                        Loại phòng
+                        <?php echo t('Loại phòng', 'Room type'); ?>
                     </label>
                     <select id="br_room_type" name="room_type">
-                        <option value="">Tất cả loại phòng</option>
+                        <option value=""><?php echo t('Tất cả loại phòng', 'All room types'); ?></option>
                         <?php foreach ( $room_types as $rt ) : ?>
                             <option value="<?php echo esc_attr($rt->slug); ?>"><?php echo esc_html($rt->name); ?></option>
                         <?php endforeach; ?>
@@ -427,7 +427,7 @@ function bookingroom_render_availability_form( $args = [] ) {
                 <div class="br-avail-submit">
                     <button type="submit" id="br-avail-submit-btn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <span>Kiểm tra phòng trống</span>
+                        <span><?php echo t('Kiểm tra phòng trống', 'Check availability'); ?></span>
                     </button>
                 </div>
             </div>
@@ -436,7 +436,7 @@ function bookingroom_render_availability_form( $args = [] ) {
         <!-- Loading -->
         <div id="br-avail-loading" class="br-avail-loading hidden">
             <div class="br-avail-spinner"></div>
-            <p>Đang tìm phòng trống...</p>
+            <p><?php echo t('Đang tìm phòng trống...', 'Searching for available rooms...'); ?></p>
         </div>
 
         <!-- Results -->
@@ -734,12 +734,12 @@ function bookingroom_availability_js() {
         var nonce     = \$form.find('[name="br_avail_nonce"]').val() || (booking_ajax ? booking_ajax.nonce : '');
 
         if (!checkIn || !checkOut) {
-            alert('Vui lòng chọn ngày nhận phòng và trả phòng.');
+            alert('<?php echo esc_js(t('Vui lòng chọn ngày nhận phòng và trả phòng.', 'Please select check-in and check-out dates.')); ?>');
             return;
         }
 
         // UI: show loading
-        \$btn.prop('disabled', true).find('span').text('Đang tìm...');
+        \$btn.prop('disabled', true).find('span').text('<?php echo esc_js(t('Đang tìm...', 'Searching...')); ?>');
         \$loading.removeClass('hidden');
         \$results.addClass('hidden').html('');
 
@@ -757,7 +757,7 @@ function bookingroom_availability_js() {
             },
             success: function(res) {
                 if (!res.success) {
-                    \$results.removeClass('hidden').html(brErrorHtml(res.data.message || 'Có lỗi xảy ra.'));
+                    \$results.removeClass('hidden').html(brErrorHtml(res.data.message || '<?php echo esc_js(t('Có lỗi xảy ra.', 'An error occurred.')); ?>'));
                     return;
                 }
                 var d = res.data;
@@ -768,10 +768,10 @@ function bookingroom_availability_js() {
                 \$('html, body').animate({ scrollTop: offset }, 400);
             },
             error: function() {
-                \$results.removeClass('hidden').html(brErrorHtml('Kết nối thất bại. Vui lòng thử lại.'));
+                \$results.removeClass('hidden').html(brErrorHtml('<?php echo esc_js(t('Kết nối thất bại. Vui lòng thử lại.', 'Connection failed. Please try again.')); ?>'));
             },
             complete: function() {
-                \$btn.prop('disabled', false).find('span').text('Kiểm tra phòng trống');
+                \$btn.prop('disabled', false).find('span').text('<?php echo esc_js(t('Kiểm tra phòng trống', 'Check availability')); ?>');
                 \$loading.addClass('hidden');
             }
         });
@@ -787,10 +787,10 @@ function bookingroom_availability_js() {
 
         // Summary bar
         var msg = d.available_count > 0
-            ? '<strong>' + d.available_count + ' loại phòng còn trống</strong>'
-            : '<strong>Không có phòng trống</strong>';
+            ? '<strong>' + d.available_count + ' <?php echo esc_js(t('loại phòng còn trống', 'available room types')); ?></strong>'
+            : '<strong><?php echo esc_js(t('Không có phòng trống', 'No available rooms')); ?></strong>';
         html += '<div class="br-result-summary">';
-        html += '<div>' + msg + '<br><span>' + d.nights + ' đêm · ' + adults + ' NL' + (children ? ' + ' + children + ' TE' : '') + '</span></div>';
+        html += '<div>' + msg + '<br><span>' + d.nights + ' <?php echo esc_js(t('đêm', 'nights')); ?> &middot; ' + adults + ' <?php echo esc_js(t('NL', 'Adults')); ?>' + (children ? ' + ' + children + ' <?php echo esc_js(t('TE', 'Children')); ?>' : '') + '</span></div>';
         html += '<div class="br-result-dates">';
         html += '<div class="br-date-tag">📅 ' + d.ci_dow + ', ' + d.ci_display + '</div>';
         html += '<div class="br-date-tag">📅 ' + d.co_dow + ', ' + d.co_display + '</div>';
@@ -813,7 +813,7 @@ function bookingroom_availability_js() {
         var isSoldOut  = room.free_units <= 0;
         var cardClass  = 'br-room-card' + (isSoldOut ? ' br-sold-out' : '');
         var availClass = isSoldOut ? 'sold' : 'avail';
-        var availText  = isSoldOut ? 'Hết phòng' : room.free_units + ' phòng trống';
+        var availText  = isSoldOut ? '<?php echo esc_js(t('Hết phòng', 'Sold out')); ?>' : room.free_units + ' <?php echo esc_js(t('phòng trống', 'available rooms')); ?>';
 
         // Book URL
         var bookUrl = room.permalink + '?check_in=' + ci + '&check_out=' + co
@@ -825,32 +825,32 @@ function bookingroom_availability_js() {
         if (pb && pb.total_nights > 0) {
             priceHtml += '<div class="br-price-breakdown">';
             if (pb.weekday_nights > 0 && pb.weekend_nights > 0) {
-                priceHtml += '<div class="br-price-row"><span>Trong tuần (' + pb.weekday_nights + ' đêm)</span><span>' + fmt(pb.weekday_price) + 'đ/đêm</span></div>';
-                priceHtml += '<div class="br-price-row"><span>Cuối tuần (' + pb.weekend_nights + ' đêm)</span><span>' + fmt(pb.weekend_price) + 'đ/đêm</span></div>';
+                priceHtml += '<div class="br-price-row"><span><?php echo esc_js(t('Trong tuần', 'Weekday')); ?> (' + pb.weekday_nights + ' <?php echo esc_js(t('đêm', 'nights')); ?>)</span><span>' + fmt(pb.weekday_price) + 'đ/<?php echo esc_js(t('đêm', 'night')); ?></span></div>';
+                priceHtml += '<div class="br-price-row"><span><?php echo esc_js(t('Cuối tuần', 'Weekend')); ?> (' + pb.weekend_nights + ' <?php echo esc_js(t('đêm', 'nights')); ?>)</span><span>' + fmt(pb.weekend_price) + 'đ/<?php echo esc_js(t('đêm', 'night')); ?></span></div>';
             } else {
-                priceHtml += '<div class="br-price-row"><span>' + pb.total_nights + ' đêm × ' + fmt(room.price) + 'đ</span></div>';
+                priceHtml += '<div class="br-price-row"><span>' + pb.total_nights + ' <?php echo esc_js(t('đêm', 'nights')); ?> &times; ' + fmt(room.price) + 'đ</span></div>';
             }
-            priceHtml += '<div class="br-price-row br-total"><span>Tổng cộng</span><span class="br-price-value">' + fmt(pb.subtotal) + 'đ</span></div>';
+            priceHtml += '<div class="br-price-row br-total"><span><?php echo esc_js(t('Tổng cộng', 'Total')); ?></span><span class="br-price-value">' + fmt(pb.subtotal) + 'đ</span></div>';
             priceHtml += '</div>';
         }
 
         var bookBtn = isSoldOut
-            ? '<span class="br-book-btn disabled">Hết phòng</span>'
-            : '<a href="' + escHtml(bookUrl) + '" class="br-book-btn">Đặt phòng ngay →</a>';
+            ? '<span class="br-book-btn disabled"><?php echo esc_js(t('Hết phòng', 'Sold out')); ?></span>'
+            : '<a href="' + escHtml(bookUrl) + '" class="br-book-btn"><?php echo esc_js(t('Đặt phòng ngay', 'Book now')); ?> &rarr;</a>';
 
         return '<div class="' + cardClass + '">'
             + '<div class="br-room-card__img">'
             + '<img src="' + escHtml(room.thumbnail) + '" alt="' + escHtml(room.title) + '" loading="lazy">'
             + (room.type_name ? '<div class="br-room-badge">' + escHtml(room.type_name) + '</div>' : '')
             + '<div class="br-avail-badge ' + availClass + '">' + availText + '</div>'
-            + '<div class="br-price-float"><div class="br-price-main">' + fmt(room.price) + 'đ</div><div class="br-price-unit">/ đêm</div></div>'
+            + '<div class="br-price-float"><div class="br-price-main">' + fmt(room.price) + 'đ</div><div class="br-price-unit">/ <?php echo esc_js(t('đêm', 'night')); ?></div></div>'
             + '</div>'
             + '<div class="br-room-card__body">'
             + '<h3 class="br-room-card__title">' + escHtml(room.title) + '</h3>'
             + (room.excerpt ? '<p class="br-room-card__excerpt">' + escHtml(room.excerpt) + '</p>' : '')
             + '<div class="br-room-card__meta">'
-            + '<div class="br-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>' + room.capacity + ' khách</div>'
-            + '<div class="br-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' + d.nights + ' đêm</div>'
+            + '<div class="br-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>' + room.capacity + ' <?php echo esc_js(t('khách', 'guests')); ?></div>'
+            + '<div class="br-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' + d.nights + ' <?php echo esc_js(t('đêm', 'nights')); ?></div>'
             + '</div>'
             + priceHtml
             + '</div>'
@@ -861,8 +861,8 @@ function bookingroom_availability_js() {
     function brNoResults() {
         return '<div class="br-no-results">'
             + '<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
-            + '<strong>Không có phòng trống</strong>'
-            + '<p>Thử thay đổi ngày hoặc loại phòng khác.</p>'
+            + '<strong><?php echo esc_js(t('Không có phòng trống', 'No available rooms')); ?></strong>'
+            + '<p><?php echo esc_js(t('Thử thay đổi ngày hoặc loại phòng khác.', 'Try changing dates or another room type.')); ?></p>'
             + '</div>';
     }
 

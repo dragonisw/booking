@@ -5,8 +5,8 @@
     <div class="container mx-auto px-4">
         <!-- Page Header -->
         <div class="max-w-4xl mx-auto text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Đặt phòng ngay</h1>
-            <p class="text-lg text-slate-600">Lựa chọn kỳ nghỉ hoàn hảo của bạn tại Sonata Resort & Spa. Chúng tôi cam kết mang lại trải nghiệm tốt nhất.</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6"><?php echo t('Đặt phòng ngay', 'Book Now'); ?></h1>
+            <p class="text-lg text-slate-600"><?php echo t('Lựa chọn kỳ nghỉ hoàn hảo của bạn tại Sonata Resort & Spa. Chúng tôi cam kết mang lại trải nghiệm tốt nhất.', 'Choose your perfect vacation at Sonata Resort & Spa. We commit to bringing you the best experience.'); ?></p>
         </div>
 
         <!-- Booking Interface -->
@@ -16,7 +16,7 @@
                     
                     <!-- Left: Info & Benefits -->
                     <div class="lg:col-span-1 bg-blue-600 p-8 md:p-12 text-white">
-                        <h2 class="text-2xl font-bold mb-8">Tại sao đặt trực tiếp?</h2>
+                        <h2 class="text-2xl font-bold mb-8"><?php echo t('Tại sao đặt trực tiếp?', 'Why book directly?'); ?></h2>
                         <ul class="space-y-6">
                             <li class="flex items-start gap-4">
                                 <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
@@ -25,8 +25,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg mb-1">Giá tốt nhất</h4>
-                                    <p class="text-blue-100 text-sm">Cam kết giá thấp nhất so với các trang OTA.</p>
+                                    <h4 class="font-bold text-lg mb-1"><?php echo t('Giá tốt nhất', 'Best price'); ?></h4>
+                                    <p class="text-blue-100 text-sm"><?php echo t('Cam kết giá thấp nhất so với các trang OTA.', 'Lowest price guaranteed compared to OTAs.'); ?></p>
                                 </div>
                             </li>
                             <li class="flex items-start gap-4">
@@ -36,8 +36,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg mb-1">Xác nhận tức thì</h4>
-                                    <p class="text-blue-100 text-sm">Nhận ngay thông tin đặt phòng qua Email & SMS.</p>
+                                    <h4 class="font-bold text-lg mb-1"><?php echo t('Xác nhận tức thì', 'Instant confirmation'); ?></h4>
+                                    <p class="text-blue-100 text-sm"><?php echo t('Nhận ngay thông tin đặt phòng qua Email & SMS.', 'Receive booking info instantly via Email & SMS.'); ?></p>
                                 </div>
                             </li>
                             <li class="flex items-start gap-4">
@@ -47,14 +47,14 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg mb-1">Thanh toán an toàn</h4>
-                                    <p class="text-blue-100 text-sm">Hỗ trợ nhiều hình thức chuyển khoản & thẻ nội địa.</p>
+                                    <h4 class="font-bold text-lg mb-1"><?php echo t('Thanh toán an toàn', 'Secure payment'); ?></h4>
+                                    <p class="text-blue-100 text-sm"><?php echo t('Hỗ trợ nhiều hình thức chuyển khoản & thẻ nội địa.', 'Support various payment methods including bank transfer & domestic cards.'); ?></p>
                                 </div>
                             </li>
                         </ul>
 
                         <div class="mt-16 pt-8 border-t border-white/20">
-                            <p class="text-sm text-blue-100 mb-2">Hỗ trợ đặt phòng 24/7:</p>
+                            <p class="text-sm text-blue-100 mb-2"><?php echo t('Hỗ trợ đặt phòng 24/7:', '24/7 Booking Support:'); ?></p>
                             <p class="text-2xl font-bold">0123 456 789</p>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <!-- Check-in -->
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider">Ngày nhận phòng</label>
+                                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider"><?php echo t('Ngày nhận phòng', 'Check-in Date'); ?></label>
                                     <div class="relative">
                                         <input type="date" id="booking-check-in" name="check_in" required
                                             class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg">
@@ -107,7 +107,7 @@
 
                                 <!-- Check-out -->
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider">Ngày trả phòng</label>
+                                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider"><?php echo t('Ngày trả phòng', 'Check-out Date'); ?></label>
                                     <div class="relative">
                                         <input type="date" id="booking-check-out" name="check_out" required
                                             class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg">
@@ -116,34 +116,33 @@
 
                                 <!-- Adults -->
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider">Người lớn</label>
+                                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider"><?php echo t('Người lớn', 'Adults'); ?></label>
                                     <select name="adults" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg appearance-none cursor-pointer">
-                                        <option value="1">1 Người lớn</option>
-                                        <option value="2" selected>2 Người lớn</option>
-                                        <option value="3">3 Người lớn</option>
-                                        <option value="4">4 Người lớn</option>
-                                        <option value="5">5+ Người lớn</option>
+                                        <option value="1">1 <?php echo t('Người lớn', 'Adult'); ?></option>
+                                        <option value="2" selected>2 <?php echo t('Người lớn', 'Adults'); ?></option>
+                                        <option value="3">3 <?php echo t('Người lớn', 'Adults'); ?></option>
+                                        <option value="4">4 <?php echo t('Người lớn', 'Adults'); ?></option>
+                                        <option value="5">5+ <?php echo t('Người lớn', 'Adults'); ?></option>
                                     </select>
                                 </div>
 
                                 <!-- Children -->
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider">Trẻ em</label>
+                                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider"><?php echo t('Trẻ em', 'Children'); ?></label>
                                     <select name="children" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg appearance-none cursor-pointer">
-                                        <option value="0">0 Trẻ em</option>
-                                        <option value="1">1 Trẻ em</option>
-                                        <option value="2">2 Trẻ em</option>
-                                        <option value="3">3+ Trẻ em</option>
+                                        <option value="0">0 <?php echo t('Trẻ em', 'Children'); ?></option>
+                                        <option value="1">1 <?php echo t('Trẻ em', 'Child'); ?></option>
+                                        <option value="2">2 <?php echo t('Trẻ em', 'Children'); ?></option>
+                                        <option value="3">3+ <?php echo t('Trẻ em', 'Children'); ?></option>
                                     </select>
                                 </div>
                             </div>
 
-                            <!-- Chọn loại phòng -->
                             <div class="space-y-2">
-                                <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider">Chọn loại phòng (Không bắt buộc)</label>
+                                <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider"><?php echo t('Chọn loại phòng (Không bắt buộc)', 'Select Room Type (Optional)'); ?></label>
                                 <select name="<?php echo $wphb_active ? 'hb_room_type' : 's'; ?>"
                                     class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg appearance-none cursor-pointer">
-                                    <option value="">Tất cả các loại phòng</option>
+                                    <option value=""><?php echo t('Tất cả các loại phòng', 'All Room Types'); ?></option>
                                     <?php
                                     if ($wphb_active) {
                                         // Taxonomy của WP Hotel Booking
@@ -169,7 +168,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
-                                    Kiểm tra phòng trống
+                                    <?php echo t('Kiểm tra phòng trống', 'Check Availability'); ?>
                                 </button>
                             </div>
                         </form>

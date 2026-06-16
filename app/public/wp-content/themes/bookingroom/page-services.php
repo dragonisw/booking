@@ -10,9 +10,9 @@
             </svg>
         </div>
         <div class="container mx-auto px-4 relative z-10 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Dịch vụ Đặc quyền</h1>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6"><?php echo t('Dịch vụ Đặc quyền', 'Exclusive Services'); ?></h1>
             <p class="text-blue-100 max-w-2xl mx-auto text-lg leading-relaxed">
-                Chúng tôi không chỉ cung cấp chỗ ở, chúng tôi mang đến những trải nghiệm đáng nhớ với tiêu chuẩn dịch vụ cao nhất.
+                <?php echo t('Chúng tôi không chỉ cung cấp chỗ ở, chúng tôi mang đến những trải nghiệm đáng nhớ với tiêu chuẩn dịch vụ cao nhất.', 'We do not just provide accommodation, we bring memorable experiences with the highest service standards.'); ?>
             </p>
         </div>
     </section>
@@ -25,11 +25,11 @@
                 <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-500">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M8 7h8m0 0V5a2 2 0 012-2h4a2 2 0 012 2v2"></path></svg>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-4">Đưa đón Sân bay</h3>
-                <p class="text-slate-500 leading-relaxed mb-6">Dịch vụ xe sang trọng đón tiễn tại sân bay giúp bạn tiết kiệm thời gian và di chuyển thoải mái.</p>
+                <h3 class="text-2xl font-bold text-slate-900 mb-4"><?php echo t('Đưa đón Sân bay', 'Airport Transfer'); ?></h3>
+                <p class="text-slate-500 leading-relaxed mb-6"><?php echo t('Dịch vụ xe sang trọng đón tiễn tại sân bay giúp bạn tiết kiệm thời gian và di chuyển thoải mái.', 'Luxury car service for airport transfers helps you save time and travel comfortably.'); ?></p>
                 <ul class="space-y-3 text-sm text-slate-600">
-                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Tài xế chuyên nghiệp</li>
-                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Xe đời mới 2024</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <?php echo t('Tài xế chuyên nghiệp', 'Professional driver'); ?></li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <?php echo t('Xe đời mới 2024', 'New 2024 car'); ?></li>
                 </ul>
             </div>
 
@@ -38,11 +38,11 @@
                 <div class="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-500">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-4">Tour Tham quan</h3>
-                <p class="text-slate-500 leading-relaxed mb-6">Khám phá văn hóa bản địa với các chương trình tour được thiết kế riêng theo yêu cầu của bạn.</p>
+                <h3 class="text-2xl font-bold text-slate-900 mb-4"><?php echo t('Tour Tham quan', 'Sightseeing Tour'); ?></h3>
+                <p class="text-slate-500 leading-relaxed mb-6"><?php echo t('Khám phá văn hóa bản địa với các chương trình tour được thiết kế riêng theo yêu cầu của bạn.', 'Discover local culture with custom-designed tour programs tailored to your requests.'); ?></p>
                 <ul class="space-y-3 text-sm text-slate-600">
-                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Hướng dẫn viên đa ngôn ngữ</li>
-                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Lịch trình linh hoạt</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <?php echo t('Hướng dẫn viên đa ngôn ngữ', 'Multilingual guide'); ?></li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <?php echo t('Lịch trình linh hoạt', 'Flexible schedule'); ?></li>
                 </ul>
             </div>
 
@@ -51,11 +51,11 @@
                 <div class="w-16 h-16 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-500">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-4">Hỗ trợ Thủ tục</h3>
-                <p class="text-slate-500 leading-relaxed mb-6">Chúng tôi hỗ trợ bạn tối đa trong việc gia hạn visa, đặt vé máy bay và các thủ tục hành chính khác.</p>
+                <h3 class="text-2xl font-bold text-slate-900 mb-4"><?php echo t('Hỗ trợ Thủ tục', 'Procedure Assistance'); ?></h3>
+                <p class="text-slate-500 leading-relaxed mb-6"><?php echo t('Chúng tôi hỗ trợ bạn tối đa trong việc gia hạn visa, đặt vé máy bay và các thủ tục hành chính khác.', 'We provide maximum support in visa extension, flight booking, and other administrative procedures.'); ?></p>
                 <ul class="space-y-3 text-sm text-slate-600">
-                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Xử lý nhanh trong 24h</li>
-                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Tư vấn miễn phí</li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <?php echo t('Xử lý nhanh trong 24h', 'Fast processing in 24h'); ?></li>
+                    <li class="flex items-center"><svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <?php echo t('Tư vấn miễn phí', 'Free consultation'); ?></li>
                 </ul>
             </div>
         </div>
@@ -69,23 +69,23 @@
                     <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800" class="rounded-3xl shadow-2xl" alt="Concierge Service">
                 </div>
                 <div class="w-full md:w-1/2">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-6">Chu đáo từng chi tiết</h2>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-6"><?php echo t('Chu đáo từng chi tiết', 'Attentive to every detail'); ?></h2>
                     <p class="text-slate-600 mb-8 leading-relaxed">
-                        Từ giây phút bạn đặt chân đến, đội ngũ quản gia và lễ tân của chúng tôi luôn sẵn sàng phục vụ với nụ cười và sự tận tâm nhất. Chúng tôi hiểu rằng mỗi kỳ nghỉ là một hành trình cảm xúc.
+                        <?php echo t('Từ giây phút bạn đặt chân đến, đội ngũ quản gia và lễ tân của chúng tôi luôn sẵn sàng phục vụ với nụ cười và sự tận tâm nhất. Chúng tôi hiểu rằng mỗi kỳ nghỉ là một hành trình cảm xúc.', 'From the moment you arrive, our butler and receptionist team is always ready to serve with a smile and the utmost dedication. We understand that every vacation is an emotional journey.'); ?>
                     </p>
                     <div class="space-y-6">
                         <div class="flex gap-4">
                             <div class="flex-shrink-0 w-12 h-12 bg-white rounded-xl shadow-md flex items-center justify-center text-blue-600 font-bold">01</div>
                             <div>
-                                <h4 class="font-bold text-slate-900">Tiêu chuẩn quốc tế</h4>
-                                <p class="text-slate-500 text-sm">Toàn bộ nhân viên đều được đào tạo theo chuẩn phục vụ 5 sao.</p>
+                                <h4 class="font-bold text-slate-900"><?php echo t('Tiêu chuẩn quốc tế', 'International standards'); ?></h4>
+                                <p class="text-slate-500 text-sm"><?php echo t('Toàn bộ nhân viên đều được đào tạo theo chuẩn phục vụ 5 sao.', 'All staff are trained to 5-star service standards.'); ?></p>
                             </div>
                         </div>
                         <div class="flex gap-4">
                             <div class="flex-shrink-0 w-12 h-12 bg-white rounded-xl shadow-md flex items-center justify-center text-blue-600 font-bold">02</div>
                             <div>
-                                <h4 class="font-bold text-slate-900">Hỗ trợ 24/7</h4>
-                                <p class="text-slate-500 text-sm">Mọi thắc mắc của bạn sẽ được giải quyết chỉ trong vài phút.</p>
+                                <h4 class="font-bold text-slate-900"><?php echo t('Hỗ trợ 24/7', '24/7 Support'); ?></h4>
+                                <p class="text-slate-500 text-sm"><?php echo t('Mọi thắc mắc của bạn sẽ được giải quyết chỉ trong vài phút.', 'All your questions will be resolved in just a few minutes.'); ?></p>
                             </div>
                         </div>
                     </div>

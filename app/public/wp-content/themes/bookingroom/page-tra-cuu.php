@@ -325,8 +325,8 @@
 
     <!-- Hero -->
     <div class="tracuu-hero">
-        <h1>Tra cứu Thông tin Đặt phòng</h1>
-        <p>Vui lòng nhập số điện thoại và mã đặt phòng để kiểm tra trạng thái.</p>
+        <h1><?php echo t('Tra cứu Thông tin Đặt phòng', 'Booking Lookup'); ?></h1>
+        <p><?php echo t('Vui lòng nhập số điện thoại và mã đặt phòng để kiểm tra trạng thái.', 'Please enter your phone number and booking ID to check the status.'); ?></p>
     </div>
 
     <!-- Card -->
@@ -336,17 +336,17 @@
             <!-- Loading overlay -->
             <div id="tracuu-loading">
                 <div class="tracuu-spinner"></div>
-                <p>Đang kiểm tra...</p>
+                <p><?php echo t('Đang kiểm tra...', 'Checking...'); ?></p>
             </div>
 
             <!-- Form -->
             <form id="tracuu-form" novalidate>
 
                 <div class="tracuu-form-group">
-                    <label for="lookup_phone">Số điện thoại</label>
+                    <label for="lookup_phone"><?php echo t('Số điện thoại', 'Phone Number'); ?></label>
                     <div class="tracuu-input-wrap">
                         <input type="tel" id="lookup_phone" name="phone" required
-                            placeholder="Nhập số điện thoại khi đặt phòng"
+                            placeholder="<?php echo esc_attr(t('Nhập số điện thoại khi đặt phòng', 'Enter phone number used for booking')); ?>"
                             autocomplete="tel">
                         <svg class="tracuu-input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
@@ -355,10 +355,10 @@
                 </div>
 
                 <div class="tracuu-form-group">
-                    <label for="lookup_id">Mã đặt phòng</label>
+                    <label for="lookup_id"><?php echo t('Mã đặt phòng', 'Booking ID'); ?></label>
                     <div class="tracuu-input-wrap">
                         <input type="text" id="lookup_id" name="booking_id" required
-                            placeholder="Ví dụ: 1234"
+                            placeholder="<?php echo esc_attr(t('Ví dụ: 1234', 'Example: 1234')); ?>"
                             inputmode="numeric">
                         <svg class="tracuu-input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 11h.01M7 15h.01M11 7h.01M11 11h.01M11 15h.01M15 7h.01M15 11h.01M15 15h.01M19 7h.01M19 11h.01M19 15h.01M7 19h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -370,7 +370,7 @@
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
-                    Tra cứu ngay
+                    <?php echo t('Tra cứu ngay', 'Lookup Now'); ?>
                 </button>
             </form>
 
@@ -403,11 +403,11 @@
 
     function getStatusBadge(status) {
         var map = {
-            'confirmed':  ['confirmed',  'Đã xác nhận'],
-            'publish':    ['confirmed',  'Đã xác nhận'],
-            'pending':    ['pending',    'Chờ xử lý'],
-            'checked_in': ['checked-in', 'Nhận phòng'],
-            'cancelled':  ['cancelled',  'Đã huỷ'],
+            'confirmed':  ['confirmed',  '<?php echo t('Đã xác nhận', 'Confirmed'); ?>'],
+            'publish':    ['confirmed',  '<?php echo t('Đã xác nhận', 'Confirmed'); ?>'],
+            'pending':    ['pending',    '<?php echo t('Chờ xử lý', 'Pending'); ?>'],
+            'checked_in': ['checked-in', '<?php echo t('Nhận phòng', 'Checked in'); ?>'],
+            'cancelled':  ['cancelled',  '<?php echo t('Đã huỷ', 'Cancelled'); ?>'],
         };
         var info = map[status] || ['default', status];
         return '<span class="status-badge ' + info[0] + '">' + info[1] + '</span>';
@@ -416,18 +416,18 @@
     function renderSuccess(data) {
         results.innerHTML =
             '<div class="result-header">' +
-                '<h3>Kết quả tìm thấy</h3>' +
+                '<h3><?php echo t('Kết quả tìm thấy', 'Search Results'); ?></h3>' +
                 getStatusBadge(data.status) +
             '</div>' +
             '<div class="result-grid">' +
-                '<div class="result-grid-item"><p>Khách hàng</p><p>' + (data.customer_name || '—') + '</p></div>' +
-                '<div class="result-grid-item"><p>Phòng</p><p>' + (data.room_title || '—') + '</p></div>' +
-                '<div class="result-grid-item"><p>Ngày nhận phòng</p><p>' + (data.check_in || '—') + '</p></div>' +
-                '<div class="result-grid-item"><p>Ngày trả phòng</p><p>' + (data.check_out || '—') + '</p></div>' +
+                '<div class="result-grid-item"><p><?php echo t('Khách hàng', 'Customer'); ?></p><p>' + (data.customer_name || '—') + '</p></div>' +
+                '<div class="result-grid-item"><p><?php echo t('Phòng', 'Room'); ?></p><p>' + (data.room_title || '—') + '</p></div>' +
+                '<div class="result-grid-item"><p><?php echo t('Ngày nhận phòng', 'Check-in'); ?></p><p>' + (data.check_in || '—') + '</p></div>' +
+                '<div class="result-grid-item"><p><?php echo t('Ngày trả phòng', 'Check-out'); ?></p><p>' + (data.check_out || '—') + '</p></div>' +
             '</div>' +
             '<div class="result-notice">' +
                 '<svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>' +
-                '<span>Có thắc mắc? Liên hệ hotline <strong>1900 6067</strong> để được hỗ trợ.</span>' +
+                '<span><?php echo t('Có thắc mắc? Liên hệ hotline <strong>1900 6067</strong> để được hỗ trợ.', 'Any questions? Contact hotline <strong>1900 6067</strong> for support.'); ?></span>' +
             '</div>';
         results.classList.add('is-visible');
     }
@@ -440,8 +440,8 @@
                         '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>' +
                     '</svg>' +
                 '</div>' +
-                '<h3>Không tìm thấy thông tin</h3>' +
-                '<p>' + (message || 'Vui lòng kiểm tra lại số điện thoại và mã đặt phòng.') + '</p>' +
+                '<h3><?php echo t('Không tìm thấy thông tin', 'Information not found'); ?></h3>' +
+                '<p>' + (message || '<?php echo t('Vui lòng kiểm tra lại số điện thoại và mã đặt phòng.', 'Please double check the phone number and booking ID.'); ?>') + '</p>' +
             '</div>';
         results.classList.add('is-visible');
     }
@@ -449,7 +449,7 @@
     /* ── AJAX lookup ── */
     function performLookup(phone, bookingId) {
         if (!phone || !bookingId) {
-            renderError('Vui lòng điền đầy đủ số điện thoại và mã đặt phòng.');
+            renderError('<?php echo t('Vui lòng điền đầy đủ số điện thoại và mã đặt phòng.', 'Please fill in both phone number and booking ID.'); ?>');
             results.classList.add('is-visible');
             return;
         }
@@ -477,7 +477,7 @@
             })
             .catch(function () {
                 hideLoading();
-                renderError('Lỗi kết nối. Vui lòng thử lại sau.');
+                renderError('<?php echo t('Lỗi kết nối. Vui lòng thử lại sau.', 'Connection error. Please try again later.'); ?>');
             });
     }
 

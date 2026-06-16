@@ -14,7 +14,7 @@
             <div class="container mx-auto px-4 relative z-10 text-center">
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-4"><?php the_title(); ?></h1>
                 <nav class="flex justify-center items-center text-slate-300 text-sm gap-2">
-                    <a href="<?php echo home_url(); ?>" class="hover:text-white transition-colors">Trang chủ</a>
+                    <a href="<?php echo home_url(); ?>" class="hover:text-white transition-colors"><?php echo t('Trang chủ', 'Home'); ?></a>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     <span class="text-white font-medium"><?php the_title(); ?></span>
                 </nav>

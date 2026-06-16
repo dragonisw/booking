@@ -45,7 +45,7 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        <span><?php echo get_post_meta(get_the_ID(), 'post_views_count', true) ?: '0'; ?> lượt xem</span>
+                        <span><?php echo get_post_meta(get_the_ID(), 'post_views_count', true) ?: '0'; ?> <?php echo t('lượt xem', 'views'); ?></span>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                                 </div>
                                 <div>
-                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Bài trước</span>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block"><?php echo t('Bài trước', 'Previous post'); ?></span>
                                     <h4 class="font-bold text-slate-800 line-clamp-2"><?php echo esc_html( $prev_post->post_title ); ?></h4>
                                 </div>
                             </a>
@@ -101,7 +101,7 @@
                         ?>
                             <a href="<?php echo get_permalink( $next_post->ID ); ?>" class="flex items-center justify-end text-right gap-4 p-4 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50 transition-all group">
                                 <div>
-                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">Bài tiếp theo</span>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block"><?php echo t('Bài tiếp theo', 'Next post'); ?></span>
                                     <h4 class="font-bold text-slate-800 line-clamp-2"><?php echo esc_html( $next_post->post_title ); ?></h4>
                                 </div>
                                 <div class="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-blue-100 text-slate-500 group-hover:text-blue-600 flex items-center justify-center shrink-0 transition-colors">

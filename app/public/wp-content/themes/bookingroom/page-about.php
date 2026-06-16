@@ -859,59 +859,59 @@ function abp_meta( $key, $default = '' ) {
 
     <?php
     // ── Data ──────────────────────────────────────────────────────────────────
-    $hero_title    = abp_meta('_about_hero_title',    'Về <span class="ab-blue">Chúng Tôi</span>');
-    $hero_sub      = abp_meta('_about_hero_subtitle', 'Hành trình của chúng tôi bắt đầu từ niềm đam mê khám phá và khát khao mang lại những trải nghiệm nghỉ dưỡng đẳng cấp nhất.');
+    $hero_title    = abp_meta('_about_hero_title',    t('Về <span class="ab-blue">Chúng Tôi</span>', 'About <span class="ab-blue">Us</span>'));
+    $hero_sub      = abp_meta('_about_hero_subtitle', t('Hành trình của chúng tôi bắt đầu từ niềm đam mê khám phá và khát khao mang lại những trải nghiệm nghỉ dưỡng đẳng cấp nhất.', 'Our journey began with a passion for discovery and a desire to provide the most luxurious resort experiences.'));
     $hero_bg       = abp_meta('_about_hero_bg_url',   'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=85&w=2000');
 
-    $stat1_num = abp_meta('_about_stat1_num', '500+');   $stat1_lbl = abp_meta('_about_stat1_lbl', 'Khách sạn');
-    $stat2_num = abp_meta('_about_stat2_num', '15K+');   $stat2_lbl = abp_meta('_about_stat2_lbl', 'Lượt đặt phòng');
-    $stat3_num = abp_meta('_about_stat3_num', '10+');    $stat3_lbl = abp_meta('_about_stat3_lbl', 'Năm kinh nghiệm');
-    $stat4_num = abp_meta('_about_stat4_num', '4.9★');   $stat4_lbl = abp_meta('_about_stat4_lbl', 'Đánh giá trung bình');
+    $stat1_num = abp_meta('_about_stat1_num', '500+');   $stat1_lbl = abp_meta('_about_stat1_lbl', t('Khách sạn', 'Hotels'));
+    $stat2_num = abp_meta('_about_stat2_num', '15K+');   $stat2_lbl = abp_meta('_about_stat2_lbl', t('Lượt đặt phòng', 'Bookings'));
+    $stat3_num = abp_meta('_about_stat3_num', '10+');    $stat3_lbl = abp_meta('_about_stat3_lbl', t('Năm kinh nghiệm', 'Years of Experience'));
+    $stat4_num = abp_meta('_about_stat4_num', '4.9★');   $stat4_lbl = abp_meta('_about_stat4_lbl', t('Đánh giá trung bình', 'Average Rating'));
 
-    $story_heading = abp_meta('_about_story_heading', 'Kiến tạo kỷ niệm <span class="ab-accent">nghỉ dưỡng</span> vô giá');
-    $story_text    = abp_meta('_about_story_text', '<p>Được thành lập với sứ mệnh nâng tầm trải nghiệm du lịch Việt, chúng tôi không chỉ là một đại lý đặt phòng. Chúng tôi là người bạn đồng hành, giúp bạn tìm kiếm những không gian sống đẳng cấp và tinh tế nhất.</p><p>Mỗi khách sạn, mỗi căn phòng đều được lựa chọn kỹ lưỡng dựa trên tiêu chuẩn khắt khe về chất lượng dịch vụ, phong cách kiến trúc và sự tiện nghi vượt trội.</p>');
+    $story_heading = abp_meta('_about_story_heading', t('Kiến tạo kỷ niệm <span class="ab-accent">nghỉ dưỡng</span> vô giá', 'Creating priceless <span class="ab-accent">resort</span> memories'));
+    $story_text    = abp_meta('_about_story_text', t('<p>Được thành lập với sứ mệnh nâng tầm trải nghiệm du lịch Việt, chúng tôi không chỉ là một đại lý đặt phòng. Chúng tôi là người bạn đồng hành, giúp bạn tìm kiếm những không gian sống đẳng cấp và tinh tế nhất.</p><p>Mỗi khách sạn, mỗi căn phòng đều được lựa chọn kỹ lưỡng dựa trên tiêu chuẩn khắt khe về chất lượng dịch vụ, phong cách kiến trúc và sự tiện nghi vượt trội.</p>', '<p>Founded with the mission to elevate the Vietnamese travel experience, we are not just a booking agency. We are your companion, helping you find the most luxurious and refined living spaces.</p><p>Every hotel, every room is carefully selected based on strict standards for service quality, architectural style, and outstanding amenities.</p>'));
     $story_badge_num = abp_meta('_about_story_badge_num', '10+');
-    $story_badge_lbl = abp_meta('_about_story_badge_lbl', 'Năm kinh nghiệm');
+    $story_badge_lbl = abp_meta('_about_story_badge_lbl', t('Năm kinh nghiệm', 'Years of Experience'));
     $story_img1    = abp_meta('_about_story_img1', 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&q=80&w=900');
     $story_img2    = abp_meta('_about_story_img2', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=400');
-    $story_cta_text= abp_meta('_about_story_cta_text', 'Xem phòng nghỉ của chúng tôi');
+    $story_cta_text= abp_meta('_about_story_cta_text', t('Xem phòng nghỉ của chúng tôi', 'View our rooms'));
     $story_cta_url = abp_meta('_about_story_cta_url', home_url('/rooms'));
 
     $features = [
-        [ 'title' => abp_meta('_about_feat1_title', 'Không gian sang trọng, đẳng cấp 5 sao'), 'desc' => abp_meta('_about_feat1_desc', 'Thiết kế tinh tế, nội thất cao cấp mang lại cảm giác thư thái tuyệt đối.'), 'color' => '#eff6ff', 'icon_color' => 'var(--ab-blue)', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>'],
-        [ 'title' => abp_meta('_about_feat2_title', 'Đặt phòng nhanh chóng, xác nhận tức thì'), 'desc' => abp_meta('_about_feat2_desc', 'Quy trình đặt phòng đơn giản, xác nhận ngay lập tức qua email và SMS.'), 'color' => '#f0fdf4', 'icon_color' => '#16a34a', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'],
-        [ 'title' => abp_meta('_about_feat3_title', 'Cam kết giá tốt nhất, hoàn tiền 100%'), 'desc' => abp_meta('_about_feat3_desc', 'Giá ưu đãi độc quyền, chính sách hoàn tiền minh bạch khi có thay đổi.'), 'color' => '#fff7ed', 'icon_color' => '#ea580c', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'],
+        [ 'title' => abp_meta('_about_feat1_title', t('Không gian sang trọng, đẳng cấp 5 sao', 'Luxurious space, 5-star class')), 'desc' => abp_meta('_about_feat1_desc', t('Thiết kế tinh tế, nội thất cao cấp mang lại cảm giác thư thái tuyệt đối.', 'Refined design, premium furniture brings absolute relaxation.')), 'color' => '#eff6ff', 'icon_color' => 'var(--ab-blue)', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>'],
+        [ 'title' => abp_meta('_about_feat2_title', t('Đặt phòng nhanh chóng, xác nhận tức thì', 'Fast booking, instant confirmation')), 'desc' => abp_meta('_about_feat2_desc', t('Quy trình đặt phòng đơn giản, xác nhận ngay lập tức qua email và SMS.', 'Simple booking process, immediate confirmation via email and SMS.')), 'color' => '#f0fdf4', 'icon_color' => '#16a34a', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'],
+        [ 'title' => abp_meta('_about_feat3_title', t('Cam kết giá tốt nhất, hoàn tiền 100%', 'Best price guarantee, 100% refund')), 'desc' => abp_meta('_about_feat3_desc', t('Giá ưu đãi độc quyền, chính sách hoàn tiền minh bạch khi có thay đổi.', 'Exclusive preferential prices, transparent refund policy for changes.')), 'color' => '#fff7ed', 'icon_color' => '#ea580c', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'],
     ];
 
     $values = [
-        [ 'title' => abp_meta('_about_val1_title', 'Chất lượng hàng đầu'),  'desc' => abp_meta('_about_val1_desc', 'Chỉ hợp tác với các đối tác đạt tiêu chuẩn 4–5 sao quốc tế, đảm bảo mọi trải nghiệm đều hoàn hảo.'), 'bg' => '#eff6ff', 'color' => 'var(--ab-blue)', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>'],
-        [ 'title' => abp_meta('_about_val2_title', 'Giá tốt nhất'),         'desc' => abp_meta('_about_val2_desc', 'Nhờ mạng lưới đối tác rộng lớn, chúng tôi luôn có mức giá ưu đãi đặc quyền dành riêng cho khách hàng.'), 'bg' => '#f0fdf4', 'color' => '#16a34a', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'],
-        [ 'title' => abp_meta('_about_val3_title', 'Hỗ trợ 24/7'),          'desc' => abp_meta('_about_val3_desc', 'Đội ngũ chuyên viên luôn sẵn sàng hỗ trợ bạn bất kể thời gian nào, mọi nơi trên thế giới.'), 'bg' => '#fdf4ff', 'color' => '#9333ea', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>'],
+        [ 'title' => abp_meta('_about_val1_title', t('Chất lượng hàng đầu', 'Top quality')),  'desc' => abp_meta('_about_val1_desc', t('Chỉ hợp tác với các đối tác đạt tiêu chuẩn 4–5 sao quốc tế, đảm bảo mọi trải nghiệm đều hoàn hảo.', 'Only partnering with 4-5 star international standards, ensuring perfect experiences.')), 'bg' => '#eff6ff', 'color' => 'var(--ab-blue)', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>'],
+        [ 'title' => abp_meta('_about_val2_title', t('Giá tốt nhất', 'Best price')),         'desc' => abp_meta('_about_val2_desc', t('Nhờ mạng lưới đối tác rộng lớn, chúng tôi luôn có mức giá ưu đãi đặc quyền dành riêng cho khách hàng.', 'Thanks to a large partner network, we always have exclusive preferential prices for customers.')), 'bg' => '#f0fdf4', 'color' => '#16a34a', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'],
+        [ 'title' => abp_meta('_about_val3_title', t('Hỗ trợ 24/7', '24/7 Support')),          'desc' => abp_meta('_about_val3_desc', t('Đội ngũ chuyên viên luôn sẵn sàng hỗ trợ bạn bất kể thời gian nào, mọi nơi trên thế giới.', 'Expert team is always ready to assist you at any time, anywhere in the world.')), 'bg' => '#fdf4ff', 'color' => '#9333ea', 'svg' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>'],
     ];
 
     $milestones = [
-        [ 'year' => abp_meta('_about_ms1_year', '2015'), 'title' => abp_meta('_about_ms1_title', 'Thành lập công ty'), 'desc' => abp_meta('_about_ms1_desc', 'Bắt đầu với đội ngũ 5 người và giấc mơ thay đổi ngành du lịch Việt Nam.') ],
-        [ 'year' => abp_meta('_about_ms2_year', '2017'), 'title' => abp_meta('_about_ms2_title', 'Mở rộng toàn quốc'), 'desc' => abp_meta('_about_ms2_desc', 'Phủ sóng hơn 20 tỉnh thành, hợp tác với 100+ khách sạn đối tác uy tín.') ],
-        [ 'year' => abp_meta('_about_ms3_year', '2020'), 'title' => abp_meta('_about_ms3_title', 'Ra mắt nền tảng online'), 'desc' => abp_meta('_about_ms3_desc', 'Hệ thống đặt phòng trực tuyến 24/7, xác nhận tức thì và thanh toán an toàn.') ],
-        [ 'year' => abp_meta('_about_ms4_year', '2025'), 'title' => abp_meta('_about_ms4_title', 'Đạt 15.000+ khách hàng'), 'desc' => abp_meta('_about_ms4_desc', 'Cột mốc tự hào với hơn 15.000 lượt đặt phòng thành công và điểm đánh giá 4.9/5.') ],
+        [ 'year' => abp_meta('_about_ms1_year', '2015'), 'title' => abp_meta('_about_ms1_title', t('Thành lập công ty', 'Company founded')), 'desc' => abp_meta('_about_ms1_desc', t('Bắt đầu với đội ngũ 5 người và giấc mơ thay đổi ngành du lịch Việt Nam.', 'Started with a team of 5 people and a dream to change the Vietnamese tourism industry.')) ],
+        [ 'year' => abp_meta('_about_ms2_year', '2017'), 'title' => abp_meta('_about_ms2_title', t('Mở rộng toàn quốc', 'Nationwide expansion')), 'desc' => abp_meta('_about_ms2_desc', t('Phủ sóng hơn 20 tỉnh thành, hợp tác với 100+ khách sạn đối tác uy tín.', 'Covered more than 20 provinces, cooperated with 100+ reputable hotel partners.')) ],
+        [ 'year' => abp_meta('_about_ms3_year', '2020'), 'title' => abp_meta('_about_ms3_title', t('Ra mắt nền tảng online', 'Online platform launch')), 'desc' => abp_meta('_about_ms3_desc', t('Hệ thống đặt phòng trực tuyến 24/7, xác nhận tức thì và thanh toán an toàn.', '24/7 online booking system, instant confirmation and secure payment.')) ],
+        [ 'year' => abp_meta('_about_ms4_year', '2025'), 'title' => abp_meta('_about_ms4_title', t('Đạt 15.000+ khách hàng', 'Reached 15,000+ customers')), 'desc' => abp_meta('_about_ms4_desc', t('Cột mốc tự hào với hơn 15.000 lượt đặt phòng thành công và điểm đánh giá 4.9/5.', 'A proud milestone with over 15,000 successful bookings and a 4.9/5 rating.')) ],
     ];
 
     $team = [
-        [ 'name' => abp_meta('_about_team1_name', 'Nguyễn Văn An'), 'role' => abp_meta('_about_team1_role', 'Giám đốc điều hành'), 'img' => abp_meta('_about_team1_img', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600') ],
-        [ 'name' => abp_meta('_about_team2_name', 'Trần Thị Bình'), 'role' => abp_meta('_about_team2_role', 'Giám đốc vận hành'), 'img' => abp_meta('_about_team2_img', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=600') ],
-        [ 'name' => abp_meta('_about_team3_name', 'Lê Minh Tuấn'), 'role' => abp_meta('_about_team3_role', 'Trưởng phòng kinh doanh'), 'img' => abp_meta('_about_team3_img', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600') ],
+        [ 'name' => abp_meta('_about_team1_name', t('Nguyễn Văn An', 'Nguyen Van An')), 'role' => abp_meta('_about_team1_role', t('Giám đốc điều hành', 'CEO')), 'img' => abp_meta('_about_team1_img', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600') ],
+        [ 'name' => abp_meta('_about_team2_name', t('Trần Thị Bình', 'Tran Thi Binh')), 'role' => abp_meta('_about_team2_role', t('Giám đốc vận hành', 'COO')), 'img' => abp_meta('_about_team2_img', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=600') ],
+        [ 'name' => abp_meta('_about_team3_name', t('Lê Minh Tuấn', 'Le Minh Tuan')), 'role' => abp_meta('_about_team3_role', t('Trưởng phòng kinh doanh', 'Head of Sales')), 'img' => abp_meta('_about_team3_img', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600') ],
     ];
 
-    $testi_quote = abp_meta('_about_testi_quote', '"Dịch vụ thật sự vượt ngoài mong đợi. Họ không chỉ tìm cho tôi một căn phòng đẹp, mà còn tư vấn những điểm ăn uống rất tinh tế. Chắc chắn tôi sẽ quay lại lần nữa."');
-    $testi_name  = abp_meta('_about_testi_name', 'Anh Minh Nguyễn');
-    $testi_role  = abp_meta('_about_testi_role', 'Giám đốc điều hành, TechCorp Việt Nam');
+    $testi_quote = abp_meta('_about_testi_quote', t('"Dịch vụ thật sự vượt ngoài mong đợi. Họ không chỉ tìm cho tôi một căn phòng đẹp, mà còn tư vấn những điểm ăn uống rất tinh tế. Chắc chắn tôi sẽ quay lại lần nữa."', '"The service truly exceeded expectations. They didn\'t just find me a beautiful room, they also recommended exquisite dining spots. I will definitely be coming back."'));
+    $testi_name  = abp_meta('_about_testi_name', t('Anh Minh Nguyễn', 'Mr. Minh Nguyen'));
+    $testi_role  = abp_meta('_about_testi_role', t('Giám đốc điều hành, TechCorp Việt Nam', 'CEO, TechCorp Vietnam'));
     $testi_img   = abp_meta('_about_testi_img', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120');
 
-    $cta_title   = abp_meta('_about_cta_title', 'Sẵn sàng cho chuyến nghỉ dưỡng hoàn hảo?');
-    $cta_sub     = abp_meta('_about_cta_sub', 'Đặt phòng ngay hôm nay và nhận ưu đãi đặc biệt dành cho khách hàng mới.');
-    $cta_btn1    = abp_meta('_about_cta_btn1', 'Đặt phòng ngay');
+    $cta_title   = abp_meta('_about_cta_title', t('Sẵn sàng cho chuyến nghỉ dưỡng hoàn hảo?', 'Ready for the perfect vacation?'));
+    $cta_sub     = abp_meta('_about_cta_sub', t('Đặt phòng ngay hôm nay và nhận ưu đãi đặc biệt dành cho khách hàng mới.', 'Book today and receive special offers for new customers.'));
+    $cta_btn1    = abp_meta('_about_cta_btn1', t('Đặt phòng ngay', 'Book now'));
     $cta_btn1_url= abp_meta('_about_cta_btn1_url', home_url('/booking'));
-    $cta_btn2    = abp_meta('_about_cta_btn2', 'Liên hệ với chúng tôi');
+    $cta_btn2    = abp_meta('_about_cta_btn2', t('Liên hệ với chúng tôi', 'Contact us'));
     $cta_btn2_url= abp_meta('_about_cta_btn2_url', home_url('/contact'));
     ?>
 
@@ -931,16 +931,16 @@ function abp_meta( $key, $default = '' ) {
             <div class="ab-container" style="position:relative;">
                 <div class="ab-hero__badge">
                     <span class="ab-hero__badge-dot" aria-hidden="true"></span>
-                    <?php echo esc_html( bloginfo('name') ); ?> · Câu chuyện của chúng tôi
+                    <?php echo esc_html( bloginfo('name') ); ?> · <?php echo t('Câu chuyện của chúng tôi', 'Our Story'); ?>
                 </div>
                 <h1 class="ab-hero__title"><?php echo wp_kses_post( $hero_title ); ?></h1>
                 <p class="ab-hero__subtitle"><?php echo esc_html( $hero_sub ); ?></p>
 
                 <!-- Breadcrumb -->
                 <nav class="ab-hero__breadcrumb" aria-label="Breadcrumb">
-                    <a href="<?php echo esc_url( home_url('/') ); ?>">Trang chủ</a>
+                    <a href="<?php echo esc_url( home_url('/') ); ?>"><?php echo t('Trang chủ', 'Home'); ?></a>
                     <span class="ab-hero__breadcrumb-sep" aria-hidden="true">/</span>
-                    <span>Giới thiệu</span>
+                    <span><?php echo t('Giới thiệu', 'About Us'); ?></span>
                 </nav>
             </div>
         </div>
@@ -1006,7 +1006,7 @@ function abp_meta( $key, $default = '' ) {
 
                 <!-- Text Side -->
                 <div class="ab-story__body ab-reveal ab-reveal-delay-2">
-                    <div class="ab-eyebrow">Câu chuyện của chúng tôi</div>
+                    <div class="ab-eyebrow"><?php echo t('Câu chuyện của chúng tôi', 'Our Story'); ?></div>
                     <h2 class="ab-section-title"><?php echo wp_kses_post( $story_heading ); ?></h2>
                     <div class="ab-story__text"><?php echo wp_kses_post( $story_text ); ?></div>
 
@@ -1045,12 +1045,12 @@ function abp_meta( $key, $default = '' ) {
     <section class="ab-values" aria-label="Giá trị cốt lõi">
         <div class="ab-container">
             <div class="ab-values__head ab-reveal">
-                <div class="ab-eyebrow" style="justify-content:center;">Giá trị cốt lõi</div>
+                <div class="ab-eyebrow" style="justify-content:center;"><?php echo t('Giá trị cốt lõi', 'Core Values'); ?></div>
                 <h2 class="ab-section-title" style="text-align:center;">
-                    Cam kết của <span class="ab-accent">chúng tôi</span>
+                    <?php echo t('Cam kết của <span class="ab-accent">chúng tôi</span>', 'Our <span class="ab-accent">Commitment</span>'); ?>
                 </h2>
                 <p class="ab-section-desc" style="margin:12px auto 0; text-align:center;">
-                    Những giá trị định hướng mọi quyết định và dịch vụ chúng tôi cung cấp.
+                    <?php echo t('Những giá trị định hướng mọi quyết định và dịch vụ chúng tôi cung cấp.', 'Values that guide every decision and service we provide.'); ?>
                 </p>
             </div>
 
@@ -1077,9 +1077,9 @@ function abp_meta( $key, $default = '' ) {
     <section class="ab-timeline" aria-label="Các cột mốc phát triển">
         <div class="ab-container">
             <div class="ab-timeline__head ab-reveal">
-                <div class="ab-eyebrow" style="justify-content:center;">Hành trình phát triển</div>
+                <div class="ab-eyebrow" style="justify-content:center;"><?php echo t('Hành trình phát triển', 'Development Journey'); ?></div>
                 <h2 class="ab-section-title" style="text-align:center;">
-                    Những cột mốc <span class="ab-accent">đáng nhớ</span>
+                    <?php echo t('Những cột mốc <span class="ab-accent">đáng nhớ</span>', 'Memorable <span class="ab-accent">Milestones</span>'); ?>
                 </h2>
             </div>
 
@@ -1105,9 +1105,9 @@ function abp_meta( $key, $default = '' ) {
     <section class="ab-team" aria-label="Đội ngũ của chúng tôi">
         <div class="ab-container">
             <div class="ab-team__head ab-reveal">
-                <div class="ab-eyebrow" style="justify-content:center;">Đội ngũ</div>
+                <div class="ab-eyebrow" style="justify-content:center;"><?php echo t('Đội ngũ', 'Team'); ?></div>
                 <h2 class="ab-section-title" style="text-align:center;">
-                    Những <span class="ab-accent">con người</span> tạo nên chúng tôi
+                    <?php echo t('Những <span class="ab-accent">con người</span> tạo nên chúng tôi', 'The <span class="ab-accent">people</span> who make us'); ?>
                 </h2>
             </div>
 

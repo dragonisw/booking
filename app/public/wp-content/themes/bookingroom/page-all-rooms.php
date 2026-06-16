@@ -18,7 +18,7 @@ get_header(); ?>
     <!-- Header Spacing -->
     <div class="pt-10 pb-16 text-center">
         <h1 class="text-3xl md:text-5xl font-bold text-orange-600 uppercase tracking-widest room-title-serif mb-4">
-            PHÒNG NGHỈ
+            <?php echo t('PHÒNG NGHỈ', 'ROOMS'); ?>
         </h1>
         <div class="w-16 h-0.5 bg-orange-500 mx-auto"></div>
     </div>
@@ -39,10 +39,10 @@ get_header(); ?>
             if ($rooms_query->have_posts()) :
                 while ($rooms_query->have_posts()) : $rooms_query->the_post();
                     $price = get_post_meta(get_the_ID(), '_price', true) ?: 1500000;
-                    $capacity = get_post_meta(get_the_ID(), '_capacity', true) ?: '2 người';
-                    $size = get_post_meta(get_the_ID(), '_size', true) ?: '35m²';
-                    $bed_type = get_post_meta(get_the_ID(), '_bed_type', true) ?: '1 Giường đôi';
-                    $view = get_post_meta(get_the_ID(), '_view', true) ?: 'Hướng vườn';
+                    $capacity = get_post_meta(get_the_ID(), '_capacity', true) ?: t('2 người', '2 People');
+                    $size = get_post_meta(get_the_ID(), '_size', true) ?: t('35m²', '35m²');
+                    $bed_type = get_post_meta(get_the_ID(), '_bed_type', true) ?: t('1 Giường đôi', '1 Double Bed');
+                    $view = get_post_meta(get_the_ID(), '_view', true) ?: t('Hướng vườn', 'Garden View');
                     $terms = get_the_terms(get_the_ID(), 'room_category');
             ?>
                 <!-- Single Room Row -->
@@ -103,18 +103,17 @@ get_header(); ?>
                             <p class="text-slate-600 leading-relaxed text-sm md:text-base mb-8">
                                 <?php 
                                 $excerpt = get_the_excerpt();
-                                echo !empty($excerpt) ? wp_trim_words($excerpt, 40, '...') : 'Mỗi phòng đều được thiết kế hiện đại và tiện nghi sang trọng, được bố trí thành không gian riêng biệt là phòng ngủ, phòng khách, và phòng tắm. Phòng có cửa sổ rộng, không gian thoáng đãng mang lại trải nghiệm nghỉ dưỡng hoàn hảo.';
+                                echo !empty($excerpt) ? wp_trim_words($excerpt, 40, '...') : t('Mỗi phòng đều được thiết kế hiện đại và tiện nghi sang trọng, được bố trí thành không gian riêng biệt là phòng ngủ, phòng khách, và phòng tắm. Phòng có cửa sổ rộng, không gian thoáng đãng mang lại trải nghiệm nghỉ dưỡng hoàn hảo.', 'Each room is designed with modern and luxurious amenities, arranged into separate spaces including a bedroom, living room, and bathroom. The room features large windows and an airy space for a perfect resort experience.');
                                 ?>
                             </p>
                             
-                            <!-- Action Buttons -->
                             <div class="flex flex-wrap items-center gap-4">
                                 <a href="<?php the_permalink(); ?>" class="px-6 py-2.5 border border-slate-300 text-slate-500 hover:border-[#e65c00] hover:text-[#e65c00] transition-colors uppercase text-xs font-bold tracking-widest bg-white">
-                                    XEM CHI TIẾT <span class="ml-1">></span>
+                                    <?php echo t('XEM CHI TIẾT', 'VIEW DETAILS'); ?> <span class="ml-1">></span>
                                 </a>
                                 <a href="<?php the_permalink(); ?>?booking=1" class="px-8 py-2.5 border border-[#e65c00] text-[#e65c00] hover:bg-[#e65c00] hover:text-white transition-colors uppercase text-xs font-bold tracking-widest flex items-center gap-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                    BOOKING
+                                    <?php echo t('ĐẶT PHÒNG', 'BOOK NOW'); ?>
                                 </a>
                             </div>
                         </div>
@@ -127,7 +126,7 @@ get_header(); ?>
             else :
             ?>
                 <div class="text-center p-12 text-slate-500">
-                    Chưa có phòng nào được cập nhật.
+                    <?php echo t('Chưa có phòng nào được cập nhật.', 'No rooms have been updated yet.'); ?>
                 </div>
             <?php endif; ?>
         </div>

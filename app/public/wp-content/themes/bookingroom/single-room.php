@@ -5,9 +5,9 @@
         <!-- Breadcrumbs -->
         <div class="bg-white border-b border-slate-200">
             <div class="container mx-auto px-4 py-4 flex items-center text-sm text-slate-500">
-                <a href="<?php echo home_url(); ?>" class="hover:text-blue-600">Trang chủ</a>
+                <a href="<?php echo home_url(); ?>" class="hover:text-blue-600"><?php echo t('Trang chủ', 'Home'); ?></a>
                 <span class="mx-2">/</span>
-                <a href="<?php echo get_post_type_archive_link('room'); ?>" class="hover:text-blue-600">Phòng</a>
+                <a href="<?php echo get_post_type_archive_link('room'); ?>" class="hover:text-blue-600"><?php echo t('Phòng', 'Rooms'); ?></a>
                 <span class="mx-2">/</span>
                 <span class="text-slate-900 font-medium"><?php the_title(); ?></span>
             </div>
@@ -28,7 +28,7 @@
                         <div class="absolute bottom-6 right-6">
                             <button class="bg-white/90 backdrop-blur px-6 py-3 rounded-xl font-bold flex items-center shadow-lg hover:bg-white transition-all">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                Xem tất cả hình ảnh
+                                <?php echo t('Xem tất cả hình ảnh', 'View all images'); ?>
                             </button>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                                 <h1 class="text-4xl font-bold text-slate-900 mb-2"><?php the_title(); ?></h1>
                                 <div class="flex items-center text-slate-500 gap-4">
                                     <span class="flex items-center"><svg class="w-4 h-4 mr-1 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg> Quận 1, TP. HCM</span>
-                                    <span class="flex items-center"><svg class="w-4 h-4 mr-1 text-orange-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg> 4.9 (124 đánh giá)</span>
+                                    <span class="flex items-center"><svg class="w-4 h-4 mr-1 text-orange-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg> 4.9 <?php echo t('(124 đánh giá)', '(124 reviews)'); ?></span>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                         <?php if ( ! empty( $amenities ) ) : ?>
                         <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
                             <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                            Tiện nghi phòng
+                            <?php echo t('Tiện nghi phòng', 'Room Amenities'); ?>
                         </h3>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
                             <?php 
@@ -76,15 +76,15 @@
                                 'laundry' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>',
                             ];
                             $common_amenities = [
-                                'wifi' => 'Wi-Fi tốc độ cao',
-                                'ac' => 'Điều hòa nhiệt độ',
-                                'tv' => 'Smart TV 4K',
-                                'bathtub' => 'Bồn tắm riêng',
-                                'safe' => 'Két an toàn',
-                                'minibar' => 'Minibar & Trà/Cà phê',
-                                'phone' => 'Điện thoại phòng',
-                                'balcony' => 'Ban công/Cửa sổ lớn',
-                                'laundry' => 'Dịch vụ giặt là'
+                                'wifi' => t('Wi-Fi tốc độ cao', 'High-speed Wi-Fi'),
+                                'ac' => t('Điều hòa nhiệt độ', 'Air conditioning'),
+                                'tv' => t('Smart TV 4K', 'Smart TV 4K'),
+                                'bathtub' => t('Bồn tắm riêng', 'Private bathtub'),
+                                'safe' => t('Két an toàn', 'Safe box'),
+                                'minibar' => t('Minibar & Trà/Cà phê', 'Minibar & Tea/Coffee'),
+                                'phone' => t('Điện thoại phòng', 'Room phone'),
+                                'balcony' => t('Ban công/Cửa sổ lớn', 'Balcony/Large window'),
+                                'laundry' => t('Dịch vụ giặt là', 'Laundry service')
                             ];
                             ?>
                             <?php foreach ( $amenities as $amn ) : 
@@ -106,7 +106,7 @@
                             <hr class="border-slate-100 my-10">
                             <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
                                 <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                Chính sách phòng
+                                <?php echo t('Chính sách phòng', 'Room Policies'); ?>
                             </h3>
                             <div class="prose prose-slate max-w-none text-sm text-slate-600 mb-10">
                                 <?php echo wp_kses_post( wpautop( $policies ) ); ?>
@@ -116,12 +116,12 @@
 
                     <!-- Room Selection -->
                     <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
-                        <h3 class="text-xl font-bold mb-6">Chọn phòng</h3>
+                        <h3 class="text-xl font-bold mb-6"><?php echo t('Chọn phòng', 'Select Room'); ?></h3>
                         
                         <div class="flex items-center gap-6 mb-8 text-sm">
-                            <div class="flex items-center gap-2"><div class="w-6 h-6 rounded border border-slate-200 bg-white"></div><span class="text-slate-600">Còn trống</span></div>
-                            <div class="flex items-center gap-2"><div class="w-6 h-6 rounded border border-blue-600 bg-blue-50 text-blue-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><span class="text-slate-600">Đang chọn</span></div>
-                            <div class="flex items-center gap-2"><div class="w-6 h-6 rounded bg-slate-200 cursor-not-allowed"></div><span class="text-slate-600">Đã đặt</span></div>
+                            <div class="flex items-center gap-2"><div class="w-6 h-6 rounded border border-slate-200 bg-white"></div><span class="text-slate-600"><?php echo t('Còn trống', 'Available'); ?></span></div>
+                            <div class="flex items-center gap-2"><div class="w-6 h-6 rounded border border-blue-600 bg-blue-50 text-blue-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><span class="text-slate-600"><?php echo t('Đang chọn', 'Selected'); ?></span></div>
+                            <div class="flex items-center gap-2"><div class="w-6 h-6 rounded bg-slate-200 cursor-not-allowed"></div><span class="text-slate-600"><?php echo t('Đã đặt', 'Booked'); ?></span></div>
                         </div>
 
                         <?php
@@ -156,7 +156,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <?php foreach ($floors as $floor_num => $rooms_in_floor): ?>
                                 <div>
-                                    <h4 class="font-bold text-slate-700 mb-4 text-center bg-slate-50 py-2 rounded-lg">Tầng <?php echo esc_html($floor_num); ?></h4>
+                                    <h4 class="font-bold text-slate-700 mb-4 text-center bg-slate-50 py-2 rounded-lg"><?php echo t('Tầng', 'Floor'); ?> <?php echo esc_html($floor_num); ?></h4>
                                     <div class="grid grid-cols-3 gap-3">
                                         <?php foreach ($rooms_in_floor as $rm): 
                                             $is_booked = in_array($rm, $booked_rooms);
@@ -175,16 +175,16 @@
 
                     <!-- Customer Information -->
                     <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-100">
-                        <h3 class="text-xl font-bold mb-2">Thông tin khách hàng</h3>
-                        <p class="text-sm text-slate-500 mb-6">Vui lòng điền thông tin để chúng tôi có thể liên hệ với bạn.</p>
+                        <h3 class="text-xl font-bold mb-2"><?php echo t('Thông tin khách hàng', 'Customer Information'); ?></h3>
+                        <p class="text-sm text-slate-500 mb-6"><?php echo t('Vui lòng điền thông tin để chúng tôi có thể liên hệ với bạn.', 'Please fill in the information so we can contact you.'); ?></p>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2 space-y-2">
-                                <label class="text-sm font-bold text-slate-700">Họ và tên <span class="text-red-500">*</span></label>
-                                <input type="text" id="cust_name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-slate-400" placeholder="VD: Nguyễn Văn A">
+                                <label class="text-sm font-bold text-slate-700"><?php echo t('Họ và tên', 'Full Name'); ?> <span class="text-red-500">*</span></label>
+                                <input type="text" id="cust_name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-slate-400" placeholder="<?php echo esc_attr(t('VD: Nguyễn Văn A', 'Ex: John Doe')); ?>">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-sm font-bold text-slate-700">Số điện thoại <span class="text-red-500">*</span></label>
+                                <label class="text-sm font-bold text-slate-700"><?php echo t('Số điện thoại', 'Phone Number'); ?> <span class="text-red-500">*</span></label>
                                 <input type="tel" id="cust_phone" required class="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-slate-400" placeholder="0901234567">
                             </div>
                             <div class="space-y-2">
@@ -192,8 +192,8 @@
                                 <input type="email" id="cust_email" required class="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-slate-400" placeholder="example@email.com">
                             </div>
                             <div class="md:col-span-2 space-y-2">
-                                <label class="text-sm font-bold text-slate-700">Ghi chú (Tùy chọn)</label>
-                                <textarea id="cust_note" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-slate-400" placeholder="Yêu cầu đặc biệt..."></textarea>
+                                <label class="text-sm font-bold text-slate-700"><?php echo t('Ghi chú (Tùy chọn)', 'Note (Optional)'); ?></label>
+                                <textarea id="cust_note" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all placeholder:text-slate-400" placeholder="<?php echo esc_attr(t('Yêu cầu đặc biệt...', 'Special requests...')); ?>"></textarea>
                             </div>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
                         
                         <!-- Header / Title -->
                         <div class="bg-slate-900 p-6 text-white">
-                            <h3 class="text-lg font-bold mb-1">Thông tin chuyến đi</h3>
+                            <h3 class="text-lg font-bold mb-1"><?php echo t('Thông tin chuyến đi', 'Trip Information'); ?></h3>
                             <p class="text-slate-300 text-sm"><?php the_title(); ?></p>
                         </div>
 
@@ -221,15 +221,15 @@
                             <!-- Booking Details -->
                             <div class="space-y-4 mb-6 text-sm">
                                 <div class="flex justify-between items-center pb-4 border-b border-slate-100">
-                                    <span class="text-slate-500">Nhận phòng</span>
+                                    <span class="text-slate-500"><?php echo t('Nhận phòng', 'Check-in'); ?></span>
                                     <input type="date" id="check_in_date" class="bg-transparent border-none p-0 text-right font-medium text-slate-900 focus:ring-0 cursor-pointer min-w-[120px]">
                                 </div>
                                 <div class="flex justify-between items-center pb-4 border-b border-slate-100">
-                                    <span class="text-slate-500">Trả phòng</span>
+                                    <span class="text-slate-500"><?php echo t('Trả phòng', 'Check-out'); ?></span>
                                     <input type="date" id="check_out_date" class="bg-transparent border-none p-0 text-right font-medium text-slate-900 focus:ring-0 cursor-pointer min-w-[120px]">
                                 </div>
                                 <div class="flex justify-between items-start pb-4 border-b border-slate-100">
-                                    <span class="text-slate-500">Phòng đã chọn</span>
+                                    <span class="text-slate-500"><?php echo t('Phòng đã chọn', 'Selected Rooms'); ?></span>
                                     <div class="text-right">
                                         <span id="selected_rooms_count" class="font-bold text-blue-600">0 phòng</span>
                                         <div id="selected_rooms_list" class="text-xs text-slate-500 mt-2 flex flex-wrap gap-1.5 justify-end max-w-[150px]">
@@ -242,29 +242,29 @@
                             <!-- Price Details -->
                             <div class="bg-slate-50 rounded-2xl p-5 mb-6 border border-slate-100">
                                 <h4 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                                    Chi tiết giá
+                                    <?php echo t('Chi tiết giá', 'Price Details'); ?>
                                     <svg class="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
                                 </h4>
                                 
                                 <div class="space-y-3 text-sm">
                                     <div class="flex justify-between text-slate-600">
-                                        <span>Giá mỗi phòng/đêm</span>
+                                        <span><?php echo t('Giá mỗi phòng/đêm', 'Price per room/night'); ?></span>
                                         <span class="font-medium" data-base-price="<?php echo esc_attr($price); ?>"><?php echo number_format($price); ?>đ</span>
                                     </div>
                                     <div class="flex justify-between text-slate-600">
-                                        <span>Số đêm</span>
-                                        <span id="nights_count" class="font-medium">1 đêm</span>
+                                        <span><?php echo t('Số đêm', 'Nights'); ?></span>
+                                        <span id="nights_count" class="font-medium">1 <?php echo t('đêm', 'night'); ?></span>
                                     </div>
                                     <div class="flex justify-between text-slate-600">
-                                        <span>Tạm tính</span>
+                                        <span><?php echo t('Tạm tính', 'Subtotal'); ?></span>
                                         <span id="subtotal_price" class="font-medium">0đ</span>
                                     </div>
                                     <div class="flex justify-between text-slate-600 pb-4 border-b border-slate-200">
-                                        <span>Phí thanh toán (5%)</span>
+                                        <span><?php echo t('Phí thanh toán (5%)', 'Payment fee (5%)'); ?></span>
                                         <span id="fee_price" class="font-medium">0đ</span>
                                     </div>
                                     <div class="flex justify-between items-end pt-2">
-                                        <span class="font-bold text-slate-900 text-base">Tổng tiền</span>
+                                        <span class="font-bold text-slate-900 text-base"><?php echo t('Tổng tiền', 'Total'); ?></span>
                                         <span id="total_price" class="text-2xl font-bold text-orange-500">0đ</span>
                                     </div>
                                 </div>
@@ -273,14 +273,14 @@
                             <?php if ($use_external === 'yes' && !empty($engine_url)): ?>
                                 <a href="<?php echo esc_url(bookingroom_get_booking_url(array('room_id' => get_the_ID(), 'checkin' => date('Y-m-d'), 'checkout' => date('Y-m-d', strtotime('+1 day'))))); ?>" 
                                    class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200/50 flex items-center justify-center text-base">
-                                    Đặt ngay trên hệ thống
+                                    <?php echo t('Đặt ngay trên hệ thống', 'Book now'); ?>
                                 </a>
-                                <p class="text-center text-xs text-slate-400 mt-4">Bạn sẽ được chuyển đến trang đặt phòng an toàn</p>
+                                <p class="text-center text-xs text-slate-400 mt-4"><?php echo t('Bạn sẽ được chuyển đến trang đặt phòng an toàn', 'You will be redirected to a secure booking page'); ?></p>
                             <?php else: ?>
                                 <button type="button" id="submit_booking" disabled class="w-full bg-orange-500 text-white font-bold py-4 rounded-xl hover:bg-orange-600 transition-all shadow-lg hover:shadow-orange-200/50 flex items-center justify-center text-base disabled:opacity-50 disabled:cursor-not-allowed">
-                                    Tiếp tục thanh toán
+                                    <?php echo t('Tiếp tục thanh toán', 'Continue to payment'); ?>
                                 </button>
-                                <p class="text-center text-xs text-slate-400 mt-4">Bạn sẽ chưa bị trừ tiền ngay lúc này</p>
+                                <p class="text-center text-xs text-slate-400 mt-4"><?php echo t('Bạn sẽ chưa bị trừ tiền ngay lúc này', 'You will not be charged right now'); ?></p>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             nights = 0;
         }
-        nightsCountEl.textContent = nights + ' đêm';
+        nightsCountEl.textContent = nights + ' <?php echo t('đêm', 'night(s)'); ?>';
         updatePrice();
     }
 
@@ -379,11 +379,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateSidebar() {
-        selectedRoomsCountEl.textContent = selectedRooms.length + ' phòng';
+        selectedRoomsCountEl.textContent = selectedRooms.length + ' <?php echo t('phòng', 'rooms'); ?>';
         
         selectedRoomsListEl.innerHTML = '';
         if (selectedRooms.length === 0) {
-            selectedRoomsListEl.innerHTML = '<span class="italic text-slate-400">Chưa chọn phòng</span>';
+            selectedRoomsListEl.innerHTML = '<span class="italic text-slate-400"><?php echo t('Chưa chọn phòng', 'No rooms selected'); ?></span>';
         } else {
             selectedRooms.forEach(room => {
                 const span = document.createElement('span');
@@ -438,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const note = document.getElementById('cust_note').value;
         
         if (!name || !phone || !email || selectedRooms.length === 0) {
-            alert('Vui lòng điền đầy đủ thông tin và chọn phòng.');
+            alert('<?php echo t('Vui lòng điền đầy đủ thông tin và chọn phòng.', 'Please fill in all information and select a room.'); ?>');
             return;
         }
 
@@ -457,7 +457,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Đang xử lý...';
+        submitBtn.textContent = '<?php echo t('Đang xử lý...', 'Processing...'); ?>';
 
         jQuery.ajax({
             url: booking_ajax.ajax_url,
@@ -470,13 +470,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     alert(response.data.message);
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'Tiếp tục thanh toán';
+                    submitBtn.textContent = '<?php echo t('Tiếp tục thanh toán', 'Continue to payment'); ?>';
                 }
             },
             error: function() {
-                alert('Có lỗi xảy ra, vui lòng thử lại.');
+                alert('<?php echo t('Có lỗi xảy ra, vui lòng thử lại.', 'An error occurred, please try again.'); ?>');
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Tiếp tục thanh toán';
+                submitBtn.textContent = '<?php echo t('Tiếp tục thanh toán', 'Continue to payment'); ?>';
             }
         });
     });

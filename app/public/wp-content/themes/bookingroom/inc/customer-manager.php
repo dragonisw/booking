@@ -213,7 +213,7 @@ function br_send_pending_booking_email($booking_id) {
     if (!$email) return false;
 
     $site    = get_bloginfo('name');
-    $subject = "⏳ Yêu cầu đặt phòng #{$booking_id} đang chờ xử lý – {$site}";
+    $subject = t("⏳ Yêu cầu đặt phòng #{$booking_id} đang chờ xử lý – {$site}", "⏳ Booking request #{$booking_id} is pending – {$site}");
 
     $ci_fmt = $ci ? date_i18n('d/m/Y', strtotime($ci)) : '—';
     $co_fmt = $co ? date_i18n('d/m/Y', strtotime($co)) : '—';
@@ -222,24 +222,24 @@ function br_send_pending_booking_email($booking_id) {
     $body = "
     <div style='font-family:Inter,sans-serif;max-width:600px;margin:auto;background:#f8fafc;border-radius:16px;overflow:hidden;'>
       <div style='background:linear-gradient(135deg,#f59e0b,#d97706);padding:32px;text-align:center;'>
-        <h1 style='color:#fff;margin:0;font-size:24px;'>⏳ Yêu cầu đang được xử lý!</h1>
+        <h1 style='color:#fff;margin:0;font-size:24px;'>" . t('⏳ Yêu cầu đang được xử lý!', '⏳ Request is being processed!') . "</h1>
       </div>
       <div style='padding:32px;background:#fff;'>
-        <p style='font-size:16px;color:#1e293b;'>Xin chào <strong>{$name}</strong>,</p>
-        <p style='color:#475569;'>Chúng tôi đã nhận được yêu cầu đặt phòng của bạn. Đơn đặt phòng này hiện đang trong trạng thái <strong>Chờ xác nhận</strong>. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.</p>
+        <p style='font-size:16px;color:#1e293b;'>" . t('Xin chào', 'Hello') . " <strong>{$name}</strong>,</p>
+        <p style='color:#475569;'>" . t('Chúng tôi đã nhận được yêu cầu đặt phòng của bạn. Đơn đặt phòng này hiện đang trong trạng thái <strong>Chờ xác nhận</strong>. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.', 'We have received your booking request. This booking is currently in <strong>Pending</strong> status. We will contact you as soon as possible.') . "</p>
         <div style='background:#f1f5f9;border-radius:12px;padding:20px;margin:20px 0;'>
           <table style='width:100%;border-collapse:collapse;font-size:14px;'>
-            <tr><td style='padding:8px;color:#64748b;'>🔖 Mã đặt phòng</td><td style='padding:8px;font-weight:700;color:#1e293b;'>#{$booking_id}</td></tr>
-            <tr><td style='padding:8px;color:#64748b;'>🛏️ Loại phòng</td><td style='padding:8px;font-weight:600;'>{$room_name}</td></tr>
-            <tr><td style='padding:8px;color:#64748b;'>🔢 Số phòng</td><td style='padding:8px;'>" . esc_html($rooms ?: '—') . "</td></tr>
-            <tr><td style='padding:8px;color:#64748b;'>📅 Nhận phòng</td><td style='padding:8px;font-weight:600;'>{$ci_fmt}</td></tr>
-            <tr><td style='padding:8px;color:#64748b;'>📅 Trả phòng</td><td style='padding:8px;font-weight:600;'>{$co_fmt}</td></tr>
+            <tr><td style='padding:8px;color:#64748b;'>" . t('🔖 Mã đặt phòng', '🔖 Booking ID') . "</td><td style='padding:8px;font-weight:700;color:#1e293b;'>#{$booking_id}</td></tr>
+            <tr><td style='padding:8px;color:#64748b;'>" . t('🛏️ Loại phòng', '🛏️ Room type') . "</td><td style='padding:8px;font-weight:600;'>{$room_name}</td></tr>
+            <tr><td style='padding:8px;color:#64748b;'>" . t('🔢 Số phòng', '🔢 Number of rooms') . "</td><td style='padding:8px;'>" . esc_html($rooms ?: '—') . "</td></tr>
+            <tr><td style='padding:8px;color:#64748b;'>" . t('📅 Nhận phòng', '📅 Check-in') . "</td><td style='padding:8px;font-weight:600;'>{$ci_fmt}</td></tr>
+            <tr><td style='padding:8px;color:#64748b;'>" . t('📅 Trả phòng', '📅 Check-out') . "</td><td style='padding:8px;font-weight:600;'>{$co_fmt}</td></tr>
           </table>
         </div>
-        <p style='color:#64748b;font-size:13px;'>Nếu có thắc mắc, vui lòng liên hệ hotline: <strong>" . get_theme_mod('bookingroom_hotline', '0123 456 789') . "</strong></p>
+        <p style='color:#64748b;font-size:13px;'>" . t('Nếu có thắc mắc, vui lòng liên hệ hotline:', 'If you have any questions, please contact our hotline:') . " <strong>" . get_theme_mod('bookingroom_hotline', '0123 456 789') . "</strong></p>
       </div>
       <div style='background:#f1f5f9;padding:16px;text-align:center;font-size:12px;color:#94a3b8;'>
-        © " . date('Y') . " {$site}. Cảm ơn bạn đã chọn chúng tôi!
+        © " . date('Y') . " {$site}. " . t('Cảm ơn bạn đã chọn chúng tôi!', 'Thank you for choosing us!') . "
       </div>
     </div>";
 
@@ -486,7 +486,7 @@ function br_process_booking_enhanced() {
     $user_id       = get_current_user_id();
 
     if (!$room_id || !$check_in || !$check_out || !$phone || !$name) {
-        wp_send_json_error(array('message' => 'Vui lòng điền đầy đủ thông tin bắt buộc (Tên, SĐT, ngày nhận/trả phòng).'));
+        wp_send_json_error(array('message' => t('Vui lòng điền đầy đủ thông tin bắt buộc (Tên, SĐT, ngày nhận/trả phòng).', 'Please fill in all required fields (Name, Phone, Check-in/Check-out dates).')));
     }
 
     // Tính tổng tiền
@@ -507,7 +507,7 @@ function br_process_booking_enhanced() {
     ));
 
     if (is_wp_error($booking_id)) {
-        wp_send_json_error(array('message' => 'Lỗi hệ thống, vui lòng thử lại.'));
+        wp_send_json_error(array('message' => t('Lỗi hệ thống, vui lòng thử lại.', 'System error, please try again.')));
     }
 
     // Lưu tất cả meta
@@ -553,7 +553,7 @@ function br_process_booking_enhanced() {
     }
 
     wp_send_json_success(array(
-        'message'    => '🎉 Đặt phòng thành công! Mã đặt phòng: #' . $booking_id . '. Chúng tôi sẽ liên hệ xác nhận sớm nhất.',
+        'message'    => t('🎉 Đặt phòng thành công! Mã đặt phòng: #', '🎉 Booking successful! Booking ID: #') . $booking_id . t('. Chúng tôi sẽ liên hệ xác nhận sớm nhất.', '. We will contact you for confirmation soon.'),
         'booking_id' => $booking_id,
     ));
 }

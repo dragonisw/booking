@@ -310,7 +310,7 @@
             gap: 8px;
         }
         .sb-btn::after {
-            content: 'Tìm kiếm';
+            content: '<?php echo t('Tìm kiếm', 'Search'); ?>';
             font-size: 0.95rem;
             font-weight: 700;
         }
@@ -600,12 +600,12 @@
         <div class="hero-particles"></div>
 
         <!-- Navigation Arrows -->
-        <button class="hero-nav-btn hero-nav-prev" id="hero-prev" aria-label="Slide trước">
+        <button class="hero-nav-btn hero-nav-prev" id="hero-prev" aria-label="<?php echo esc_attr(t('Slide trước', 'Previous slide')); ?>">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"/>
             </svg>
         </button>
-        <button class="hero-nav-btn hero-nav-next" id="hero-next" aria-label="Slide tiếp theo">
+        <button class="hero-nav-btn hero-nav-next" id="hero-next" aria-label="<?php echo esc_attr(t('Slide tiếp theo', 'Next slide')); ?>">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"/>
             </svg>
@@ -617,14 +617,14 @@
         <div class="hero-content-wrapper">
             <div class="hero-content-inner" id="hero-text-block">
                 <?php
-                $hero_title = get_post_meta(get_the_ID(), '_home_hero_title', true) ?: 'Khám phá Kỳ nghỉ <br><span style="color:#60a5fa">Hoàn hảo</span> của Bạn';
-                $hero_subtitle = get_post_meta(get_the_ID(), '_home_hero_subtitle', true) ?: 'Hơn 500.000 khách sạn và resort sang trọng trên toàn thế giới đang chờ đón bạn với giá ưu đãi nhất.';
+                $hero_title = get_post_meta(get_the_ID(), '_home_hero_title', true) ?: t('Khám phá Kỳ nghỉ <br><span style="color:#60a5fa">Hoàn hảo</span> của Bạn', 'Discover Your <br><span style="color:#60a5fa">Perfect</span> Holiday');
+                $hero_subtitle = get_post_meta(get_the_ID(), '_home_hero_subtitle', true) ?: t('Hơn 500.000 khách sạn và resort sang trọng trên toàn thế giới đang chờ đón bạn với giá ưu đãi nhất.', 'Over 500,000 luxury hotels and resorts worldwide are waiting for you with the best prices.');
                 ?>
 
                 <!-- Animated Badge -->
                 <div class="hero-badge">
                     <span class="badge-dot"></span>
-                    <span>✦ Trải nghiệm đẳng cấp 5 sao</span>
+                    <span><?php echo t('✦ Trải nghiệm đẳng cấp 5 sao', '✦ 5-star luxury experience'); ?></span>
                 </div>
 
                 <!-- Animated Title -->
@@ -657,58 +657,58 @@
 
                         <!-- Nhận phòng -->
                         <div class="sb-field" id="sb-checkin">
-                            <span class="sb-label">📅 Nhận phòng</span>
+                            <span class="sb-label"><?php echo t('📅 Nhận phòng', '📅 Check-in'); ?></span>
                             <input
                                 type="date"
                                 id="check-in-date"
                                 name="<?php echo ($use_external === 'yes') ? 'checkin' : 'check_in'; ?>"
                                 class="sb-input"
-                                placeholder="Chọn ngày"
+                                placeholder="<?php echo esc_attr(t('Chọn ngày', 'Select date')); ?>"
                             >
                         </div>
 
                         <!-- Trả phòng -->
                         <div class="sb-field" id="sb-checkout">
-                            <span class="sb-label">📅 Trả phòng</span>
+                            <span class="sb-label"><?php echo t('📅 Trả phòng', '📅 Check-out'); ?></span>
                             <input
                                 type="date"
                                 id="check-out-date"
                                 name="<?php echo ($use_external === 'yes') ? 'checkout' : 'check_out'; ?>"
                                 class="sb-input"
-                                placeholder="Chọn ngày"
+                                placeholder="<?php echo esc_attr(t('Chọn ngày', 'Select date')); ?>"
                             >
                         </div>
 
                         <!-- Người lớn -->
                         <div class="sb-field" id="sb-adults">
-                            <span class="sb-label">👤 Người lớn</span>
+                            <span class="sb-label"><?php echo t('👤 Người lớn', '👤 Adults'); ?></span>
                             <div class="sb-select-wrap">
                                 <select name="adults" class="sb-input">
-                                    <option value="1">1 Người lớn</option>
-                                    <option value="2" selected>2 Người lớn</option>
-                                    <option value="3">3 Người lớn</option>
-                                    <option value="4">4 Người lớn</option>
-                                    <option value="5">5+ Người lớn</option>
+                                    <option value="1"><?php echo t('1 Người lớn', '1 Adult'); ?></option>
+                                    <option value="2" selected><?php echo t('2 Người lớn', '2 Adults'); ?></option>
+                                    <option value="3"><?php echo t('3 Người lớn', '3 Adults'); ?></option>
+                                    <option value="4"><?php echo t('4 Người lớn', '4 Adults'); ?></option>
+                                    <option value="5"><?php echo t('5+ Người lớn', '5+ Adults'); ?></option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- Trẻ em -->
                         <div class="sb-field" id="sb-children">
-                            <span class="sb-label">🧒 Trẻ em</span>
+                            <span class="sb-label"><?php echo t('🧒 Trẻ em', '🧒 Children'); ?></span>
                             <div class="sb-select-wrap">
                                 <select name="children" class="sb-input">
-                                    <option value="0">Không có trẻ em</option>
-                                    <option value="1">1 Trẻ em</option>
-                                    <option value="2">2 Trẻ em</option>
-                                    <option value="3">3+ Trẻ em</option>
+                                    <option value="0"><?php echo t('Không có trẻ em', 'No children'); ?></option>
+                                    <option value="1"><?php echo t('1 Trẻ em', '1 Child'); ?></option>
+                                    <option value="2"><?php echo t('2 Trẻ em', '2 Children'); ?></option>
+                                    <option value="3"><?php echo t('3+ Trẻ em', '3+ Children'); ?></option>
                                 </select>
                             </div>
                         </div>
 
                         <!-- Submit Button -->
                         <div class="sb-btn-wrap">
-                            <button type="submit" class="sb-btn" aria-label="Tìm kiếm">
+                            <button type="submit" class="sb-btn" aria-label="<?php echo esc_attr(t('Tìm kiếm', 'Search')); ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
@@ -1105,20 +1105,20 @@
                             array(
                                 'icon_color' => 'blue',
                                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>',
-                                'title' => get_post_meta(get_the_ID(), '_home_about_feat1_title', true) ?: 'Không gian sang trọng, đẳng cấp 5 sao',
-                                'desc'  => get_post_meta(get_the_ID(), '_home_about_feat1_desc', true)  ?: 'Thiết kế tinh tế, nội thất cao cấp mang lại cảm giác thư thái tuyệt đối.',
+                                'title' => get_post_meta(get_the_ID(), '_home_about_feat1_title', true) ?: t('Không gian sang trọng, đẳng cấp 5 sao', 'Luxury space, 5-star class'),
+                                'desc'  => get_post_meta(get_the_ID(), '_home_about_feat1_desc', true)  ?: t('Thiết kế tinh tế, nội thất cao cấp mang lại cảm giác thư thái tuyệt đối.', 'Sophisticated design and premium furniture provide a feeling of absolute relaxation.'),
                             ),
                             array(
                                 'icon_color' => 'purple',
                                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>',
-                                'title' => get_post_meta(get_the_ID(), '_home_about_feat2_title', true) ?: 'Đặt phòng nhanh chóng, xác nhận tức thì',
-                                'desc'  => get_post_meta(get_the_ID(), '_home_about_feat2_desc', true)  ?: 'Quy trình đặt phòng đơn giản, xác nhận ngay lập tức qua email và SMS.',
+                                'title' => get_post_meta(get_the_ID(), '_home_about_feat2_title', true) ?: t('Đặt phòng nhanh chóng, xác nhận tức thì', 'Quick booking, instant confirmation'),
+                                'desc'  => get_post_meta(get_the_ID(), '_home_about_feat2_desc', true)  ?: t('Quy trình đặt phòng đơn giản, xác nhận ngay lập tức qua email và SMS.', 'Simple booking process, instant confirmation via email and SMS.'),
                             ),
                             array(
                                 'icon_color' => 'amber',
                                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
-                                'title' => get_post_meta(get_the_ID(), '_home_about_feat3_title', true) ?: 'Cam kết giá tốt nhất, hoàn tiền 100%',
-                                'desc'  => get_post_meta(get_the_ID(), '_home_about_feat3_desc', true)  ?: 'Giá ưu đãi độc quyền, chính sách hoàn tiền minh bạch khi có thay đổi.',
+                                'title' => get_post_meta(get_the_ID(), '_home_about_feat3_title', true) ?: t('Cam kết giá tốt nhất, hoàn tiền 100%', 'Best price guarantee, 100% refund'),
+                                'desc'  => get_post_meta(get_the_ID(), '_home_about_feat3_desc', true)  ?: t('Giá ưu đãi độc quyền, chính sách hoàn tiền minh bạch khi có thay đổi.', 'Exclusive promotional prices, transparent refund policy.'),
                             ),
                         );
                         foreach ($features as $feat): ?>
@@ -1140,21 +1140,21 @@
                     <div class="about-stats">
                         <div class="about-stat-item">
                             <div class="about-stat-num"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat1_num', true) ?: '500+'); ?></div>
-                            <div class="about-stat-label"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat1_label', true) ?: 'Khách sạn'); ?></div>
+                            <div class="about-stat-label"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat1_label', true) ?: t('Khách sạn', 'Hotels')); ?></div>
                         </div>
                         <div class="about-stat-item">
                             <div class="about-stat-num"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat2_num', true) ?: '50K+'); ?></div>
-                            <div class="about-stat-label"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat2_label', true) ?: 'Lượt đặt phòng'); ?></div>
+                            <div class="about-stat-label"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat2_label', true) ?: t('Lượt đặt phòng', 'Bookings')); ?></div>
                         </div>
                         <div class="about-stat-item">
                             <div class="about-stat-num"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat3_num', true) ?: '4.9★'); ?></div>
-                            <div class="about-stat-label"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat3_label', true) ?: 'Đánh giá TB'); ?></div>
+                            <div class="about-stat-label"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat3_label', true) ?: t('Đánh giá TB', 'Avg Rating')); ?></div>
                         </div>
                     </div>
 
                     <!-- CTA -->
                     <a href="<?php echo esc_url(get_post_meta(get_the_ID(), '_home_about_cta_url', true) ?: home_url('/about')); ?>" class="about-cta" id="about-cta-btn">
-                        <?php echo esc_html(get_post_meta(get_the_ID(), '_home_about_cta_text', true) ?: 'Tìm hiểu thêm về chúng tôi'); ?>
+                        <?php echo esc_html(get_post_meta(get_the_ID(), '_home_about_cta_text', true) ?: t('Tìm hiểu thêm về chúng tôi', 'Learn more about us')); ?>
                         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7-7 7M3 12h18"/>
                         </svg>
@@ -1191,12 +1191,12 @@
         <div class="container mx-auto px-4">
             <div class="flex items-end justify-between mb-12">
                 <div>
-                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Điểm đến hàng đầu</h2>
-                    <p class="text-slate-500">Khám phá những địa điểm được yêu thích nhất trong mùa này</p>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2"><?php echo t('Điểm đến hàng đầu', 'Top Destinations'); ?></h2>
+                    <p class="text-slate-500"><?php echo t('Khám phá những địa điểm được yêu thích nhất trong mùa này', 'Discover the most loved places this season'); ?></p>
                 </div>
                 <a href="<?php echo esc_url(get_post_type_archive_link('destination') ?: home_url('/destination')); ?>"
                     class="text-blue-600 font-bold hover:underline flex items-center">
-                    Xem tất cả <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <?php echo t('Xem tất cả', 'View all'); ?> <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </a>
@@ -1251,7 +1251,7 @@
                 <?php foreach ($ids as $id):
                     $img_url = wp_get_attachment_image_url($id, 'large');
                     $d_title = get_the_title($id);
-                    $d_count = get_post_field('post_excerpt', $id) ?: '0 Khách sạn';
+                    $d_count = get_post_field('post_excerpt', $id) ?: t('0 Khách sạn', '0 Hotels');
                 ?>
                     <a href="<?php echo esc_url(add_query_arg('s', $d_title, home_url('/rooms'))); ?>" class="group cursor-pointer relative overflow-hidden rounded-2xl h-80 block">
                         <img src="<?php echo esc_url($img_url); ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
@@ -1268,10 +1268,10 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <?php
                 $defaults = array(
-                    array('name' => 'Đà Nẵng', 'img' => 'https://images.unsplash.com/photo-1520260397531-11404e54c05c?auto=format&fit=crop&w=400', 'count' => '124 Khách sạn'),
-                    array('name' => 'Phú Quốc', 'img' => 'https://images.unsplash.com/photo-1549144866-d9938c74826f?auto=format&fit=crop&w=400', 'count' => '86 Khách sạn'),
-                    array('name' => 'Hội An', 'img' => 'https://images.unsplash.com/photo-1528127269322-539815df45d6?auto=format&fit=crop&w=400', 'count' => '112 Khách sạn'),
-                    array('name' => 'Hà Nội', 'img' => 'https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=400', 'count' => '245 Khách sạn'),
+                    array('name' => t('Đà Nẵng', 'Da Nang'), 'img' => 'https://images.unsplash.com/photo-1520260397531-11404e54c05c?auto=format&fit=crop&w=400', 'count' => t('124 Khách sạn', '124 Hotels')),
+                    array('name' => t('Phú Quốc', 'Phu Quoc'), 'img' => 'https://images.unsplash.com/photo-1549144866-d9938c74826f?auto=format&fit=crop&w=400', 'count' => t('86 Khách sạn', '86 Hotels')),
+                    array('name' => t('Hội An', 'Hoi An'), 'img' => 'https://images.unsplash.com/photo-1528127269322-539815df45d6?auto=format&fit=crop&w=400', 'count' => t('112 Khách sạn', '112 Hotels')),
+                    array('name' => t('Hà Nội', 'Ha Noi'), 'img' => 'https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=400', 'count' => t('245 Khách sạn', '245 Hotels')),
                 );
                 foreach ($defaults as $item): ?>
                     <a href="<?php echo esc_url(add_query_arg('s', $item['name'], home_url('/rooms'))); ?>" class="group cursor-pointer relative overflow-hidden rounded-2xl h-80 block">
@@ -1294,12 +1294,12 @@
         <div class="container mx-auto px-4">
             <div class="flex items-end justify-between mb-12">
                 <div>
-                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Phòng nghỉ sang trọng</h2>
-                    <p class="text-slate-500">Trải nghiệm không gian sống đẳng cấp với tiện nghi hiện đại</p>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2"><?php echo t('Phòng nghỉ sang trọng', 'Premium Rooms'); ?></h2>
+                    <p class="text-slate-500"><?php echo t('Trải nghiệm không gian sống đẳng cấp với tiện nghi hiện đại', 'Experience top-class living space with modern amenities'); ?></p>
                 </div>
                 <a href="<?php echo esc_url(home_url('/all-rooms')) ?>"
                     class="text-blue-600 font-bold hover:underline flex items-center">
-                    Xem tất cả phòng <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <?php echo t('Xem tất cả phòng', 'View all rooms'); ?> <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </a>
@@ -1331,7 +1331,7 @@
                                 </a>
                                 <div
                                     class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-blue-600 shadow-sm">
-                                    Ưu đãi nhất
+                                    <?php echo t('Ưu đãi nhất', 'Best offer'); ?>
                                 </div>
                             </div>
                             <div class="p-8">
@@ -1374,9 +1374,9 @@
                                 </a>
                                 <div class="flex items-center justify-between pt-6 border-t border-slate-100">
                                     <div>
-                                        <p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1">Giá từ</p>
+                                        <p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-1"><?php echo t('Giá từ', 'From'); ?></p>
                                         <p class="text-xl font-bold text-slate-900"><?php echo number_format($price); ?>đ<span
-                                                class="text-sm font-normal text-slate-500">/đêm</span></p>
+                                                class="text-sm font-normal text-slate-500"><?php echo t('/đêm', '/night'); ?></span></p>
                                     </div>
                                     <a href="<?php the_permalink(); ?>"
                                         class="bg-slate-900 text-white p-3 rounded-xl hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-200">
@@ -1402,8 +1402,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-1">Chưa có phòng nghỉ</h3>
-                        <p class="text-slate-500">Chúng tôi đang cập nhật thêm các lựa chọn phòng nghỉ sang trọng.</p>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1"><?php echo t('Chưa có phòng nghỉ', 'No rooms available'); ?></h3>
+                        <p class="text-slate-500"><?php echo t('Chúng tôi đang cập nhật thêm các lựa chọn phòng nghỉ sang trọng.', 'We are updating more luxury room options.'); ?></p>
                     </div>
                 <?php endif; ?>
             </div>
@@ -1426,9 +1426,8 @@
         <section class="py-24 bg-white">
             <div class="container mx-auto px-4">
                 <div class="max-w-3xl mx-auto text-center mb-16">
-                    <h2 class="text-3xl font-bold text-slate-900 mb-6">Tại sao nên đặt phòng với chúng tôi?</h2>
-                    <p class="text-slate-500">Chúng tôi cam kết mang lại giá trị tốt nhất cho kỳ nghỉ của bạn với dịch vụ
-                        khách hàng 24/7 và quy trình đặt phòng minh bạch.</p>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-6"><?php echo t('Tại sao nên đặt phòng với chúng tôi?', 'Why book with us?'); ?></h2>
+                    <p class="text-slate-500"><?php echo t('Chúng tôi cam kết mang lại giá trị tốt nhất cho kỳ nghỉ của bạn với dịch vụ khách hàng 24/7 và quy trình đặt phòng minh bạch.', 'We are committed to bringing the best value for your vacation with 24/7 customer service and a transparent booking process.'); ?></p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -1441,9 +1440,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold mb-4">Giá tốt nhất</h3>
-                        <p class="text-slate-500 leading-relaxed">Luôn có các chương trình ưu đãi và giảm giá đặc biệt dành
-                            cho thành viên.</p>
+                        <h3 class="text-xl font-bold mb-4"><?php echo t('Giá tốt nhất', 'Best price'); ?></h3>
+                        <p class="text-slate-500 leading-relaxed"><?php echo t('Luôn có các chương trình ưu đãi và giảm giá đặc biệt dành cho thành viên.', 'There are always special offers and discounts for members.'); ?></p>
                     </div>
 
                     <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow text-center">
@@ -1455,9 +1453,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold mb-4">Đặt phòng an toàn</h3>
-                        <p class="text-slate-500 leading-relaxed">Mọi thông tin cá nhân và thanh toán đều được mã hóa bảo
-                            mật tuyệt đối.</p>
+                        <h3 class="text-xl font-bold mb-4"><?php echo t('Đặt phòng an toàn', 'Secure booking'); ?></h3>
+                        <p class="text-slate-500 leading-relaxed"><?php echo t('Mọi thông tin cá nhân và thanh toán đều được mã hóa bảo mật tuyệt đối.', 'All personal and payment information is absolutely securely encrypted.'); ?></p>
                     </div>
 
                     <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow text-center">
@@ -1469,9 +1466,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold mb-4">Hỗ trợ 24/7</h3>
-                        <p class="text-slate-500 leading-relaxed">Đội ngũ hỗ trợ nhiệt tình, giải quyết mọi vấn đề của bạn
-                            bất cứ lúc nào.</p>
+                        <h3 class="text-xl font-bold mb-4"><?php echo t('Hỗ trợ 24/7', '24/7 Support'); ?></h3>
+                        <p class="text-slate-500 leading-relaxed"><?php echo t('Đội ngũ hỗ trợ nhiệt tình, giải quyết mọi vấn đề của bạn bất cứ lúc nào.', 'Enthusiastic support team, solving all your problems at any time.'); ?></p>
                     </div>
                 </div>
             </div>
@@ -1490,24 +1486,22 @@
             </div>
 
             <div class="relative z-10">
-                <h2 class="text-4xl font-serif italic text-white mb-2">Cảm nhận của khách hàng</h2>
-                <p class="text-slate-100 text-lg mb-12">Hãy xem khách hàng nói gì về chúng tôi nhé !</p>
+                <h2 class="text-4xl font-serif italic text-white mb-2"><?php echo t('Cảm nhận của khách hàng', 'Customer testimonials'); ?></h2>
+                <p class="text-slate-100 text-lg mb-12"><?php echo t('Hãy xem khách hàng nói gì về chúng tôi nhé !', 'Let\'s see what our customers say about us!'); ?></p>
 
                 <!-- Testimonial Card -->
                 <div class="bg-white/90 backdrop-blur-sm p-8 rounded-sm shadow-2xl max-w-lg relative">
                     <div class="flex gap-6">
                         <div class="flex-1">
                             <p class="text-slate-600 italic leading-relaxed text-sm">
-                                "Tôi và gia đình đã có một kỳ nghỉ tuyệt vời tại đây. Dịch vụ chuyên nghiệp, không gian
-                                yên tĩnh và trong lành. Chúng tôi đặc biệt ấn tượng với các món ăn tại nhà hàng, rất
-                                tươi ngon và đậm đà hương vị địa phương."
+                                <?php echo t('"Tôi và gia đình đã có một kỳ nghỉ tuyệt vời tại đây. Dịch vụ chuyên nghiệp, không gian yên tĩnh và trong lành. Chúng tôi đặc biệt ấn tượng với các món ăn tại nhà hàng, rất tươi ngon và đậm đà hương vị địa phương."', '"My family and I had a wonderful vacation here. Professional service, quiet and fresh space. We were especially impressed with the dishes at the restaurant, very fresh and rich in local flavors."'); ?>
                             </p>
                         </div>
                         <div class="w-24 shrink-0">
                             <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150"
                                 class="w-full h-24 object-cover rounded-sm shadow-md mb-3">
                             <h4 class="font-bold text-slate-800 text-sm">Elena</h4>
-                            <p class="text-blue-600 text-xs font-semibold">Khách du lịch</p>
+                            <p class="text-blue-600 text-xs font-semibold"><?php echo t('Khách du lịch', 'Traveler'); ?></p>
                         </div>
                     </div>
 
@@ -1523,8 +1517,7 @@
             <!-- Bottom Bar -->
             <div
                 class="relative z-10 mt-12 bg-black/60 backdrop-blur-md p-4 -mx-16 px-16 flex items-center justify-between">
-                <p class="text-white text-sm">Chúng tôi cảm ơn sự quan tâm và tin tưởng của khách hàng dành cho chúng
-                    tôi.</p>
+                <p class="text-white text-sm"><?php echo t('Chúng tôi cảm ơn sự quan tâm và tin tưởng của khách hàng dành cho chúng tôi.', 'We thank our customers for their interest and trust in us.'); ?></p>
                 <div class="bg-white p-2 rounded-md">
                     <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/logo-small.png" alt="Logo"
                         class="h-8" onerror="this.onerror=null; this.src='https://via.placeholder.com/50x50?text=Logo'">
@@ -1535,10 +1528,9 @@
         <!-- Right: Travel Guide -->
         <div class="w-full md:w-[55%] bg-slate-50 py-20 px-8 md:px-16">
             <div class="max-w-2xl">
-                <h2 class="text-4xl font-serif italic text-blue-700 mb-4">Cẩm nang du lịch</h2>
+                <h2 class="text-4xl font-serif italic text-blue-700 mb-4"><?php echo t('Cẩm nang du lịch', 'Travel Guide'); ?></h2>
                 <p class="text-slate-600 mb-12 text-lg leading-relaxed">
-                    Hãy cùng chúng tôi khám phá về chuyên mục du lịch, văn hóa, ẩm thực, các sự kiện, lễ hội, những điểm
-                    đến hấp dẫn không thể bỏ qua.
+                    <?php echo t('Hãy cùng chúng tôi khám phá về chuyên mục du lịch, văn hóa, ẩm thực, các sự kiện, lễ hội, những điểm đến hấp dẫn không thể bỏ qua.', 'Let us discover the category of tourism, culture, cuisine, events, festivals, attractive destinations not to be missed.'); ?>
                 </p>
 
                 <div class="space-y-8">
@@ -1574,7 +1566,7 @@
                                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                             </path>
                                         </svg>
-                                        Lượt xem: <?php echo get_post_meta(get_the_ID(), 'post_views_count', true) ?: '0'; ?>
+                                        <?php echo t('Lượt xem:', 'Views:'); ?> <?php echo get_post_meta(get_the_ID(), 'post_views_count', true) ?: '0'; ?>
                                     </div>
                                     <p class="text-slate-500 text-sm line-clamp-2 leading-snug">
                                         <?php echo wp_trim_words(get_the_excerpt(), 15); ?>
@@ -1591,7 +1583,7 @@
                 <div class="mt-12">
                     <a href="<?php echo get_permalink(get_option('page_for_posts')) ?: home_url('/blog'); ?>"
                         class="inline-flex items-center text-blue-600 font-bold hover:gap-2 transition-all">
-                        Xem thêm tất cả <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <?php echo t('Xem thêm tất cả', 'View all'); ?> <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                             </path>
                         </svg>

@@ -280,10 +280,10 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
         <div class="container mx-auto px-4 py-3 flex items-center text-sm text-slate-500 gap-2 flex-wrap">
             <a href="<?php echo home_url(); ?>" class="hover:text-blue-600 transition-colors flex items-center gap-1">
                 <svg class="w-3.5 h-3.5" style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                Trang chủ
+                <?php echo t('Trang chủ', 'Home'); ?>
             </a>
             <svg class="w-3.5 h-3.5 text-slate-300" style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            <a href="<?php echo get_post_type_archive_link('room'); ?>" class="hover:text-blue-600 transition-colors">Phòng nghỉ</a>
+            <a href="<?php echo get_post_type_archive_link('room'); ?>" class="hover:text-blue-600 transition-colors"><?php echo t('Phòng nghỉ', 'Rooms'); ?></a>
             <svg class="w-3.5 h-3.5 text-slate-300" style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             <span class="text-slate-800 font-semibold truncate max-w-[200px]"><?php the_title(); ?></span>
         </div>
@@ -313,10 +313,10 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                         </div>
 
                         <?php if (count($gallery_images) > 1): ?>
-                            <button class="tt-prev" id="slidePrev" aria-label="Ảnh trước">
+                            <button class="tt-prev" id="slidePrev" aria-label="<?php echo t('Ảnh trước', 'Previous image'); ?>">
                                 <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                             </button>
-                            <button class="tt-next" id="slideNext" aria-label="Ảnh tiếp theo">
+                            <button class="tt-next" id="slideNext" aria-label="<?php echo t('Ảnh tiếp theo', 'Next image'); ?>">
                                 <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                             </button>
                             <div class="tt-dots" id="slideDots"></div>
@@ -350,12 +350,12 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                         <?php if ($room_type): ?>
                             <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"><?php echo esc_html($room_type); ?></span>
                         <?php endif; ?>
-                        <span class="tt-promo-badge">Ưu đãi nhất</span>
+                        <span class="tt-promo-badge"><?php echo t('Ưu đãi nhất', 'Best offer'); ?></span>
                         <div class="tt-stars flex items-center gap-0.5 ml-auto">
                             <?php for ($i = 0; $i < 5; $i++): ?>
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                             <?php endfor; ?>
-                            <span class="text-xs text-slate-500 ml-1 font-medium">4.9 (124 đánh giá)</span>
+                            <span class="text-xs text-slate-500 ml-1 font-medium">4.9 (124 <?php echo t('đánh giá', 'reviews'); ?>)</span>
                         </div>
                     </div>
 
@@ -368,21 +368,21 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                             <span class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
                             </span>
-                            <div><span class="font-bold text-slate-800"><?php echo esc_html($area); ?> m²</span><br><span class="text-xs text-slate-400">Diện tích</span></div>
+                            <div><span class="font-bold text-slate-800"><?php echo esc_html($area); ?> m²</span><br><span class="text-xs text-slate-400"><?php echo t('Diện tích', 'Area'); ?></span></div>
                         </div>
                         <?php endif; ?>
                         <div class="flex items-center gap-2">
                             <span class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             </span>
-                            <div><span class="font-bold text-slate-800"><?php echo esc_html($capacity); ?> người</span><br><span class="text-xs text-slate-400">Sức chứa</span></div>
+                            <div><span class="font-bold text-slate-800"><?php echo esc_html($capacity); ?> <?php echo t('người', 'guests'); ?></span><br><span class="text-xs text-slate-400"><?php echo t('Sức chứa', 'Capacity'); ?></span></div>
                         </div>
                         <?php if ($bed_type): ?>
                         <div class="flex items-center gap-2">
                             <span class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M3 6h18M3 18h18"/></svg>
                             </span>
-                            <div><span class="font-bold text-slate-800"><?php echo esc_html($bed_type); ?></span><br><span class="text-xs text-slate-400">Loại giường</span></div>
+                            <div><span class="font-bold text-slate-800"><?php echo esc_html($bed_type); ?></span><br><span class="text-xs text-slate-400"><?php echo t('Loại giường', 'Bed type'); ?></span></div>
                         </div>
                         <?php endif; ?>
                         <?php if ($view): ?>
@@ -390,7 +390,7 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                             <span class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                             </span>
-                            <div><span class="font-bold text-slate-800"><?php echo esc_html($view); ?></span><br><span class="text-xs text-slate-400">Hướng nhìn</span></div>
+                            <div><span class="font-bold text-slate-800"><?php echo esc_html($view); ?></span><br><span class="text-xs text-slate-400"><?php echo t('Hướng nhìn', 'View'); ?></span></div>
                         </div>
                         <?php endif; ?>
                         <?php if ($floor): ?>
@@ -398,7 +398,7 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                             <span class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                             </span>
-                            <div><span class="font-bold text-slate-800">Tầng <?php echo esc_html($floor); ?></span><br><span class="text-xs text-slate-400">Vị trí</span></div>
+                            <div><span class="font-bold text-slate-800"><?php echo t('Tầng', 'Floor'); ?> <?php echo esc_html($floor); ?></span><br><span class="text-xs text-slate-400"><?php echo t('Vị trí', 'Location'); ?></span></div>
                         </div>
                         <?php endif; ?>
                     </div>
@@ -407,7 +407,7 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                     <?php if (get_the_content()): ?>
                     <div class="tt-section-title">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        Mô tả phòng
+                        <?php echo t('Mô tả phòng', 'Room description'); ?>
                     </div>
                     <div class="tt-wp-content">
                         <?php the_content(); ?>
@@ -419,20 +419,20 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-8">
                     <div class="tt-section-title">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-                        Tiện nghi phòng
+                        <?php echo t('Tiện nghi phòng', 'Room amenities'); ?>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         <?php
                         $amenities = array(
-                            array('icon'=>'wifi',        'label'=>'Wi-Fi tốc độ cao'),
-                            array('icon'=>'ac',          'label'=>'Điều hòa nhiệt độ'),
-                            array('icon'=>'tv',          'label'=>'Smart TV 4K'),
-                            array('icon'=>'bath',        'label'=>'Bồn tắm riêng'),
-                            array('icon'=>'safe',        'label'=>'Két an toàn'),
-                            array('icon'=>'minibar',     'label'=>'Minibar & Trà/Cà phê'),
-                            array('icon'=>'phone',       'label'=>'Điện thoại phòng'),
-                            array('icon'=>'window',      'label'=>'Ban công/Cửa sổ lớn'),
-                            array('icon'=>'laundry',     'label'=>'Dịch vụ giặt là'),
+                            array('icon'=>'wifi',        'label'=>t('Wi-Fi tốc độ cao', 'High-speed Wi-Fi')),
+                            array('icon'=>'ac',          'label'=>t('Điều hòa nhiệt độ', 'Air conditioning')),
+                            array('icon'=>'tv',          'label'=>t('Smart TV 4K', '4K Smart TV')),
+                            array('icon'=>'bath',        'label'=>t('Bồn tắm riêng', 'Private bathtub')),
+                            array('icon'=>'safe',        'label'=>t('Két an toàn', 'Safe box')),
+                            array('icon'=>'minibar',     'label'=>t('Minibar & Trà/Cà phê', 'Minibar & Tea/Coffee')),
+                            array('icon'=>'phone',       'label'=>t('Điện thoại phòng', 'Room telephone')),
+                            array('icon'=>'window',      'label'=>t('Ban công/Cửa sổ lớn', 'Balcony/Large window')),
+                            array('icon'=>'laundry',     'label'=>t('Dịch vụ giặt là', 'Laundry service')),
                         );
                         $icons = array(
                             'wifi'    => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.314 6.364c5.857-5.858 15.355-5.858 21.213 0"/>',
@@ -462,7 +462,7 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-8">
                     <div class="tt-section-title">
                         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                        Chính sách phòng
+                        <?php echo t('Chính sách phòng', 'Room policies'); ?>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm">
                         <div class="flex gap-3">
@@ -470,8 +470,8 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             </div>
                             <div>
-                                <p class="font-bold text-slate-800 mb-0.5">Nhận phòng</p>
-                                <p class="text-slate-500">Từ 14:00 (Check-in)</p>
+                                <p class="font-bold text-slate-800 mb-0.5"><?php echo t('Nhận phòng', 'Check-in'); ?></p>
+                                <p class="text-slate-500"><?php echo t('Từ 14:00', 'From 14:00'); ?> (Check-in)</p>
                             </div>
                         </div>
                         <div class="flex gap-3">
@@ -479,8 +479,8 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             </div>
                             <div>
-                                <p class="font-bold text-slate-800 mb-0.5">Trả phòng</p>
-                                <p class="text-slate-500">Trước 12:00 (Check-out)</p>
+                                <p class="font-bold text-slate-800 mb-0.5"><?php echo t('Trả phòng', 'Check-out'); ?></p>
+                                <p class="text-slate-500"><?php echo t('Trước 12:00', 'Before 12:00'); ?> (Check-out)</p>
                             </div>
                         </div>
                         <div class="flex gap-3">
@@ -488,8 +488,8 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
                             </div>
                             <div>
-                                <p class="font-bold text-slate-800 mb-0.5">Hủy đặt phòng</p>
-                                <p class="text-slate-500">Miễn phí hủy trước 48 giờ</p>
+                                <p class="font-bold text-slate-800 mb-0.5"><?php echo t('Hủy đặt phòng', 'Cancellation'); ?></p>
+                                <p class="text-slate-500"><?php echo t('Miễn phí hủy trước 48 giờ', 'Free cancellation before 48 hours'); ?></p>
                             </div>
                         </div>
                         <div class="flex gap-3">
@@ -497,8 +497,8 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
                             </div>
                             <div>
-                                <p class="font-bold text-slate-800 mb-0.5">Thanh toán</p>
-                                <p class="text-slate-500">Tiền mặt & chuyển khoản</p>
+                                <p class="font-bold text-slate-800 mb-0.5"><?php echo t('Thanh toán', 'Payment'); ?></p>
+                                <p class="text-slate-500"><?php echo t('Tiền mặt & chuyển khoản', 'Cash & bank transfer'); ?></p>
                             </div>
                         </div>
                     </div>
@@ -516,15 +516,15 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                         <!-- Header gradient -->
                         <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 p-6 text-white relative overflow-hidden">
                             <div class="absolute inset-0 opacity-10" style="background-image:radial-gradient(circle at 70% 20%, #60a5fa 0%, transparent 50%)"></div>
-                            <p class="text-slate-300 text-xs font-semibold uppercase tracking-widest mb-1">Giá phòng từ</p>
+                            <p class="text-slate-300 text-xs font-semibold uppercase tracking-widest mb-1"><?php echo t('Giá phòng từ', 'Price from'); ?></p>
                             <?php if ($price): ?>
                                 <div class="flex items-end gap-2">
                                     <span class="text-3xl font-black"><?php echo number_format($price); ?>đ</span>
-                                    <span class="text-slate-400 text-sm mb-1">/đêm</span>
+                                    <span class="text-slate-400 text-sm mb-1">/<?php echo t('đêm', 'night'); ?></span>
                                 </div>
-                                <p class="text-xs text-green-400 mt-1 font-medium">✓ Đã bao gồm thuế & phí dịch vụ</p>
+                                <p class="text-xs text-green-400 mt-1 font-medium">✓ <?php echo t('Đã bao gồm thuế & phí dịch vụ', 'Includes taxes & service fees'); ?></p>
                             <?php else: ?>
-                                <div class="text-2xl font-black">Liên hệ báo giá</div>
+                                <div class="text-2xl font-black"><?php echo t('Liên hệ báo giá', 'Contact for price'); ?></div>
                             <?php endif; ?>
                         </div>
 
@@ -532,12 +532,12 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                             <!-- Check-in / Check-out -->
                             <div class="grid grid-cols-2 gap-3">
                                 <div class="space-y-1">
-                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wide block">Nhận phòng</label>
+                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wide block"><?php echo t('Nhận phòng', 'Check-in'); ?></label>
                                     <input type="date" id="tt_checkin" value="<?php echo esc_attr($check_in); ?>"
                                         class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-800 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all cursor-pointer">
                                 </div>
                                 <div class="space-y-1">
-                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wide block">Trả phòng</label>
+                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wide block"><?php echo t('Trả phòng', 'Check-out'); ?></label>
                                     <input type="date" id="tt_checkout" value="<?php echo esc_attr($check_out); ?>"
                                         class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-800 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all cursor-pointer">
                                 </div>
@@ -545,10 +545,10 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
 
                             <!-- Guests -->
                             <div class="space-y-1">
-                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wide block">Số khách</label>
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wide block"><?php echo t('Số khách', 'Guests'); ?></label>
                                 <select id="tt_guests" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-800 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all cursor-pointer">
                                     <?php for ($g = 1; $g <= $capacity; $g++): ?>
-                                        <option value="<?php echo $g; ?>"><?php echo $g; ?> khách</option>
+                                        <option value="<?php echo $g; ?>"><?php echo $g; ?> <?php echo t('khách', 'guests'); ?></option>
                                     <?php endfor; ?>
                                 </select>
                             </div>
@@ -556,31 +556,31 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                             <!-- Price breakdown -->
                             <div id="tt_price_breakdown" class="bg-slate-50 rounded-2xl p-4 text-sm space-y-2 border border-slate-100" style="display:none">
                                 <div id="tt_row_weekday" class="flex justify-between text-slate-600" style="display:none">
-                                    <span><?php if ($price) echo number_format($price); ?>đ × <span id="tt_weekday_nights">0</span> đêm (trong tuần)</span>
+                                    <span><?php if ($price) echo number_format($price); ?>đ × <span id="tt_weekday_nights">0</span> <?php echo t('đêm', 'nights'); ?> (<?php echo t('trong tuần', 'weekdays'); ?>)</span>
                                     <span class="font-medium" id="tt_weekday_subtotal">0đ</span>
                                 </div>
                                 <div id="tt_row_weekend" class="flex justify-between text-orange-600" style="display:none">
-                                    <span><?php if ($weekend_price) echo number_format($weekend_price); elseif ($price) echo number_format($price); ?>đ × <span id="tt_weekend_nights">0</span> đêm (cuối tuần)</span>
+                                    <span><?php if ($weekend_price) echo number_format($weekend_price); elseif ($price) echo number_format($price); ?>đ × <span id="tt_weekend_nights">0</span> <?php echo t('đêm', 'nights'); ?> (<?php echo t('cuối tuần', 'weekend'); ?>)</span>
                                     <span class="font-medium" id="tt_weekend_subtotal">0đ</span>
                                 </div>
                                 <div class="flex justify-between text-slate-600">
-                                    <span>Phí dịch vụ (5%)</span>
+                                    <span><?php echo t('Phí dịch vụ (5%)', 'Service fee (5%)'); ?></span>
                                     <span class="font-medium" id="tt_fee">0đ</span>
                                 </div>
                                 <div class="border-t border-slate-200 pt-2 flex justify-between font-bold text-slate-900">
-                                    <span>Tổng cộng</span>
+                                    <span><?php echo t('Tổng cộng', 'Total'); ?></span>
                                     <span class="text-orange-500 text-lg" id="tt_total">0đ</span>
                                 </div>
                             </div>
 
                             <!-- CTA Button -->
-                            <div id="tt_book_warning" style="display: none;" class="text-sm font-bold text-red-500 bg-red-50 border border-red-200 rounded-xl p-3 text-center mb-3">Vui lòng chọn ngày nhận và trả phòng!</div>
+                            <div id="tt_book_warning" style="display: none;" class="text-sm font-bold text-red-500 bg-red-50 border border-red-200 rounded-xl p-3 text-center mb-3"><?php echo t('Vui lòng chọn ngày nhận và trả phòng!', 'Please select check-in and check-out dates!'); ?></div>
                             <a href="<?php echo esc_url(get_permalink() . ($query_str ? rtrim($query_str,'&') . '&step=book' : '?step=book')); ?>" id="tt_book_link"
                                class="tt-book-btn">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                Đặt phòng ngay
+                                <?php echo t('Đặt phòng ngay', 'Book Now'); ?>
                             </a>
-                            <p class="text-center text-xs text-slate-400 mt-3">Bạn sẽ chưa bị trừ tiền ngay lúc này</p>
+                            <p class="text-center text-xs text-slate-400 mt-3"><?php echo t('Bạn sẽ chưa bị trừ tiền ngay lúc này', 'You will not be charged right now'); ?></p>
                         </div>
                     </div>
 
@@ -591,8 +591,8 @@ $room_booking_link = get_permalink() . ($query_str ? $query_str . '&step=book' :
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                             </div>
                             <div>
-                                <p class="font-bold mb-1">Cần hỗ trợ?</p>
-                                <p class="text-blue-100 text-sm mb-3">Liên hệ chúng tôi để được tư vấn và đặt phòng tốt nhất.</p>
+                                <p class="font-bold mb-1"><?php echo t('Cần hỗ trợ?', 'Need help?'); ?></p>
+                                <p class="text-blue-100 text-sm mb-3"><?php echo t('Liên hệ chúng tôi để được tư vấn và đặt phòng tốt nhất.', 'Contact us for the best advice and booking.'); ?></p>
                                 <a href="tel:0901234567" class="text-white font-bold text-lg hover:underline">0901 234 567</a>
                             </div>
                         </div>
@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', function() {
         slides.forEach(function(_, i) {
             const dot = document.createElement('button');
             dot.className = 'tt-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', 'Ảnh ' + (i+1));
+            dot.setAttribute('aria-label', '<?php echo t('Ảnh', 'Image'); ?> ' + (i+1));
             dot.addEventListener('click', function() { goTo(i); });
             dotsWrap.appendChild(dot);
         });

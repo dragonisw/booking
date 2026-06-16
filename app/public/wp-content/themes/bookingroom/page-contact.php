@@ -401,8 +401,8 @@
 
     <!-- ── Hero ── -->
     <section class="contact-hero">
-        <h1>Liên hệ với Chúng tôi</h1>
-        <p>Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy để lại lời nhắn hoặc liên hệ trực tiếp qua hotline.</p>
+        <h1><?php echo t('Liên hệ với Chúng tôi', 'Contact Us'); ?></h1>
+        <p><?php echo t('Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy để lại lời nhắn hoặc liên hệ trực tiếp qua hotline.', 'We are always ready to listen and support you. Please leave a message or contact us directly via hotline.'); ?></p>
     </section>
 
     <!-- ── Quick Info Cards ── -->
@@ -412,8 +412,8 @@
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <div>
-                <h3>Giờ làm việc</h3>
-                <p>Thứ 2 – Thứ 6: 8:00 – 18:00<br>Thứ 7 – CN: 9:00 – 17:00</p>
+                <h3><?php echo t('Giờ làm việc', 'Working Hours'); ?></h3>
+                <p><?php echo t('Thứ 2 – Thứ 6: 8:00 – 18:00<br>Thứ 7 – CN: 9:00 – 17:00', 'Mon – Fri: 8:00 – 18:00<br>Sat – Sun: 9:00 – 17:00'); ?></p>
             </div>
         </div>
         <div class="contact-quick-card">
@@ -421,8 +421,8 @@
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
             </div>
             <div>
-                <h3>Hotline hỗ trợ</h3>
-                <p><a href="tel:01234567890" style="color:#16a34a;font-weight:700;">0123 456 789</a><br>Hỗ trợ 24/7 mọi ngày</p>
+                <h3><?php echo t('Hotline hỗ trợ', 'Support Hotline'); ?></h3>
+                <p><a href="tel:01234567890" style="color:#16a34a;font-weight:700;">0123 456 789</a><br><?php echo t('Hỗ trợ 24/7 mọi ngày', '24/7 Support every day'); ?></p>
             </div>
         </div>
         <div class="contact-quick-card">
@@ -430,8 +430,8 @@
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             </div>
             <div>
-                <h3>Phản hồi email</h3>
-                <p>Trong vòng 2–4 giờ làm việc<br>support@bookingroom.com</p>
+                <h3><?php echo t('Phản hồi email', 'Email Feedback'); ?></h3>
+                <p><?php echo t('Trong vòng 2–4 giờ làm việc', 'Within 2-4 working hours'); ?><br>support@bookingroom.com</p>
             </div>
         </div>
     </div>
@@ -442,15 +442,15 @@
 
             <!-- Info Panel -->
             <div class="contact-info">
-                <h2>Thông tin Liên hệ</h2>
+                <h2><?php echo t('Thông tin Liên hệ', 'Contact Information'); ?></h2>
                 <ul class="contact-info-list">
                     <li class="contact-info-item">
                         <div class="contact-info-icon">
                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         </div>
                         <div class="contact-info-text">
-                            <h4>Địa chỉ</h4>
-                            <p>123 Đường Trần Hưng Đạo<br>Quận 1, TP. Hồ Chí Minh</p>
+                            <h4><?php echo t('Địa chỉ', 'Address'); ?></h4>
+                            <p><?php echo t('123 Đường Trần Hưng Đạo<br>Quận 1, TP. Hồ Chí Minh', '123 Tran Hung Dao Street<br>District 1, Ho Chi Minh City'); ?></p>
                         </div>
                     </li>
                     <li class="contact-info-item">
@@ -458,7 +458,7 @@
                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                         </div>
                         <div class="contact-info-text">
-                            <h4>Điện thoại</h4>
+                            <h4><?php echo t('Điện thoại', 'Phone'); ?></h4>
                             <p><a href="tel:01234567890">0123 456 789</a><br><a href="tel:19001234">1900 1234</a></p>
                         </div>
                     </li>
@@ -467,14 +467,14 @@
                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         </div>
                         <div class="contact-info-text">
-                            <h4>Email</h4>
+                            <h4><?php echo t('Email', 'Email'); ?></h4>
                             <p><a href="mailto:support@bookingroom.com">support@bookingroom.com</a><br><a href="mailto:info@bookingroom.com">info@bookingroom.com</a></p>
                         </div>
                     </li>
                 </ul>
 
                 <div class="contact-social">
-                    <h4>Theo dõi chúng tôi</h4>
+                    <h4><?php echo t('Theo dõi chúng tôi', 'Follow Us'); ?></h4>
                     <div class="social-links">
                         <a href="#" class="social-link" aria-label="Facebook">
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
@@ -494,8 +494,8 @@
 
             <!-- Form Panel -->
             <div class="contact-form-wrap">
-                <h2>Gửi tin nhắn cho chúng tôi</h2>
-                <p>Điền thông tin bên dưới, chúng tôi sẽ phản hồi sớm nhất có thể.</p>
+                <h2><?php echo t('Gửi tin nhắn cho chúng tôi', 'Send us a message'); ?></h2>
+                <p><?php echo t('Điền thông tin bên dưới, chúng tôi sẽ phản hồi sớm nhất có thể.', 'Fill in the information below, we will respond as soon as possible.'); ?></p>
 
                 <?php
                 // Xử lý form submit
@@ -509,13 +509,13 @@
 
                         if ($name && $email && $message) {
                             $to      = get_option('admin_email');
-                            $subj    = '[Liên hệ] ' . ($subject ?: 'Tin nhắn từ website');
-                            $body    = "Họ tên: $name\nEmail: $email\nChủ đề: $subject\n\nNội dung:\n$message";
+                            $subj    = '[' . t('Liên hệ', 'Contact') . '] ' . ($subject ?: t('Tin nhắn từ website', 'Message from website'));
+                            $body    = t('Họ tên: ', 'Name: ') . "$name\n" . t('Email: ', 'Email: ') . "$email\n" . t('Chủ đề: ', 'Subject: ') . "$subject\n\n" . t('Nội dung:', 'Message:') . "\n$message";
                             $headers = ['Content-Type: text/plain; charset=UTF-8', "Reply-To: $name <$email>"];
                             wp_mail($to, $subj, $body, $headers);
-                            $notice_html = '<div class="form-notice success">✅ Gửi thành công! Chúng tôi sẽ phản hồi trong 2–4 giờ.</div>';
+                            $notice_html = '<div class="form-notice success">✅ ' . t('Gửi thành công! Chúng tôi sẽ phản hồi trong 2–4 giờ.', 'Successfully sent! We will respond within 2-4 hours.') . '</div>';
                         } else {
-                            $notice_html = '<div class="form-notice error">⚠ Vui lòng điền đầy đủ: Họ tên, Email và Lời nhắn.</div>';
+                            $notice_html = '<div class="form-notice error">⚠ ' . t('Vui lòng điền đầy đủ: Họ tên, Email và Lời nhắn.', 'Please fill in completely: Name, Email and Message.') . '</div>';
                         }
                     }
                 }
@@ -527,14 +527,14 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="contact_name">Họ và tên <span style="color:#ef4444;">*</span></label>
+                            <label for="contact_name"><?php echo t('Họ và tên', 'Full Name'); ?> <span style="color:#ef4444;">*</span></label>
                             <input type="text" id="contact_name" name="contact_name"
-                                placeholder="Nguyễn Văn A"
+                                placeholder="<?php echo esc_attr(t('Nguyễn Văn A', 'John Doe')); ?>"
                                 value="<?php echo esc_attr($_POST['contact_name'] ?? ''); ?>"
                                 required autocomplete="name">
                         </div>
                         <div class="form-group">
-                            <label for="contact_email">Địa chỉ Email <span style="color:#ef4444;">*</span></label>
+                            <label for="contact_email"><?php echo t('Địa chỉ Email', 'Email Address'); ?> <span style="color:#ef4444;">*</span></label>
                             <input type="email" id="contact_email" name="contact_email"
                                 placeholder="example@gmail.com"
                                 value="<?php echo esc_attr($_POST['contact_email'] ?? ''); ?>"
@@ -543,7 +543,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="contact_phone">Số điện thoại</label>
+                        <label for="contact_phone"><?php echo t('Số điện thoại', 'Phone Number'); ?></label>
                         <input type="tel" id="contact_phone" name="contact_phone"
                             placeholder="0123 456 789"
                             value="<?php echo esc_attr($_POST['contact_phone'] ?? ''); ?>"
@@ -551,16 +551,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="contact_subject">Chủ đề</label>
+                        <label for="contact_subject"><?php echo t('Chủ đề', 'Subject'); ?></label>
                         <input type="text" id="contact_subject" name="contact_subject"
-                            placeholder="Tôi cần hỗ trợ về đặt phòng..."
+                            placeholder="<?php echo esc_attr(t('Tôi cần hỗ trợ về đặt phòng...', 'I need support with booking...')); ?>"
                             value="<?php echo esc_attr($_POST['contact_subject'] ?? ''); ?>">
                     </div>
 
                     <div class="form-group">
-                        <label for="contact_message">Lời nhắn <span style="color:#ef4444;">*</span></label>
+                        <label for="contact_message"><?php echo t('Lời nhắn', 'Message'); ?> <span style="color:#ef4444;">*</span></label>
                         <textarea id="contact_message" name="contact_message"
-                            placeholder="Viết nội dung tin nhắn của bạn ở đây..."
+                            placeholder="<?php echo esc_attr(t('Viết nội dung tin nhắn của bạn ở đây...', 'Write your message here...')); ?>"
                             required><?php echo esc_textarea($_POST['contact_message'] ?? ''); ?></textarea>
                     </div>
 
@@ -568,7 +568,7 @@
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                         </svg>
-                        Gửi tin nhắn ngay
+                        <?php echo t('Gửi tin nhắn ngay', 'Send Message Now'); ?>
                     </button>
                 </form>
             </div>
@@ -591,8 +591,8 @@
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
                 </svg>
-                <span>Bản đồ Google Maps</span>
-                <small style="font-size:0.75rem;color:#cbd5e1;">Cài đặt Google Maps API Key trong giao diện → Tuỳ chỉnh</small>
+                <span><?php echo t('Bản đồ Google Maps', 'Google Maps'); ?></span>
+                <small style="font-size:0.75rem;color:#cbd5e1;"><?php echo t('Cài đặt Google Maps API Key trong giao diện → Tuỳ chỉnh', 'Setup Google Maps API Key in Appearance → Customize'); ?></small>
             </div>
         <?php endif; ?>
     </div>

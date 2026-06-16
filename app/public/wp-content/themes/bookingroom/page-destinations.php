@@ -296,22 +296,22 @@ $destinations = brd_get_destinations(array(
     <!-- Hero -->
     <div class="dest-page-hero">
         <div class="dest-page-hero-inner">
-            <span class="dest-page-hero-badge">🗺️ Khám phá</span>
-            <h1>Điểm đến <span>tuyệt vời</span> đang chờ bạn</h1>
-            <p>Tìm kiếm khách sạn tuyệt vời tại những thành phố du lịch hàng đầu Việt Nam và thế giới.</p>
+            <span class="dest-page-hero-badge">🗺️ <?php echo t('Khám phá', 'Explore'); ?></span>
+            <h1><?php echo t('Điểm đến', 'Amazing'); ?> <span><?php echo t('tuyệt vời', 'destinations'); ?></span> <?php echo t('đang chờ bạn', 'are waiting for you'); ?></h1>
+            <p><?php echo t('Tìm kiếm khách sạn tuyệt vời tại những thành phố du lịch hàng đầu Việt Nam và thế giới.', 'Find amazing hotels in top tourist cities in Vietnam and around the world.'); ?></p>
             <?php if (!empty($destinations)): ?>
             <div class="dest-page-stats">
                 <div class="stat">
                     <div class="stat-val"><?php echo count($destinations); ?>+</div>
-                    <div class="stat-lbl">Điểm đến</div>
+                    <div class="stat-lbl"><?php echo t('Điểm đến', 'Destinations'); ?></div>
                 </div>
                 <div class="stat">
                     <div class="stat-val">500+</div>
-                    <div class="stat-lbl">Khách sạn</div>
+                    <div class="stat-lbl"><?php echo t('Khách sạn', 'Hotels'); ?></div>
                 </div>
                 <div class="stat">
                     <div class="stat-val">4.9★</div>
-                    <div class="stat-lbl">Đánh giá TB</div>
+                    <div class="stat-lbl"><?php echo t('Đánh giá TB', 'Avg Rating'); ?></div>
                 </div>
             </div>
             <?php endif; ?>
@@ -323,11 +323,11 @@ $destinations = brd_get_destinations(array(
         <div class="dest-page-container">
             <div class="dest-section-header">
                 <div>
-                    <div class="dest-section-label">Tất cả điểm đến</div>
-                    <h2 class="dest-section-title-h2">Chọn điểm đến lý tưởng</h2>
+                    <div class="dest-section-label"><?php echo t('Tất cả điểm đến', 'All destinations'); ?></div>
+                    <h2 class="dest-section-title-h2"><?php echo t('Chọn điểm đến lý tưởng', 'Choose your ideal destination'); ?></h2>
                 </div>
                 <?php if (!empty($destinations)): ?>
-                <span class="dest-section-count"><?php echo count($destinations); ?> điểm đến</span>
+                <span class="dest-section-count"><?php echo count($destinations); ?> <?php echo t('điểm đến', 'destinations'); ?></span>
                 <?php endif; ?>
             </div>
 
@@ -340,7 +340,7 @@ $destinations = brd_get_destinations(array(
                         $hotel_count = get_post_meta($pid, '_dest_hotel_count', true);
                         $tagline     = get_post_meta($pid, '_dest_tagline', true);
                         $badge       = get_post_meta($pid, '_dest_badge', true);
-                        $country     = get_post_meta($pid, '_dest_country', true) ?: 'Việt Nam';
+                        $country     = get_post_meta($pid, '_dest_country', true) ?: t('Việt Nam', 'Vietnam');
                         $region      = get_post_meta($pid, '_dest_region', true);
                         $search_link = get_post_meta($pid, '_dest_search_link', true);
                         $dest_link   = get_permalink($pid);
@@ -377,11 +377,11 @@ $destinations = brd_get_destinations(array(
                             <?php if ($tagline): ?>
                                 <p class="dest-card-tagline"><?php echo esc_html($tagline); ?></p>
                             <?php else: ?>
-                                <p class="dest-card-tagline" style="color:#cbd5e1;font-style:italic;">Điểm đến du lịch tuyệt vời đang chờ bạn khám phá.</p>
+                                <p class="dest-card-tagline" style="color:#cbd5e1;font-style:italic;"><?php echo t('Điểm đến du lịch tuyệt vời đang chờ bạn khám phá.', 'Amazing tourist destinations waiting for you to explore.'); ?></p>
                             <?php endif; ?>
 
                             <a href="<?php echo esc_url($dest_link); ?>" class="dest-card-btn">
-                                <span>Khám phá ngay</span>
+                                <span><?php echo t('Khám phá ngay', 'Explore now'); ?></span>
                                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                                 </svg>
@@ -392,8 +392,8 @@ $destinations = brd_get_destinations(array(
                 <?php else: ?>
                     <div class="dest-empty">
                         <div class="dest-empty-icon">🗺️</div>
-                        <h3>Chưa có điểm đến nào</h3>
-                        <p>Hãy thêm điểm đến trong trang quản trị WordPress → <strong>Điểm đến → Thêm điểm đến</strong></p>
+                        <h3><?php echo t('Chưa có điểm đến nào', 'No destinations found'); ?></h3>
+                        <p><?php echo t('Hãy thêm điểm đến trong trang quản trị WordPress → <strong>Điểm đến → Thêm điểm đến</strong>', 'Please add destinations in WordPress admin → <strong>Destinations → Add new destination</strong>'); ?></p>
                     </div>
                 <?php endif; ?>
             </div>

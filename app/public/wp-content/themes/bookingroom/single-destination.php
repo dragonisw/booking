@@ -8,9 +8,9 @@ get_header();
 $pid         = get_the_ID();
 $title       = get_the_title();
 $thumb       = get_the_post_thumbnail_url($pid, 'full');
-$hotel_count = get_post_meta($pid, '_dest_hotel_count', true) ?: '0 Khách sạn';
+$hotel_count = get_post_meta($pid, '_dest_hotel_count', true) ?: '0 ' . t('Khách sạn', 'Hotels');
 $tagline     = get_post_meta($pid, '_dest_tagline', true);
-$country     = get_post_meta($pid, '_dest_country', true) ?: 'Việt Nam';
+$country     = get_post_meta($pid, '_dest_country', true) ?: t('Việt Nam', 'Vietnam');
 $region      = get_post_meta($pid, '_dest_region', true);
 $highlight   = get_post_meta($pid, '_dest_highlight', true);
 $badge       = get_post_meta($pid, '_dest_badge', true);
@@ -273,9 +273,9 @@ $related = get_posts(array(
     <!-- Breadcrumbs -->
     <div class="breadcrumb-bar">
         <div class="breadcrumb-inner">
-            <a href="<?php echo home_url(); ?>">🏠 Trang chủ</a>
+            <a href="<?php echo home_url(); ?>">🏠 <?php echo t('Trang chủ', 'Home'); ?></a>
             <span class="sep">/</span>
-            <a href="<?php echo get_post_type_archive_link('destination'); ?>">Điểm đến</a>
+            <a href="<?php echo get_post_type_archive_link('destination'); ?>"><?php echo t('Điểm đến', 'Destinations'); ?></a>
             <span class="sep">/</span>
             <span class="current"><?php echo esc_html($title); ?></span>
         </div>
@@ -303,7 +303,7 @@ $related = get_posts(array(
             <?php if ($hotel_count): ?>
             <div class="dest-stat">
                 <span class="dest-stat-value"><?php echo esc_html(preg_replace('/[^0-9+]/', '', $hotel_count) ?: $hotel_count); ?></span>
-                <span class="dest-stat-label">Khách sạn</span>
+                <span class="dest-stat-label"><?php echo t('Khách sạn', 'Hotels'); ?></span>
             </div>
             <div class="dest-stat-divider"></div>
             <?php endif; ?>
@@ -324,7 +324,7 @@ $related = get_posts(array(
             <div style="margin-left:auto;">
                 <a href="<?php echo esc_url($book_link); ?>" class="dest-book-btn">
                     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    Tìm phòng tại <?php echo esc_html($title); ?>
+                    <?php echo t('Tìm phòng tại', 'Find rooms in'); ?> <?php echo esc_html($title); ?>
                 </a>
             </div>
         </div>
@@ -341,7 +341,7 @@ $related = get_posts(array(
 
                 <?php if (has_excerpt() || get_the_content()): ?>
                 <div style="background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid #f1f5f9;margin-bottom:28px;">
-                    <h2 class="dest-section-title">🗺️ Giới thiệu</h2>
+                    <h2 class="dest-section-title">🗺️ <?php echo t('Giới thiệu', 'Introduction'); ?></h2>
                     <div style="color:#475569;line-height:1.8;font-size:15px;">
                         <?php the_content(); ?>
                         <?php if (!get_the_content() && has_excerpt()): ?>
@@ -353,7 +353,7 @@ $related = get_posts(array(
 
                 <?php if (!empty($highlights)): ?>
                 <div style="background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid #f1f5f9;margin-bottom:28px;">
-                    <h2 class="dest-section-title">✨ Điểm nổi bật</h2>
+                    <h2 class="dest-section-title">✨ <?php echo t('Điểm nổi bật', 'Highlights'); ?></h2>
                     <div style="display:flex;flex-wrap:wrap;gap:10px;">
                         <?php foreach ($highlights as $hl): ?>
                             <span class="dest-highlight-tag">✓ <?php echo esc_html($hl); ?></span>
@@ -377,8 +377,8 @@ $related = get_posts(array(
                 ?>
                 <div style="background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid #f1f5f9;">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-                        <h2 class="dest-section-title" style="margin:0;">🛏️ Khách sạn/resort gợi ý</h2>
-                        <a href="<?php echo esc_url($book_link); ?>" style="color:#2563eb;font-weight:700;font-size:13px;text-decoration:none;">Xem tất cả →</a>
+                        <h2 class="dest-section-title" style="margin:0;">🛏️ <?php echo t('Khách sạn/resort gợi ý', 'Suggested Hotels/Resorts'); ?></h2>
+                        <a href="<?php echo esc_url($book_link); ?>" style="color:#2563eb;font-weight:700;font-size:13px;text-decoration:none;"><?php echo t('Xem tất cả →', 'See all →'); ?></a>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:16px;">
                     <?php foreach ($hotels as $hotel):
@@ -389,7 +389,7 @@ $related = get_posts(array(
                             <img src="<?php echo $hotel_thumb ?: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=200'; ?>" alt="" style="width:80px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0;">
                             <div style="flex:1;min-width:0;">
                                 <h4 style="margin:0 0 4px;font-size:14px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?php echo esc_html($hotel->post_title); ?></h4>
-                                <p style="margin:0;font-size:12px;color:#94a3b8;">Từ <strong style="color:#f97316;"><?php echo number_format($hotel_price); ?>đ</strong>/đêm</p>
+                                <p style="margin:0;font-size:12px;color:#94a3b8;"><?php echo t('Từ', 'From'); ?> <strong style="color:#f97316;"><?php echo number_format($hotel_price); ?>đ</strong>/<?php echo t('đêm', 'night'); ?></p>
                             </div>
                             <svg width="16" height="16" fill="none" stroke="#94a3b8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                         </a>
@@ -403,16 +403,16 @@ $related = get_posts(array(
             <div>
                 <div class="dest-sidebar-card">
                     <div style="background:linear-gradient(135deg,#1e40af,#2563eb);padding:24px 24px 20px;color:#fff;">
-                        <h3 style="margin:0 0 6px;font-size:18px;font-weight:800;">Đặt phòng ngay</h3>
-                        <p style="margin:0;font-size:13px;opacity:.85;">Tìm phòng tốt nhất tại <?php echo esc_html($title); ?></p>
+                        <h3 style="margin:0 0 6px;font-size:18px;font-weight:800;"><?php echo t('Đặt phòng ngay', 'Book Now'); ?></h3>
+                        <p style="margin:0;font-size:13px;opacity:.85;"><?php echo t('Tìm phòng tốt nhất tại', 'Find the best rooms in'); ?> <?php echo esc_html($title); ?></p>
                     </div>
                     <div style="padding:20px 24px 24px;">
                         <a href="<?php echo esc_url($book_link); ?>" class="dest-book-btn" style="width:100%;justify-content:center;box-sizing:border-box;display:flex;">
                             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                            Xem phòng có sẵn
+                            <?php echo t('Xem phòng có sẵn', 'View available rooms'); ?>
                         </a>
                         <div style="margin-top:20px;padding-top:16px;border-top:1px solid #f1f5f9;">
-                            <p style="margin:0 0 10px;font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;">Thông tin nhanh</p>
+                            <p style="margin:0 0 10px;font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;"><?php echo t('Thông tin nhanh', 'Quick info'); ?></p>
                             <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:#475569;">
                                 <?php if ($hotel_count): ?><div>🏨 <?php echo esc_html($hotel_count); ?></div><?php endif; ?>
                                 <?php if ($region): ?><div>📌 <?php echo esc_html($region); ?></div><?php endif; ?>
@@ -422,7 +422,7 @@ $related = get_posts(array(
                         </div>
                         <?php if (!empty($highlights)): ?>
                         <div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9;">
-                            <p style="margin:0 0 10px;font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;">Điểm nổi bật</p>
+                            <p style="margin:0 0 10px;font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;"><?php echo t('Điểm nổi bật', 'Highlights'); ?></p>
                             <div style="display:flex;flex-direction:column;gap:6px;">
                                 <?php foreach ($highlights as $hl): ?>
                                     <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#475569;">
@@ -444,8 +444,8 @@ $related = get_posts(array(
         <?php if (!empty($related)): ?>
         <div style="margin-top:56px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-                <h2 style="margin:0;font-size:1.5rem;font-weight:800;color:#1e293b;">🗺️ Điểm đến khác</h2>
-                <a href="<?php echo get_post_type_archive_link('destination'); ?>" style="color:#2563eb;font-weight:700;font-size:13px;text-decoration:none;">Xem tất cả →</a>
+                <h2 style="margin:0;font-size:1.5rem;font-weight:800;color:#1e293b;">🗺️ <?php echo t('Điểm đến khác', 'Other destinations'); ?></h2>
+                <a href="<?php echo get_post_type_archive_link('destination'); ?>" style="color:#2563eb;font-weight:700;font-size:13px;text-decoration:none;"><?php echo t('Xem tất cả →', 'See all →'); ?></a>
             </div>
             <div class="dest-related-grid">
                 <?php foreach ($related as $rel):

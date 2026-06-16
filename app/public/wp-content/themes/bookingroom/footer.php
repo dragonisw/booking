@@ -111,11 +111,11 @@
                         ]);
                     else : ?>
                         <ul class="br-footer__nav">
-                            <li><a href="<?php echo esc_url( home_url('/destinations') ); ?>">Địa điểm</a></li>
-                            <li><a href="<?php echo esc_url( home_url('/services') ); ?>">Dịch vụ</a></li>
-                            <li><a href="<?php echo esc_url( home_url('/uu-dai') ); ?>">Ưu đãi</a></li>
+                            <li><a href="<?php echo esc_url( home_url('/destinations') ); ?>"><?php echo t('Địa điểm', 'Destinations'); ?></a></li>
+                            <li><a href="<?php echo esc_url( home_url('/services') ); ?>"><?php echo t('Dịch vụ', 'Services'); ?></a></li>
+                            <li><a href="<?php echo esc_url( home_url('/uu-dai') ); ?>"><?php echo t('Ưu đãi', 'Offers'); ?></a></li>
                             <li><a href="<?php echo esc_url( home_url('/blog') ); ?>">Blog</a></li>
-                            <li><a href="<?php echo esc_url( home_url('/rooms') ); ?>">Phòng nghỉ</a></li>
+                            <li><a href="<?php echo esc_url( home_url('/rooms') ); ?>"><?php echo t('Phòng nghỉ', 'Rooms'); ?></a></li>
                         </ul>
                     <?php endif; ?>
                 </div>
@@ -136,11 +136,11 @@
                         ]);
                     else : ?>
                         <ul class="br-footer__nav">
-                            <li><a href="<?php echo esc_url( home_url('/contact') ); ?>">Liên hệ</a></li>
-                            <li><a href="<?php echo esc_url( home_url('/faq') ); ?>">Câu hỏi thường gặp</a></li>
-                            <li><a href="<?php echo esc_url( home_url('/chinh-sach-bao-mat') ); ?>">Chính sách bảo mật</a></li>
-                            <li><a href="<?php echo esc_url( home_url('/dieu-khoan-dich-vu') ); ?>">Điều khoản dịch vụ</a></li>
-                            <li><a href="<?php echo esc_url( home_url('/tra-cuu-phong') ); ?>">Tra cứu đặt phòng</a></li>
+                            <li><a href="<?php echo esc_url( home_url('/contact') ); ?>"><?php echo t('Liên hệ', 'Contact'); ?></a></li>
+                            <li><a href="<?php echo esc_url( home_url('/faq') ); ?>"><?php echo t('Câu hỏi thường gặp', 'FAQ'); ?></a></li>
+                            <li><a href="<?php echo esc_url( home_url('/chinh-sach-bao-mat') ); ?>"><?php echo t('Chính sách bảo mật', 'Privacy Policy'); ?></a></li>
+                            <li><a href="<?php echo esc_url( home_url('/dieu-khoan-dich-vu') ); ?>"><?php echo t('Điều khoản dịch vụ', 'Terms of Service'); ?></a></li>
+                            <li><a href="<?php echo esc_url( home_url('/tra-cuu-phong') ); ?>"><?php echo t('Tra cứu đặt phòng', 'Check booking'); ?></a></li>
                         </ul>
                     <?php endif; ?>
                 </div>
@@ -180,7 +180,7 @@
                         ?>
                         <ul class="br-footer__nav">
                             <li>
-                                <a href="<?php echo esc_url($footer_dest_url); ?>">Tất cả điểm đến</a>
+                                <a href="<?php echo esc_url($footer_dest_url); ?>"><?php echo t('Tất cả điểm đến', 'All destinations'); ?></a>
                             </li>
                             <?php if ( $footer_dest_posts ) :
                                 foreach ( $footer_dest_posts as $dest ) : ?>
@@ -217,7 +217,7 @@
                                 type="email"
                                 id="br-nl-email"
                                 name="newsletter_email"
-                                placeholder="Email của bạn..."
+                                placeholder="<?php echo esc_attr(t('Email của bạn...', 'Your email...')); ?>"
                                 class="br-footer__nl-input"
                                 required
                                 autocomplete="email"
@@ -273,15 +273,15 @@
                 </p>
 
                 <nav class="br-footer__legal-nav" aria-label="Liên kết pháp lý">
-                    <a href="<?php echo esc_url( home_url('/chinh-sach-bao-mat') ); ?>">Bảo mật</a>
+                    <a href="<?php echo esc_url( home_url('/chinh-sach-bao-mat') ); ?>"><?php echo t('Bảo mật', 'Privacy'); ?></a>
                     <span aria-hidden="true">&middot;</span>
-                    <a href="<?php echo esc_url( home_url('/dieu-khoan-dich-vu') ); ?>">Điều khoản</a>
+                    <a href="<?php echo esc_url( home_url('/dieu-khoan-dich-vu') ); ?>"><?php echo t('Điều khoản', 'Terms'); ?></a>
                     <span aria-hidden="true">&middot;</span>
                     <a href="<?php echo esc_url( home_url('/sitemap.xml') ); ?>">Sitemap</a>
                 </nav>
 
                 <p class="br-footer__credit">
-                    Thiết kế với <span class="br-footer__heart" aria-hidden="true">&#10084;</span> bởi
+                    <?php echo t('Thiết kế với', 'Designed with'); ?> <span class="br-footer__heart" aria-hidden="true">&#10084;</span> <?php echo t('bởi', 'by'); ?>
                     <a href="#" class="br-footer__credit-link" rel="nofollow">Antigravity</a>
                 </p>
 

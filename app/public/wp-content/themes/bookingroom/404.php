@@ -332,7 +332,7 @@ get_header();
 
             <!-- Badge -->
             <div>
-                <span class="error-404-badge">Lỗi trang không tìm thấy</span>
+                <span class="error-404-badge"><?php echo t('Lỗi trang không tìm thấy', 'Page not found error'); ?></span>
             </div>
 
             <!-- Big number with icon -->
@@ -347,10 +347,10 @@ get_header();
             </div>
 
             <!-- Title & Description -->
-            <h1 class="error-404-title">Ối! Trang này không tồn tại</h1>
+            <h1 class="error-404-title"><?php echo t('Ối! Trang này không tồn tại', 'Oops! This page does not exist'); ?></h1>
             <p class="error-404-desc">
-                Trang bạn đang tìm kiếm có thể đã bị xóa, đổi tên hoặc tạm thời không khả dụng.<br>
-                Đừng lo lắng — hãy để chúng tôi giúp bạn tìm đường về nhà!
+                <?php echo t('Trang bạn đang tìm kiếm có thể đã bị xóa, đổi tên hoặc tạm thời không khả dụng.', 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.'); ?><br>
+                <?php echo t('Đừng lo lắng — hãy để chúng tôi giúp bạn tìm đường về nhà!', 'Don\'t worry — let us help you find your way home!'); ?>
             </p>
 
             <!-- Action Buttons -->
@@ -360,20 +360,20 @@ get_header();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
                             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
-                    Về trang chủ
+                    <?php echo t('Về trang chủ', 'Go home'); ?>
                 </a>
                 <button class="btn-back" onclick="history.back()" id="btn-go-back">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    Quay lại
+                    <?php echo t('Quay lại', 'Go back'); ?>
                 </button>
             </div>
 
             <!-- Search Box -->
             <div class="error-404-search">
-                <p>Hoặc tìm kiếm nội dung bạn cần</p>
+                <p><?php echo t('Hoặc tìm kiếm nội dung bạn cần', 'Or search for what you need'); ?></p>
                 <?php get_search_form(); ?>
             </div>
 
@@ -383,31 +383,31 @@ get_header();
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
-                    Trang chủ
+                    <?php echo t('Trang chủ', 'Home'); ?>
                 </a>
                 <a href="<?php echo esc_url(home_url('/rooms')); ?>" id="link-rooms">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                     </svg>
-                    Phòng & Giá
+                    <?php echo t('Phòng & Giá', 'Rooms & Rates'); ?>
                 </a>
                 <a href="<?php echo esc_url(home_url('/booking')); ?>" id="link-booking">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
-                    Đặt phòng
+                    <?php echo t('Đặt phòng', 'Booking'); ?>
                 </a>
                 <a href="<?php echo esc_url(home_url('/lien-he')); ?>" id="link-contact">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
-                    Liên hệ
+                    <?php echo t('Liên hệ', 'Contact'); ?>
                 </a>
                 <a href="<?php echo esc_url(home_url('/dich-vu')); ?>" id="link-services">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                     </svg>
-                    Dịch vụ
+                    <?php echo t('Dịch vụ', 'Services'); ?>
                 </a>
             </div>
 
@@ -426,7 +426,7 @@ get_header();
 
         const searchInput = document.querySelector('.error-404-search input[type="search"]');
         if (searchInput) {
-            searchInput.placeholder = 'Tìm kiếm trang, phòng, dịch vụ...';
+            searchInput.placeholder = '<?php echo esc_js(t('Tìm kiếm trang, phòng, dịch vụ...', 'Search for pages, rooms, services...')); ?>';
         }
 
         const searchBtn = document.querySelector('.error-404-search button[type="submit"]');
