@@ -99,7 +99,7 @@
                 <div class="br-footer__col">
                     <h3 class="br-footer__heading">
                         <span class="br-footer__heading-bar" aria-hidden="true"></span>
-                        Khám phá
+                        <?php echo t('Khám phá', 'Explore'); ?>
                     </h3>
                     <?php if ( has_nav_menu('footer-explore') ) :
                         wp_nav_menu([
@@ -124,7 +124,7 @@
                 <div class="br-footer__col">
                     <h3 class="br-footer__heading">
                         <span class="br-footer__heading-bar" aria-hidden="true"></span>
-                        Hỗ trợ
+                        <?php echo t('Hỗ trợ', 'Support'); ?>
                     </h3>
                     <?php if ( has_nav_menu('footer-support') ) :
                         wp_nav_menu([
@@ -160,7 +160,7 @@
                 <div class="br-footer__col">
                     <h3 class="br-footer__heading">
                         <span class="br-footer__heading-bar" aria-hidden="true"></span>
-                        <a href="<?php echo esc_url($footer_dest_url); ?>" style="color:inherit;text-decoration:none;">Điểm đến</a>
+                        <a href="<?php echo esc_url($footer_dest_url); ?>" style="color:inherit;text-decoration:none;"><?php echo t('Điểm đến', 'Destinations'); ?></a>
                     </h3>
                     <?php if ( has_nav_menu('footer-destination') ) :
                         wp_nav_menu([
@@ -205,9 +205,9 @@
                 <div class="br-footer__col">
                     <h3 class="br-footer__heading">
                         <span class="br-footer__heading-bar" aria-hidden="true"></span>
-                        Nhận ưu đãi độc quyền
+                        <?php echo t('Nhận ưu đãi độc quyền', 'Get exclusive offers'); ?>
                     </h3>
-                    <p class="br-footer__nl-desc">Đăng ký nhận thông tin về các ưu đãi và phòng nghỉ mới nhất.</p>
+                    <p class="br-footer__nl-desc"><?php echo t('Đăng ký nhận thông tin về các ưu đãi và phòng nghỉ mới nhất.', 'Subscribe to receive information about the latest offers and rooms.'); ?></p>
 
                     <form class="br-footer__nl-form" action="#" method="post" novalidate>
                         <?php wp_nonce_field('br_newsletter_nonce', 'br_newsletter_nonce'); ?>
@@ -232,7 +232,7 @@
 
                     <!-- Payment Trust Badges -->
                     <div class="br-footer__badges">
-                        <p class="br-footer__badges-label">Thanh toán an toàn</p>
+                        <p class="br-footer__badges-label"><?php echo t('Thanh toán an toàn', 'Secure Payment'); ?></p>
                         <div class="br-footer__badges-row">
                             <!-- Visa -->
                             <span class="br-footer__badge" title="Visa" aria-label="Visa">
@@ -269,7 +269,7 @@
                 <p class="br-footer__copyright">
                     &copy; <?php echo esc_html( date('Y') ); ?>
                     <a href="<?php echo esc_url( home_url('/') ); ?>" class="br-footer__copyright-link"><?php bloginfo('name'); ?></a>.
-                    Bảo lưu mọi quyền.
+                    <?php echo t('Bảo lưu mọi quyền.', 'All rights reserved.'); ?>
                 </p>
 
                 <nav class="br-footer__legal-nav" aria-label="Liên kết pháp lý">

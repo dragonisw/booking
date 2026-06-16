@@ -75,6 +75,12 @@ require_once get_stylesheet_directory() . '/inc/room-admin-columns.php';
 require_once get_stylesheet_directory() . '/inc/sms-manager.php';
 
 /**
+ * Multilingual System (No Plugin)
+ * Handles custom language switching, content and string translation.
+ */
+require_once get_stylesheet_directory() . '/inc/multilingual.php';
+
+/**
  * Enqueue Admin Scripts for Media Uploader
  */
 function bookingroom_admin_scripts($hook) {
@@ -93,10 +99,14 @@ function bookingroom_register_menus()
 {
     register_nav_menus(
         array(
-            'primary-menu'        => __('Primary Menu', 'bookingroom'),
-            'footer-explore'      => __('Footer – Khám phá', 'bookingroom'),
-            'footer-support'      => __('Footer – Hỗ trợ', 'bookingroom'),
-            'footer-destination'  => __('Footer – Điểm đến', 'bookingroom'),
+            'primary-menu'           => __('Primary Menu', 'bookingroom'),
+            'primary-menu-en'        => __('Primary Menu (English)', 'bookingroom'),
+            'footer-explore'         => __('Footer – Khám phá', 'bookingroom'),
+            'footer-explore-en'      => __('Footer – Khám phá (English)', 'bookingroom'),
+            'footer-support'         => __('Footer – Hỗ trợ', 'bookingroom'),
+            'footer-support-en'      => __('Footer – Hỗ trợ (English)', 'bookingroom'),
+            'footer-destination'     => __('Footer – Điểm đến', 'bookingroom'),
+            'footer-destination-en'  => __('Footer – Điểm đến (English)', 'bookingroom'),
         )
     );
 }

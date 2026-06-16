@@ -555,20 +555,20 @@
             <div class="header-actions">
                 <!-- Language Switcher -->
                <div class="lang-switcher">
-    <?php if ( function_exists( 'pll_the_languages' ) ) : ?>
         <ul style="display:flex; list-style:none; margin:0; padding:0; gap:6px;">
-            <?php pll_the_languages( array( 'display_names_as' => 'slug', 'hide_current' => 0 ) ); ?>
+            <li><a href="?lang=vi" class="<?php echo (!defined('SITE_LANG') || SITE_LANG === 'vi' ? 'active' : ''); ?>">VI</a></li>
+            <li class="sep">|</li>
+            <li><a href="?lang=en" class="<?php echo (defined('SITE_LANG') && SITE_LANG === 'en' ? 'active' : ''); ?>">EN</a></li>
         </ul>
-    <?php endif; ?>
 </div>
 
                 <!-- Nút đặt phòng (desktop) -->
                 <a href="<?php echo esc_url(home_url('/booking')); ?>" class="btn-booking">
-                    Đặt phòng ngay
+                    <?php echo t('Đặt phòng ngay', 'Book Now'); ?>
                 </a>
 
                 <!-- Hamburger (mobile) -->
-                <button id="btn-hamburger" class="btn-hamburger" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-menu-drawer">
+                <button id="btn-hamburger" class="btn-hamburger" aria-label="<?php echo esc_attr(t('Mở menu', 'Open menu')); ?>" aria-expanded="false" aria-controls="mobile-menu-drawer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -593,7 +593,7 @@
                     <span style="font-size:1.1rem;font-weight:800;color:#1e293b;"><?php bloginfo('name'); ?></span>
                 <?php endif; ?>
             </a>
-            <button id="btn-drawer-close" class="drawer-close" aria-label="Đóng menu">
+            <button id="btn-drawer-close" class="drawer-close" aria-label="<?php echo esc_attr(t('Đóng menu', 'Close menu')); ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -615,7 +615,7 @@
         <!-- Drawer Footer -->
         <div class="drawer-footer">
             <a href="<?php echo esc_url(home_url('/booking')); ?>">
-                Đặt phòng ngay
+                <?php echo t('Đặt phòng ngay', 'Book Now'); ?>
             </a>
         </div>
     </div>
