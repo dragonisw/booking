@@ -556,9 +556,9 @@
                 <!-- Language Switcher -->
                <div class="lang-switcher">
         <ul style="display:flex; list-style:none; margin:0; padding:0; gap:6px;">
-            <li><a href="?lang=vi" class="<?php echo (!defined('SITE_LANG') || SITE_LANG === 'vi' ? 'active' : ''); ?>">VI</a></li>
+            <li><a href="/vi" class="<?php echo (!defined('SITE_LANG') || SITE_LANG === 'vi' ? 'active' : ''); ?>">VI</a></li>
             <li class="sep">|</li>
-            <li><a href="?lang=en" class="<?php echo (defined('SITE_LANG') && SITE_LANG === 'en' ? 'active' : ''); ?>">EN</a></li>
+            <li><a href="/en" class="<?php echo (defined('SITE_LANG') && SITE_LANG === 'en' ? 'active' : ''); ?>">EN</a></li>
         </ul>
 </div>
 
