@@ -4,17 +4,17 @@
 
 <?php
 // Lấy custom fields
-$price         = get_post_meta(get_the_ID(), '_price', true);
-$weekend_price = get_post_meta(get_the_ID(), '_weekend_price', true);
-$capacity      = get_post_meta(get_the_ID(), '_capacity', true) ?: 2;
-$area          = get_post_meta(get_the_ID(), '_area', true);
-$bed_type      = get_post_meta(get_the_ID(), '_bed_type', true);
-$room_type     = get_post_meta(get_the_ID(), '_room_type', true);
-$view          = get_post_meta(get_the_ID(), '_view', true);
-$floor         = get_post_meta(get_the_ID(), '_floor', true);
+$price         = bookingroom_get_meta_lang(get_the_ID(), '_price', true);
+$weekend_price = bookingroom_get_meta_lang(get_the_ID(), '_weekend_price', true);
+$capacity      = bookingroom_get_meta_lang(get_the_ID(), '_capacity', true) ?: 2;
+$area          = bookingroom_get_meta_lang(get_the_ID(), '_area', true);
+$bed_type      = bookingroom_get_meta_lang(get_the_ID(), '_bed_type', true);
+$room_type     = bookingroom_get_meta_lang(get_the_ID(), '_room_type', true);
+$view          = bookingroom_get_meta_lang(get_the_ID(), '_view', true);
+$floor         = bookingroom_get_meta_lang(get_the_ID(), '_floor', true);
 
 // Lấy danh sách ảnh gallery (ACF hoặc custom field)
-$gallery_ids = get_post_meta(get_the_ID(), '_gallery', true);
+$gallery_ids = bookingroom_get_meta_lang(get_the_ID(), '_gallery', true);
 $gallery_images = array();
 if (!empty($gallery_ids) && is_array($gallery_ids)) {
     foreach ($gallery_ids as $img_id) {

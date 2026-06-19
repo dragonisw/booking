@@ -328,6 +328,7 @@ function bookingroom_room_details_callback( $post ) {
     $weekend_price  = get_post_meta( $post->ID, '_weekend_price',  true );
     $capacity       = get_post_meta( $post->ID, '_capacity',       true );
     $room_label     = get_post_meta( $post->ID, '_room_label',     true );
+    $room_label_en  = get_post_meta( $post->ID, '_room_label_en',  true );
     $engine_room_id = get_post_meta( $post->ID, '_engine_room_id', true );
 
     $s_card  = 'background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 18px;margin-bottom:14px;';
@@ -394,7 +395,10 @@ function bookingroom_room_details_callback( $post ) {
                 <label style="<?php echo $s_label; ?>">Nhãn loại phòng</label>
                 <input type="text" name="room_label" id="room_label"
                     value="<?php echo esc_attr( $room_label ); ?>"
-                    style="<?php echo $s_input; ?>" placeholder="VD: Deluxe Room, Suite...">
+                    style="<?php echo $s_input; ?> margin-bottom:5px;" placeholder="VD: Deluxe Room, Suite...">
+                <input type="text" name="room_label_en" id="room_label_en"
+                    value="<?php echo esc_attr( $room_label_en ); ?>"
+                    style="<?php echo $s_input; ?> border-color:#93c5fd;" placeholder="English: Deluxe Room...">
             </div>
         </div>
     </div>
@@ -797,6 +801,7 @@ function bookingroom_room_availability_cb( $post ) {
 function bookingroom_room_features_callback( $post ) {
     $amenities = get_post_meta( $post->ID, '_room_amenities', true ) ?: [];
     $policies = get_post_meta( $post->ID, '_room_policies', true );
+    $policies_en = get_post_meta( $post->ID, '_room_policies_en', true );
     
     $common_amenities = [
         'wifi' => 'Wi-Fi tốc độ cao',
@@ -832,6 +837,18 @@ function bookingroom_room_features_callback( $post ) {
         ) );
         ?>
         <p style="color:#94a3b8;font-size:11px;margin-top:6px;">Chính sách hủy, yêu cầu nhận phòng... có thể gõ nội dung tùy ý ở đây.</p>
+
+        <p style="font-weight:700;margin-top:20px;margin-bottom:10px;color:#1e293b;">Chính sách phòng (English)</p>
+        <?php 
+        wp_editor( $policies_en, 'room_policies_en', array(
+            'textarea_name' => 'room_policies_en',
+            'media_buttons' => true,
+            'textarea_rows' => 6,
+            'teeny'         => true,
+            'editor_css'    => '<style>.wp-editor-area{font-family:inherit;}</style>'
+        ) );
+        ?>
+        <p style="color:#94a3b8;font-size:11px;margin-top:6px;">Bản dịch tiếng Anh của chính sách phòng.</p>
     </div>
     <?php
 }
@@ -855,6 +872,7 @@ function bookingroom_save_room_details( $post_id ) {
     $text_fields = [
         'room_capacity'   => '_capacity',
         'room_label'      => '_room_label',
+        'room_label_en'   => '_room_label_en',
         'engine_room_id'  => '_engine_room_id',
     ];
     foreach ( $text_fields as $post_key => $meta_key ) {
@@ -892,6 +910,9 @@ function bookingroom_save_room_details( $post_id ) {
 
     if ( isset( $_POST['room_policies'] ) ) {
         update_post_meta( $post_id, '_room_policies', wp_kses_post( wp_unslash( $_POST['room_policies'] ) ) );
+    }
+    if ( isset( $_POST['room_policies_en'] ) ) {
+        update_post_meta( $post_id, '_room_policies_en', wp_kses_post( wp_unslash( $_POST['room_policies_en'] ) ) );
     }
 }
 add_action( 'save_post', 'bookingroom_save_room_details' );
@@ -940,6 +961,16 @@ function _abp_input_row( $label, $name, $value, $type = 'text', $placeholder = '
     } else {
         echo '<input type="' . esc_attr($type) . '" name="' . esc_attr($name) . '" value="' . esc_attr($value) . '" placeholder="' . esc_attr($placeholder) . '" style="' . $s_input . '">';
     }
+
+    $pid = isset($_GET['post']) ? $_GET['post'] : (isset($_POST['post_ID']) ? $_POST['post_ID'] : 0);
+    $value_en = $pid ? get_post_meta($pid, $name . '_en', true) : '';
+    echo '<label style="font-weight:700;display:block;margin-top:10px;margin-bottom:4px;font-size:13px;">' . esc_html($label) . ' (English)</label>';
+    if ($type === 'textarea') {
+        echo '<textarea name="' . esc_attr($name) . '_en" rows="4" style="' . $s_input . 'resize:vertical;border-color:#93c5fd;">' . esc_textarea($value_en) . '</textarea>';
+    } else {
+        echo '<input type="' . esc_attr($type) . '" name="' . esc_attr($name) . '_en" value="' . esc_attr($value_en) . '" placeholder="' . esc_attr($placeholder) . ' (English)" style="' . $s_input . 'border-color:#93c5fd;">';
+    }
+
     echo '</p>';
 }
 
@@ -1160,6 +1191,9 @@ function bookingroom_save_about_meta($post_id) {
         if (isset($_POST[$field])) {
             update_post_meta($post_id, $field, wp_kses_post(wp_unslash($_POST[$field])));
         }
+        if (isset($_POST[$field . '_en'])) {
+            update_post_meta($post_id, $field . '_en', wp_kses_post(wp_unslash($_POST[$field . '_en'])));
+        }
     }
 
     // Integer (media IDs) fields
@@ -1201,12 +1235,21 @@ function bookingroom_home_hero_callback($post)
 {
     wp_nonce_field('bookingroom_save_home_meta', 'bookingroom_home_meta_nonce');
     $title = get_post_meta($post->ID, '_home_hero_title', true);
+    $title_en = get_post_meta($post->ID, '_home_hero_title_en', true);
     $subtitle = get_post_meta($post->ID, '_home_hero_subtitle', true);
+    $subtitle_en = get_post_meta($post->ID, '_home_hero_subtitle_en', true);
     ?>
     <p><strong>Tiêu đề lớn (Dùng <span class="text-blue-400">...</span> để đổi màu):</strong></p>
     <?php wp_editor($title, 'home_hero_title', array('textarea_name' => 'home_hero_title', 'media_buttons' => false, 'textarea_rows' => 3)); ?>
+    
+    <p style="margin-top: 15px;"><strong>Tiêu đề lớn (English):</strong></p>
+    <?php wp_editor($title_en, 'home_hero_title_en', array('textarea_name' => 'home_hero_title_en', 'media_buttons' => false, 'textarea_rows' => 3)); ?>
+
     <p style="margin-top: 15px;"><strong>Mô tả ngắn:</strong></p>
     <?php wp_editor($subtitle, 'home_hero_subtitle', array('textarea_name' => 'home_hero_subtitle', 'media_buttons' => false, 'textarea_rows' => 5)); ?>
+
+    <p style="margin-top: 15px;"><strong>Mô tả ngắn (English):</strong></p>
+    <?php wp_editor($subtitle_en, 'home_hero_subtitle_en', array('textarea_name' => 'home_hero_subtitle_en', 'media_buttons' => false, 'textarea_rows' => 5)); ?>
     <hr>
     <p style="margin-top: 15px;"><strong>Ảnh Banner (Có thể chọn nhiều ảnh để tạo banner động/slider):</strong></p>
     <?php $banner_ids = get_post_meta($post->ID, '_home_banner_ids', true); ?>
@@ -1353,24 +1396,29 @@ function bookingroom_home_about_callback($post) {
         <div style="<?php echo $style_row; ?>">
             <div style="<?php echo $style_col; ?>">
                 <label style="<?php echo $style_label; ?>">Nhãn nhỏ phía trên tiêu đề (Eyebrow)</label>
-                <input type="text" name="home_about_eyebrow" value="<?php echo esc_attr($eyebrow); ?>" style="<?php echo $style_input; ?>" placeholder="VD: Về chúng tôi">
+                <input type="text" name="home_about_eyebrow" value="<?php echo esc_attr($eyebrow); ?>" style="<?php echo $style_input; ?> margin-bottom:5px;" placeholder="VD: Về chúng tôi">
+                <input type="text" name="home_about_eyebrow_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_about_eyebrow_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English">
             </div>
             <div style="<?php echo $style_col; ?>">
                 <label style="<?php echo $style_label; ?>">Badge nổi trên ảnh (số)</label>
-                <input type="text" name="home_about_badge_num" value="<?php echo esc_attr($badge_num); ?>" style="<?php echo $style_input; ?>" placeholder="VD: 10+">
+                <input type="text" name="home_about_badge_num" value="<?php echo esc_attr($badge_num); ?>" style="<?php echo $style_input; ?> margin-bottom:5px;" placeholder="VD: 10+">
+                <input type="text" name="home_about_badge_num_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_about_badge_num_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English">
             </div>
             <div style="<?php echo $style_col; ?>">
                 <label style="<?php echo $style_label; ?>">Badge nổi trên ảnh (nhãn)</label>
-                <input type="text" name="home_about_badge_label" value="<?php echo esc_attr($badge_lbl); ?>" style="<?php echo $style_input; ?>" placeholder="VD: Năm kinh nghiệm">
+                <input type="text" name="home_about_badge_label" value="<?php echo esc_attr($badge_lbl); ?>" style="<?php echo $style_input; ?> margin-bottom:5px;" placeholder="VD: Năm kinh nghiệm">
+                <input type="text" name="home_about_badge_label_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_about_badge_label_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English">
             </div>
         </div>
         <div style="margin-bottom:12px;">
-            <label style="<?php echo $style_label; ?>">Tiêu đề section (có thể dùng thẻ &lt;span class="text-accent"&gt;...&lt;/span&gt; để tô màu gradient)</label>
-            <input type="text" name="home_about_title" value="<?php echo esc_attr($title); ?>" style="<?php echo $style_input; ?>" placeholder="VD: Điểm đến <span class=&quot;text-accent&quot;>nghỉ dưỡng đẳng cấp</span> hàng đầu Việt Nam">
+            <label style="<?php echo $style_label; ?>">Tiêu đề section</label>
+            <input type="text" name="home_about_title" value="<?php echo esc_attr($title); ?>" style="<?php echo $style_input; ?> margin-bottom:5px;" placeholder="VD: Điểm đến đẳng cấp">
+            <input type="text" name="home_about_title_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_about_title_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English">
         </div>
         <div>
             <label style="<?php echo $style_label; ?>">Mô tả ngắn</label>
-            <textarea name="home_about_desc" rows="3" style="<?php echo $style_input; ?>" placeholder="Mô tả về khách sạn/dịch vụ..."><?php echo esc_textarea($desc); ?></textarea>
+            <textarea name="home_about_desc" rows="3" style="<?php echo $style_input; ?> margin-bottom:5px;" placeholder="Mô tả..."><?php echo esc_textarea($desc); ?></textarea>
+            <textarea name="home_about_desc_en" rows="3" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English"><?php echo esc_textarea(get_post_meta($pid, '_home_about_desc_en', true)); ?></textarea>
         </div>
     </div>
 
@@ -1382,11 +1430,13 @@ function bookingroom_home_about_callback($post) {
             <div style="<?php echo $style_row; ?>">
                 <div style="flex:2;min-width:200px;">
                     <label style="<?php echo $style_label; ?>">Tiêu đề</label>
-                    <input type="text" name="home_about_feat<?php echo $n; ?>_title" value="<?php echo esc_attr($ft); ?>" style="<?php echo $style_input; ?>">
+                    <input type="text" name="home_about_feat<?php echo $n; ?>_title" value="<?php echo esc_attr($ft); ?>" style="<?php echo $style_input; ?> margin-bottom:5px;">
+                    <input type="text" name="home_about_feat<?php echo $n; ?>_title_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_about_feat'.$n.'_title_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English">
                 </div>
                 <div style="flex:3;min-width:240px;">
                     <label style="<?php echo $style_label; ?>">Mô tả</label>
-                    <input type="text" name="home_about_feat<?php echo $n; ?>_desc" value="<?php echo esc_attr($fd); ?>" style="<?php echo $style_input; ?>">
+                    <input type="text" name="home_about_feat<?php echo $n; ?>_desc" value="<?php echo esc_attr($fd); ?>" style="<?php echo $style_input; ?> margin-bottom:5px;">
+                    <input type="text" name="home_about_feat<?php echo $n; ?>_desc_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_about_feat'.$n.'_desc_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English">
                 </div>
             </div>
         </div>
@@ -1404,9 +1454,11 @@ function bookingroom_home_about_callback($post) {
             <div style="flex:1;min-width:140px;background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:12px;">
                 <div style="font-size:11px;font-weight:700;color:#2563eb;margin-bottom:8px;">Thống kê <?php echo $n; ?></div>
                 <label style="<?php echo $style_label; ?>">Số / Giá trị</label>
-                <input type="text" name="home_stat<?php echo $n; ?>_num" value="<?php echo esc_attr($sn); ?>" style="<?php echo $style_input; ?>;margin-bottom:8px;" placeholder="VD: 500+">
+                <input type="text" name="home_stat<?php echo $n; ?>_num" value="<?php echo esc_attr($sn); ?>" style="<?php echo $style_input; ?>;margin-bottom:5px;" placeholder="VD: 500+">
+                <input type="text" name="home_stat<?php echo $n; ?>_num_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_stat'.$n.'_num_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;;margin-bottom:8px;" placeholder="English">
                 <label style="<?php echo $style_label; ?>">Nhãn</label>
-                <input type="text" name="home_stat<?php echo $n; ?>_label" value="<?php echo esc_attr($sl); ?>" style="<?php echo $style_input; ?>" placeholder="VD: Khách sạn">
+                <input type="text" name="home_stat<?php echo $n; ?>_label" value="<?php echo esc_attr($sl); ?>" style="<?php echo $style_input; ?> margin-bottom:5px;" placeholder="VD: Khách sạn">
+                <input type="text" name="home_stat<?php echo $n; ?>_label_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_stat'.$n.'_label_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English">
             </div>
             <?php endforeach; ?>
         </div>
@@ -1417,11 +1469,13 @@ function bookingroom_home_about_callback($post) {
         <div style="<?php echo $style_row; ?>">
             <div style="<?php echo $style_col; ?>">
                 <label style="<?php echo $style_label; ?>">Văn bản nút</label>
-                <input type="text" name="home_about_cta_text" value="<?php echo esc_attr($cta_text); ?>" style="<?php echo $style_input; ?>" placeholder="VD: Tìm hiểu thêm về chúng tôi">
+                <input type="text" name="home_about_cta_text" value="<?php echo esc_attr($cta_text); ?>" style="<?php echo $style_input; ?> margin-bottom:5px;" placeholder="VD: Tìm hiểu thêm về chúng tôi">
+                <input type="text" name="home_about_cta_text_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_about_cta_text_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English">
             </div>
             <div style="<?php echo $style_col; ?>">
                 <label style="<?php echo $style_label; ?>">Đường dẫn URL</label>
-                <input type="url" name="home_about_cta_url" value="<?php echo esc_attr($cta_url); ?>" style="<?php echo $style_input; ?>" placeholder="<?php echo home_url('/about'); ?>">
+                <input type="url" name="home_about_cta_url" value="<?php echo esc_attr($cta_url); ?>" style="<?php echo $style_input; ?> margin-bottom:5px;" placeholder="<?php echo home_url('/about'); ?>">
+                <input type="url" name="home_about_cta_url_en" value="<?php echo esc_attr(get_post_meta($pid, '_home_about_cta_url_en', true)); ?>" style="<?php echo $style_input; ?> border-color:#93c5fd;" placeholder="English">
             </div>
         </div>
     </div>
@@ -1434,6 +1488,12 @@ function bookingroom_home_why_us_callback($post)
     ?>
         <p><strong>Nội dung phần "Tại sao chọn chúng tôi" (Nhập dưới dạng danh sách hoặc các khối văn bản):</strong></p>
         <?php wp_editor($content, 'home_why_us_content', array('textarea_name' => 'home_why_us_content', 'textarea_rows' => 10)); ?>
+
+        <p style="margin-top:20px;"><strong>Nội dung phần "Tại sao chọn chúng tôi" (English):</strong></p>
+        <?php 
+        $content_en = get_post_meta($post->ID, '_home_why_us_content_en', true);
+        wp_editor($content_en, 'home_why_us_content_en', array('textarea_name' => 'home_why_us_content_en', 'textarea_rows' => 10)); 
+        ?>
 <?php
 }
 
@@ -1450,8 +1510,14 @@ function bookingroom_save_home_meta($post_id)
     if (isset($_POST['home_hero_title'])) {
         update_post_meta($post_id, '_home_hero_title', $_POST['home_hero_title']);
     }
+    if (isset($_POST['home_hero_title_en'])) {
+        update_post_meta($post_id, '_home_hero_title_en', $_POST['home_hero_title_en']);
+    }
     if (isset($_POST['home_hero_subtitle'])) {
         update_post_meta($post_id, '_home_hero_subtitle', $_POST['home_hero_subtitle']);
+    }
+    if (isset($_POST['home_hero_subtitle_en'])) {
+        update_post_meta($post_id, '_home_hero_subtitle_en', $_POST['home_hero_subtitle_en']);
     }
     if (isset($_POST['home_banner_ids'])) {
         update_post_meta($post_id, '_home_banner_ids', sanitize_text_field($_POST['home_banner_ids']));
@@ -1461,6 +1527,9 @@ function bookingroom_save_home_meta($post_id)
     }
     if (isset($_POST['home_why_us_content'])) {
         update_post_meta($post_id, '_home_why_us_content', $_POST['home_why_us_content']);
+    }
+    if (isset($_POST['home_why_us_content_en'])) {
+        update_post_meta($post_id, '_home_why_us_content_en', $_POST['home_why_us_content_en']);
     }
 
     // ── About / Intro Section ──────────────────────────────────────────────

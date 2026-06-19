@@ -139,8 +139,8 @@
                             <?php
                             if (have_posts()) :
                                 while (have_posts()) : the_post();
-                                    $price = get_post_meta(get_the_ID(), '_price', true) ?: 1500000;
-                                    $capacity = get_post_meta(get_the_ID(), '_capacity', true) ?: '2';
+                                    $price = bookingroom_get_meta_lang(get_the_ID(), '_price', true) ?: 1500000;
+                                    $capacity = bookingroom_get_meta_lang(get_the_ID(), '_capacity', true) ?: '2';
                                     $capacity_text = is_numeric($capacity) ? $capacity . ' ' . t('người', 'guests') : $capacity;
                                     $available_rooms = bookingroom_get_available_rooms(get_the_ID(), $check_in, $check_out);
                             ?>
@@ -200,8 +200,8 @@
                     rewind_posts();
                     if (have_posts()) :
                         while (have_posts()) : the_post();
-                            $price = get_post_meta(get_the_ID(), '_price', true) ?: 1500000;
-                            $capacity = get_post_meta(get_the_ID(), '_capacity', true) ?: '2';
+                            $price = bookingroom_get_meta_lang(get_the_ID(), '_price', true) ?: 1500000;
+                            $capacity = bookingroom_get_meta_lang(get_the_ID(), '_capacity', true) ?: '2';
                             $capacity_text = is_numeric($capacity) ? $capacity . ' người' : $capacity;
                             $available_rooms = bookingroom_get_available_rooms(get_the_ID(), $check_in, $check_out);
                     ?>
@@ -338,9 +338,9 @@
                     <?php
                     if (have_posts()) :
                         while (have_posts()) : the_post();
-                            $price = get_post_meta(get_the_ID(), '_price', true) ?: 1500000;
-                            $room_label = get_post_meta(get_the_ID(), '_room_label', true) ?: 'Phòng nghỉ';
-                            $capacity = get_post_meta(get_the_ID(), '_capacity', true) ?: '2 Khách';
+                            $price = bookingroom_get_meta_lang(get_the_ID(), '_price', true) ?: 1500000;
+                            $room_label = bookingroom_get_meta_lang(get_the_ID(), '_room_label', true) ?: 'Phòng nghỉ';
+                            $capacity = bookingroom_get_meta_lang(get_the_ID(), '_capacity', true) ?: '2 Khách';
                             $terms = get_the_terms(get_the_ID(), 'room_category');
                             $term_slugs = $terms ? array_map(function($t) { return $t->slug; }, $terms) : array();
                     ?>

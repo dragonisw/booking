@@ -53,8 +53,8 @@
 
                         <!-- Amenities -->
                         <?php 
-                        $amenities = get_post_meta(get_the_ID(), '_room_amenities', true) ?: []; 
-                        $policies = get_post_meta(get_the_ID(), '_room_policies', true);
+                        $amenities = bookingroom_get_meta_lang(get_the_ID(), '_room_amenities', true) ?: []; 
+                        $policies = bookingroom_get_meta_lang(get_the_ID(), '_room_policies', true);
                         ?>
                         
                         <?php if ( ! empty( $amenities ) ) : ?>
@@ -126,7 +126,7 @@
 
                         <?php
                         // Lấy danh sách phòng từ trường tùy chỉnh (Custom field), nếu không có thì dùng mảng mặc định
-                        $room_numbers_meta = get_post_meta(get_the_ID(), '_room_numbers', true);
+                        $room_numbers_meta = bookingroom_get_meta_lang(get_the_ID(), '_room_numbers', true);
                         if (!empty($room_numbers_meta)) {
                             // Dữ liệu nhập vào dạng: "101, 102, 103, 201, 202, 203"
                             $all_rooms = array_map('trim', explode(',', $room_numbers_meta));
@@ -213,8 +213,8 @@
                             <?php 
                             $use_external = get_theme_mod('use_external_booking', 'no');
                             $engine_url = get_theme_mod('booking_engine_url', '');
-                            $price = get_post_meta(get_the_ID(), '_price', true) ?: 1500000;
-                            $capacity = get_post_meta(get_the_ID(), '_capacity', true) ?: 2;
+                            $price = bookingroom_get_meta_lang(get_the_ID(), '_price', true) ?: 1500000;
+                            $capacity = bookingroom_get_meta_lang(get_the_ID(), '_capacity', true) ?: 2;
                             ?>
 
                             

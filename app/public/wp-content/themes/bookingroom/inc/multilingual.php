@@ -260,3 +260,17 @@ function bookingroom_translate_menu( $args ) {
     }
     return $args;
 }
+
+// ==========================================
+// 7. HELPER FOR CUSTOM FIELDS
+// ==========================================
+function bookingroom_get_meta_lang( $post_id, $meta_key, $single = true ) {
+    if ( defined( 'SITE_LANG' ) && SITE_LANG === 'en' ) {
+        $en_meta = get_post_meta( $post_id, $meta_key . '_en', $single );
+        if ( ! empty( $en_meta ) ) {
+            return $en_meta;
+        }
+    }
+    return get_post_meta( $post_id, $meta_key, $single );
+}
+

@@ -8,13 +8,13 @@ get_header();
 $pid         = get_the_ID();
 $title       = get_the_title();
 $thumb       = get_the_post_thumbnail_url($pid, 'full');
-$hotel_count = get_post_meta($pid, '_dest_hotel_count', true) ?: '0 ' . t('Khách sạn', 'Hotels');
-$tagline     = get_post_meta($pid, '_dest_tagline', true);
-$country     = get_post_meta($pid, '_dest_country', true) ?: t('Việt Nam', 'Vietnam');
-$region      = get_post_meta($pid, '_dest_region', true);
-$highlight   = get_post_meta($pid, '_dest_highlight', true);
-$badge       = get_post_meta($pid, '_dest_badge', true);
-$search_link = get_post_meta($pid, '_dest_search_link', true);
+$hotel_count = bookingroom_get_meta_lang($pid, '_dest_hotel_count', true) ?: '0 ' . t('Khách sạn', 'Hotels');
+$tagline     = bookingroom_get_meta_lang($pid, '_dest_tagline', true);
+$country     = bookingroom_get_meta_lang($pid, '_dest_country', true) ?: t('Việt Nam', 'Vietnam');
+$region      = bookingroom_get_meta_lang($pid, '_dest_region', true);
+$highlight   = bookingroom_get_meta_lang($pid, '_dest_highlight', true);
+$badge       = bookingroom_get_meta_lang($pid, '_dest_badge', true);
+$search_link = bookingroom_get_meta_lang($pid, '_dest_search_link', true);
 $book_link   = !empty($search_link) ? $search_link : esc_url(add_query_arg('s', $title, home_url('/rooms')));
 $highlights  = $highlight ? array_map('trim', explode(',', $highlight)) : array();
 
@@ -382,7 +382,7 @@ $related = get_posts(array(
                     </div>
                     <div style="display:flex;flex-direction:column;gap:16px;">
                     <?php foreach ($hotels as $hotel):
-                        $hotel_price = get_post_meta($hotel->ID, '_price', true) ?: 1500000;
+                        $hotel_price = bookingroom_get_meta_lang($hotel->ID, '_price', true) ?: 1500000;
                         $hotel_thumb = get_the_post_thumbnail_url($hotel->ID, 'medium');
                     ?>
                         <a href="<?php echo get_permalink($hotel->ID); ?>" style="display:flex;gap:16px;align-items:center;padding:14px;background:#f8fafc;border-radius:12px;text-decoration:none;transition:background .2s;" onmouseenter="this.style.background='#eff6ff'" onmouseleave="this.style.background='#f8fafc'">
@@ -450,7 +450,7 @@ $related = get_posts(array(
             <div class="dest-related-grid">
                 <?php foreach ($related as $rel):
                     $rel_thumb = get_the_post_thumbnail_url($rel->ID, 'medium_large') ?: 'https://images.unsplash.com/photo-1528127269322-539815df45d6?auto=format&fit=crop&w=400';
-                    $rel_count = get_post_meta($rel->ID, '_dest_hotel_count', true);
+                    $rel_count = bookingroom_get_meta_lang($rel->ID, '_dest_hotel_count', true);
                 ?>
                     <a href="<?php echo get_permalink($rel->ID); ?>" class="dest-related-card">
                         <img src="<?php echo esc_url($rel_thumb); ?>" alt="<?php echo esc_attr($rel->post_title); ?>">

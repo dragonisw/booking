@@ -560,7 +560,7 @@
     <!-- Hero Section - Dynamic Banner -->
     <section class="hero-banner-section" id="hero-banner">
         <?php
-        $banner_ids = get_post_meta(get_the_ID(), '_home_banner_ids', true);
+        $banner_ids = bookingroom_get_meta_lang(get_the_ID(), '_home_banner_ids', true);
         $banners = $banner_ids ? explode(',', $banner_ids) : array();
         ?>
 
@@ -617,8 +617,8 @@
         <div class="hero-content-wrapper">
             <div class="hero-content-inner" id="hero-text-block">
                 <?php
-                $hero_title = get_post_meta(get_the_ID(), '_home_hero_title', true) ?: t('Khám phá Kỳ nghỉ <br><span style="color:#60a5fa">Hoàn hảo</span> của Bạn', 'Discover Your <br><span style="color:#60a5fa">Perfect</span> Holiday');
-                $hero_subtitle = get_post_meta(get_the_ID(), '_home_hero_subtitle', true) ?: t('Hơn 500.000 khách sạn và resort sang trọng trên toàn thế giới đang chờ đón bạn với giá ưu đãi nhất.', 'Over 500,000 luxury hotels and resorts worldwide are waiting for you with the best prices.');
+                $hero_title = bookingroom_get_meta_lang(get_the_ID(), '_home_hero_title', true) ?: t('Khám phá Kỳ nghỉ <br><span style="color:#60a5fa">Hoàn hảo</span> của Bạn', 'Discover Your <br><span style="color:#60a5fa">Perfect</span> Holiday');
+                $hero_subtitle = bookingroom_get_meta_lang(get_the_ID(), '_home_hero_subtitle', true) ?: t('Hơn 500.000 khách sạn và resort sang trọng trên toàn thế giới đang chờ đón bạn với giá ưu đãi nhất.', 'Over 500,000 luxury hotels and resorts worldwide are waiting for you with the best prices.');
                 ?>
 
                 <!-- Animated Badge -->
@@ -1051,8 +1051,8 @@
                 <!-- Hình ảnh bên trái -->
                 <div class="about-img-wrap about-animate img-side">
                     <?php
-                    $about_img_id   = get_post_meta(get_the_ID(), '_home_about_img', true);
-                    $about_img2_id  = get_post_meta(get_the_ID(), '_home_about_img2', true);
+                    $about_img_id   = bookingroom_get_meta_lang(get_the_ID(), '_home_about_img', true);
+                    $about_img2_id  = bookingroom_get_meta_lang(get_the_ID(), '_home_about_img2', true);
                     $about_img_url  = $about_img_id  ? wp_get_attachment_image_url($about_img_id,  'large') : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80';
                     $about_img2_url = $about_img2_id ? wp_get_attachment_image_url($about_img2_id, 'medium') : 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=400&q=80';
                     ?>
@@ -1070,8 +1070,8 @@
                             </svg>
                         </div>
                         <div class="about-badge-text">
-                            <strong><?php echo esc_html(get_post_meta(get_the_ID(), '_home_about_badge_num', true) ?: '10+'); ?></strong>
-                            <span><?php echo esc_html(get_post_meta(get_the_ID(), '_home_about_badge_label', true) ?: 'Năm kinh nghiệm'); ?></span>
+                            <strong><?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_about_badge_num', true) ?: '10+'); ?></strong>
+                            <span><?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_about_badge_label', true) ?: 'Năm kinh nghiệm'); ?></span>
                         </div>
                     </div>
 
@@ -1084,18 +1084,18 @@
 
                     <div class="about-eyebrow">
                         <span class="about-eyebrow-dot"></span>
-                        <?php echo esc_html(get_post_meta(get_the_ID(), '_home_about_eyebrow', true) ?: 'Về chúng tôi'); ?>
+                        <?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_about_eyebrow', true) ?: 'Về chúng tôi'); ?>
                     </div>
 
                     <h2 class="about-title">
                         <?php
-                        $about_title = get_post_meta(get_the_ID(), '_home_about_title', true) ?: 'Điểm đến <span class="text-accent">nghỉ dưỡng đẳng cấp</span> hàng đầu Việt Nam';
+                        $about_title = bookingroom_get_meta_lang(get_the_ID(), '_home_about_title', true) ?: 'Điểm đến <span class="text-accent">nghỉ dưỡng đẳng cấp</span> hàng đầu Việt Nam';
                         echo $about_title;
                         ?>
                     </h2>
 
                     <p class="about-desc">
-                        <?php echo esc_html(get_post_meta(get_the_ID(), '_home_about_desc', true) ?: 'Chúng tôi mang đến trải nghiệm lưu trú tuyệt vời với hệ thống khách sạn, resort sang trọng trải dài khắp Việt Nam. Từ biển đảo hoang sơ đến phố cổ thơ mộng, mỗi điểm đến là một câu chuyện đáng nhớ.'); ?>
+                        <?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_about_desc', true) ?: 'Chúng tôi mang đến trải nghiệm lưu trú tuyệt vời với hệ thống khách sạn, resort sang trọng trải dài khắp Việt Nam. Từ biển đảo hoang sơ đến phố cổ thơ mộng, mỗi điểm đến là một câu chuyện đáng nhớ.'); ?>
                     </p>
 
                     <!-- Feature list -->
@@ -1105,20 +1105,20 @@
                             array(
                                 'icon_color' => 'blue',
                                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>',
-                                'title' => get_post_meta(get_the_ID(), '_home_about_feat1_title', true) ?: t('Không gian sang trọng, đẳng cấp 5 sao', 'Luxury space, 5-star class'),
-                                'desc'  => get_post_meta(get_the_ID(), '_home_about_feat1_desc', true)  ?: t('Thiết kế tinh tế, nội thất cao cấp mang lại cảm giác thư thái tuyệt đối.', 'Sophisticated design and premium furniture provide a feeling of absolute relaxation.'),
+                                'title' => bookingroom_get_meta_lang(get_the_ID(), '_home_about_feat1_title', true) ?: t('Không gian sang trọng, đẳng cấp 5 sao', 'Luxury space, 5-star class'),
+                                'desc'  => bookingroom_get_meta_lang(get_the_ID(), '_home_about_feat1_desc', true)  ?: t('Thiết kế tinh tế, nội thất cao cấp mang lại cảm giác thư thái tuyệt đối.', 'Sophisticated design and premium furniture provide a feeling of absolute relaxation.'),
                             ),
                             array(
                                 'icon_color' => 'purple',
                                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>',
-                                'title' => get_post_meta(get_the_ID(), '_home_about_feat2_title', true) ?: t('Đặt phòng nhanh chóng, xác nhận tức thì', 'Quick booking, instant confirmation'),
-                                'desc'  => get_post_meta(get_the_ID(), '_home_about_feat2_desc', true)  ?: t('Quy trình đặt phòng đơn giản, xác nhận ngay lập tức qua email và SMS.', 'Simple booking process, instant confirmation via email and SMS.'),
+                                'title' => bookingroom_get_meta_lang(get_the_ID(), '_home_about_feat2_title', true) ?: t('Đặt phòng nhanh chóng, xác nhận tức thì', 'Quick booking, instant confirmation'),
+                                'desc'  => bookingroom_get_meta_lang(get_the_ID(), '_home_about_feat2_desc', true)  ?: t('Quy trình đặt phòng đơn giản, xác nhận ngay lập tức qua email và SMS.', 'Simple booking process, instant confirmation via email and SMS.'),
                             ),
                             array(
                                 'icon_color' => 'amber',
                                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
-                                'title' => get_post_meta(get_the_ID(), '_home_about_feat3_title', true) ?: t('Cam kết giá tốt nhất, hoàn tiền 100%', 'Best price guarantee, 100% refund'),
-                                'desc'  => get_post_meta(get_the_ID(), '_home_about_feat3_desc', true)  ?: t('Giá ưu đãi độc quyền, chính sách hoàn tiền minh bạch khi có thay đổi.', 'Exclusive promotional prices, transparent refund policy.'),
+                                'title' => bookingroom_get_meta_lang(get_the_ID(), '_home_about_feat3_title', true) ?: t('Cam kết giá tốt nhất, hoàn tiền 100%', 'Best price guarantee, 100% refund'),
+                                'desc'  => bookingroom_get_meta_lang(get_the_ID(), '_home_about_feat3_desc', true)  ?: t('Giá ưu đãi độc quyền, chính sách hoàn tiền minh bạch khi có thay đổi.', 'Exclusive promotional prices, transparent refund policy.'),
                             ),
                         );
                         foreach ($features as $feat): ?>
@@ -1139,22 +1139,22 @@
                     <!-- Stats -->
                     <div class="about-stats">
                         <div class="about-stat-item">
-                            <div class="about-stat-num"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat1_num', true) ?: '500+'); ?></div>
-                            <div class="about-stat-label"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat1_label', true) ?: t('Khách sạn', 'Hotels')); ?></div>
+                            <div class="about-stat-num"><?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_stat1_num', true) ?: '500+'); ?></div>
+                            <div class="about-stat-label"><?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_stat1_label', true) ?: t('Khách sạn', 'Hotels')); ?></div>
                         </div>
                         <div class="about-stat-item">
-                            <div class="about-stat-num"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat2_num', true) ?: '50K+'); ?></div>
-                            <div class="about-stat-label"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat2_label', true) ?: t('Lượt đặt phòng', 'Bookings')); ?></div>
+                            <div class="about-stat-num"><?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_stat2_num', true) ?: '50K+'); ?></div>
+                            <div class="about-stat-label"><?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_stat2_label', true) ?: t('Lượt đặt phòng', 'Bookings')); ?></div>
                         </div>
                         <div class="about-stat-item">
-                            <div class="about-stat-num"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat3_num', true) ?: '4.9★'); ?></div>
-                            <div class="about-stat-label"><?php echo esc_html(get_post_meta(get_the_ID(), '_home_stat3_label', true) ?: t('Đánh giá TB', 'Avg Rating')); ?></div>
+                            <div class="about-stat-num"><?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_stat3_num', true) ?: '4.9★'); ?></div>
+                            <div class="about-stat-label"><?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_stat3_label', true) ?: t('Đánh giá TB', 'Avg Rating')); ?></div>
                         </div>
                     </div>
 
                     <!-- CTA -->
-                    <a href="<?php echo esc_url(get_post_meta(get_the_ID(), '_home_about_cta_url', true) ?: home_url('/about')); ?>" class="about-cta" id="about-cta-btn">
-                        <?php echo esc_html(get_post_meta(get_the_ID(), '_home_about_cta_text', true) ?: t('Tìm hiểu thêm về chúng tôi', 'Learn more about us')); ?>
+                    <a href="<?php echo esc_url(bookingroom_get_meta_lang(get_the_ID(), '_home_about_cta_url', true) ?: home_url('/about')); ?>" class="about-cta" id="about-cta-btn">
+                        <?php echo esc_html(bookingroom_get_meta_lang(get_the_ID(), '_home_about_cta_text', true) ?: t('Tìm hiểu thêm về chúng tôi', 'Learn more about us')); ?>
                         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7-7 7M3 12h18"/>
                         </svg>
@@ -1218,8 +1218,8 @@
                     $dest_id    = $dest_post->ID;
                     $dest_title = get_the_title($dest_id);
                     $dest_thumb = get_the_post_thumbnail_url($dest_id, 'large');
-                    $dest_count = get_post_meta($dest_id, '_dest_hotel_count', true) ?: '';
-                    $dest_badge = get_post_meta($dest_id, '_dest_badge', true);
+                    $dest_count = bookingroom_get_meta_lang($dest_id, '_dest_hotel_count', true) ?: '';
+                    $dest_badge = bookingroom_get_meta_lang($dest_id, '_dest_badge', true);
                     $dest_href  = get_permalink($dest_id);
                     if (!$dest_thumb) $dest_thumb = 'https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=600';
                 ?>
@@ -1243,7 +1243,7 @@
 
             <?php else:
             // Fallback: Media Library (hệ thống cũ)
-            $dest_ids = get_post_meta(get_the_ID(), '_home_destination_ids', true);
+            $dest_ids = bookingroom_get_meta_lang(get_the_ID(), '_home_destination_ids', true);
             if ($dest_ids):
                 $ids = explode(',', $dest_ids);
             ?>
@@ -1315,8 +1315,8 @@
                 if ($rooms_query->have_posts()):
                     while ($rooms_query->have_posts()):
                         $rooms_query->the_post();
-                        $price = get_post_meta(get_the_ID(), '_price', true) ?: 1500000;
-                        $room_label = get_post_meta(get_the_ID(), '_room_label', true) ?: 'Lux Room';
+                        $price = bookingroom_get_meta_lang(get_the_ID(), '_price', true) ?: 1500000;
+                        $room_label = bookingroom_get_meta_lang(get_the_ID(), '_room_label', true) ?: 'Lux Room';
                         ?>
                         <div
                             class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 group border border-slate-100">
@@ -1412,7 +1412,7 @@
 
     <!-- Why Choose Us -->
     <?php
-    $why_us_content = get_post_meta(get_the_ID(), '_home_why_us_content', true);
+    $why_us_content = bookingroom_get_meta_lang(get_the_ID(), '_home_why_us_content', true);
     if (!empty($why_us_content)):
         ?>
         <section class="py-24 bg-white">
@@ -1566,7 +1566,7 @@
                                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                             </path>
                                         </svg>
-                                        <?php echo t('Lượt xem:', 'Views:'); ?> <?php echo get_post_meta(get_the_ID(), 'post_views_count', true) ?: '0'; ?>
+                                        <?php echo t('Lượt xem:', 'Views:'); ?> <?php echo bookingroom_get_meta_lang(get_the_ID(), 'post_views_count', true) ?: '0'; ?>
                                     </div>
                                     <p class="text-slate-500 text-sm line-clamp-2 leading-snug">
                                         <?php echo wp_trim_words(get_the_excerpt(), 15); ?>

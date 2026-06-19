@@ -9,7 +9,7 @@ $pid = get_the_ID();
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function abp_meta( $key, $default = '' ) {
-    $val = get_post_meta( get_the_ID(), $key, true );
+    $val = bookingroom_get_meta_lang( get_the_ID(), $key, true );
     return $val !== '' ? $val : $default;
 }
 ?>
