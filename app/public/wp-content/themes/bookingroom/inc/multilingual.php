@@ -55,12 +55,18 @@ function t( $vi_text, $en_text ) {
 // 3. URL HELPER FOR LANGUAGE SWITCHER
 // ==========================================
 function bookingroom_get_lang_switch_url( $target_lang ) {
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
-    $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-    $current_url = $protocol . $host . $uri;
+    if ( isset( $_SERVER['HTTP_HOST'] ) && isset( $_SERVER['REQUEST_URI'] ) ) {
+        $protocol = ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) ? "https://" : "http://";
+        if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] == 443 ) {
+            $protocol = "https://";
+        }
+        $current_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        return add_query_arg( 'lang', $target_lang, $current_url );
+    }
     
-    return add_query_arg( 'lang', $target_lang, $current_url );
+    // Fallback if SERVER vars are missing (e.g., some CLI or weird environments)
+    global $wp;
+    return add_query_arg( 'lang', $target_lang, home_url( $wp->request ?? '/' ) );
 }
 
 // ==========================================

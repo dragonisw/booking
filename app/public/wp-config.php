@@ -91,11 +91,10 @@ if ( ! defined( 'WP_DEBUG' ) ) {
 	define( 'WP_DEBUG', true );
 }
 define( 'WP_DEBUG_LOG', true );
-
+define( 'WP_DEBUG_DISPLAY', true );
 define( 'WP_ENVIRONMENT_TYPE', 'local' );
 /* That's all, stop editing! Happy publishing. */
 
-define('WP_DEBUG_DISPLAY', false); // Không hiện lỗi trên FE, chỉ ghi vào log
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
