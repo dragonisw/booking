@@ -59,12 +59,7 @@ add_filter( 'rewrite_rules_array', function( $rules ) {
     $new_rules = array();
     
     // Front page rule
-    $front_page_id = get_option('page_on_front');
-    if ( get_option('show_on_front') == 'page' && $front_page_id ) {
-        $new_rules['^en/?$'] = 'index.php?page_id=' . $front_page_id . '&lang=en';
-    } else {
-        $new_rules['^en/?$'] = 'index.php?lang=en';
-    }
+    $new_rules['^en/?$'] = 'index.php?lang=en';
     
     // Duplicate existing rules with /en/ prefix
     foreach ( $rules as $key => $val ) {
@@ -105,16 +100,8 @@ function t( $vi_text, $en_text ) {
 // 3. AUTO-APPEND ?lang=en TO LINKS
 // ==========================================
 function bookingroom_append_lang_to_link( $url ) {
-    static $is_filtering = false;
-    if ( $is_filtering ) {
-        return $url;
-    }
-
     if ( defined( 'SITE_LANG' ) && SITE_LANG === 'en' && ! is_admin() ) {
-        $is_filtering = true;
-        $home_url = home_url(); // Gọi lúc này sẽ ko bị đệ quy
-        $is_filtering = false;
-
+        $home_url = home_url();
         if ( strpos( $url, $home_url ) === 0 ) {
             $path = substr( $url, strlen( $home_url ) );
             if ( ! preg_match('#^/en(/|\?|$)#i', $path) ) {
@@ -130,13 +117,7 @@ function bookingroom_append_lang_to_link( $url ) {
 // ==========================================
 function bookingroom_get_lang_switch_url( $target_lang ) {
     $uri = $_SERVER['REQUEST_URI'] ?? '';
-    
-    // Bỏ filter để không bị tự append /en/ vào link khi gọi home_url()
-    remove_filter( 'home_url', 'bookingroom_append_lang_to_link', 10 );
-    
-    $home_url_raw = home_url();
-    $home_path = parse_url($home_url_raw, PHP_URL_PATH) ?: '';
-    
+    $home_path = parse_url(home_url(), PHP_URL_PATH) ?: '';
     if ( $home_path ) {
         $uri = preg_replace('#^' . preg_quote($home_path, '#') . '#', '', $uri);
     }
@@ -151,15 +132,10 @@ function bookingroom_get_lang_switch_url( $target_lang ) {
         } else {
             $uri_en = '/en' . ( strpos( $uri_vi, '/' ) === 0 ? $uri_vi : '/' . $uri_vi );
         }
-        $final_url = home_url( $uri_en );
-    } else {
-        $final_url = home_url( $uri_vi );
+        return home_url( $uri_en );
     }
     
-    // Bật lại filter
-    add_filter( 'home_url', 'bookingroom_append_lang_to_link', 10 );
-    
-    return $final_url;
+    return home_url( $uri_vi );
 }
 add_filter( 'post_link', 'bookingroom_append_lang_to_link', 10 );
 add_filter( 'page_link', 'bookingroom_append_lang_to_link', 10 );
