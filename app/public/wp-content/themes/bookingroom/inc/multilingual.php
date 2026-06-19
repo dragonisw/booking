@@ -27,13 +27,11 @@ function bookingroom_language_init() {
             $uri = preg_replace('#^' . preg_quote($home_path, '#') . '#', '', $uri);
         }
         
-        // Check if URI starts with /en/ or /vn/
+        // Check if URI starts with /en/ or exactly /en
         if ( preg_match('#^/en(/|\?|$)#i', $uri) ) {
             $lang = 'en';
+            // Set cookie for reference
             setcookie( 'booking_lang', 'en', time() + 30 * DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
-        } elseif ( preg_match('#^/vn(/|\?|$)#i', $uri) ) {
-            $lang = 'vi';
-            setcookie( 'booking_lang', 'vi', time() + 30 * DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
         } elseif ( isset( $_COOKIE['booking_lang'] ) && in_array( $_COOKIE['booking_lang'], array( 'vi', 'en' ) ) ) {
             $cookie_lang = sanitize_text_field( $_COOKIE['booking_lang'] );
             // Auto-redirect to /en/ only if on root homepage and cookie is 'en'
@@ -60,26 +58,24 @@ add_filter( 'query_vars', function( $vars ) {
 add_filter( 'rewrite_rules_array', function( $rules ) {
     $new_rules = array();
     
-    // Front page rules
+    // Front page rule
     $new_rules['^en/?$'] = 'index.php?lang=en';
-    $new_rules['^vn/?$'] = 'index.php?lang=vi';
     
-    // Duplicate existing rules with /en/ and /vn/ prefix
+    // Duplicate existing rules with /en/ prefix
     foreach ( $rules as $key => $val ) {
         // Skip wp-json or other system endpoints if necessary
-        if ( strpos( $key, 'wp-json' ) === 0 || strpos( $key, 'en/' ) === 0 || strpos( $key, 'vn/' ) === 0 ) {
+        if ( strpos( $key, 'wp-json' ) === 0 || strpos( $key, 'en/' ) === 0 ) {
             continue;
         }
         
-        // EN Rule
-        $new_key_en = 'en/' . ltrim( $key, '^' );
-        $new_val_en = $val . (strpos( $val, '?' ) !== false ? '&lang=en' : '?lang=en');
-        $new_rules['^' . $new_key_en] = $new_val_en;
-
-        // VN Rule
-        $new_key_vn = 'vn/' . ltrim( $key, '^' );
-        $new_val_vn = $val . (strpos( $val, '?' ) !== false ? '&lang=vi' : '?lang=vi');
-        $new_rules['^' . $new_key_vn] = $new_val_vn;
+        $new_key = 'en/' . ltrim( $key, '^' );
+        $new_val = $val;
+        if ( strpos( $new_val, '?' ) !== false ) {
+            $new_val .= '&lang=en';
+        } else {
+            $new_val .= '?lang=en';
+        }
+        $new_rules['^' . $new_key] = $new_val;
     }
     
     // Merge new rules BEFORE old rules
@@ -104,30 +100,15 @@ function t( $vi_text, $en_text ) {
 // 3. AUTO-APPEND ?lang=en TO LINKS
 // ==========================================
 function bookingroom_append_lang_to_link( $url ) {
-    if ( is_admin() || ! defined( 'SITE_LANG' ) ) {
-        return $url;
-    }
-
-    // Prevent infinite recursion by temporarily removing the filter
-    remove_filter( 'home_url', 'bookingroom_append_lang_to_link', 10 );
-    $home_url = home_url();
-    add_filter( 'home_url', 'bookingroom_append_lang_to_link', 10 );
-
-    if ( strpos( $url, $home_url ) === 0 ) {
-        $path = substr( $url, strlen( $home_url ) );
-        
-        if ( SITE_LANG === 'en' ) {
+    if ( defined( 'SITE_LANG' ) && SITE_LANG === 'en' && ! is_admin() ) {
+        $home_url = home_url();
+        if ( strpos( $url, $home_url ) === 0 ) {
+            $path = substr( $url, strlen( $home_url ) );
             if ( ! preg_match('#^/en(/|\?|$)#i', $path) ) {
                 $url = rtrim( $home_url, '/' ) . '/en' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
             }
-        } elseif ( isset($_SERVER['REQUEST_URI']) && preg_match('#^/vn(/|\?|$)#i', $_SERVER['REQUEST_URI']) ) {
-            // If we are currently browsing the physical /vn/ folder, keep links in /vn/
-            if ( ! preg_match('#^/vn(/|\?|$)#i', $path) ) {
-                $url = rtrim( $home_url, '/' ) . '/vn' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
-            }
         }
     }
-    
     return $url;
 }
 
@@ -141,31 +122,20 @@ function bookingroom_get_lang_switch_url( $target_lang ) {
         $uri = preg_replace('#^' . preg_quote($home_path, '#') . '#', '', $uri);
     }
     
-    // Remove /en or /vn if it exists to get the base path
-    $uri_base = preg_replace('#^/(en|vn)(/|\?|$)#i', '$2', $uri);
-    $uri_base = $uri_base ?: '/';
+    // Remove /en if it exists to get the base VI path
+    $uri_no_en = preg_replace('#^/en(/|\?|$)#i', '$1', $uri);
+    $uri_vi = $uri_no_en ?: '/';
     
     if ( $target_lang === 'en' ) {
-        if ( $uri_base === '/' || $uri_base === '' ) {
+        if ( $uri_vi === '/' || $uri_vi === '' ) {
             $uri_en = '/en/';
         } else {
-            $uri_en = '/en' . ( strpos( $uri_base, '/' ) === 0 ? $uri_base : '/' . $uri_base );
+            $uri_en = '/en' . ( strpos( $uri_vi, '/' ) === 0 ? $uri_vi : '/' . $uri_vi );
         }
         return home_url( $uri_en );
-    } elseif ( $target_lang === 'vi' || $target_lang === 'vn' ) {
-        // If the user requested 'vn' as the physical folder, we can route them there
-        // Actually, the language switcher button is hardcoded to switch to VI, but we can direct them to /vn/
-        // However, root is fine for VI. If they want to specifically use /vn/, they can.
-        // Let's generate a /vn/ link for Vietnamese to match the user's folder!
-        if ( $uri_base === '/' || $uri_base === '' ) {
-            $uri_vn = '/vn/';
-        } else {
-            $uri_vn = '/vn' . ( strpos( $uri_base, '/' ) === 0 ? $uri_base : '/' . $uri_base );
-        }
-        return home_url( $uri_vn );
     }
     
-    return home_url( $uri_base );
+    return home_url( $uri_vi );
 }
 add_filter( 'post_link', 'bookingroom_append_lang_to_link', 10 );
 add_filter( 'page_link', 'bookingroom_append_lang_to_link', 10 );

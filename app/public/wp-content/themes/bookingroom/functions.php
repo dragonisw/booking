@@ -1865,4 +1865,3 @@ function bookingroom_single_room_template($template) {
 add_filter('template_include', 'bookingroom_single_room_template', 20);
 
 
-
