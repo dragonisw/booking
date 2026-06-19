@@ -55,14 +55,10 @@ function t( $vi_text, $en_text ) {
 // 3. URL HELPER FOR LANGUAGE SWITCHER
 // ==========================================
 function bookingroom_get_lang_switch_url( $target_lang ) {
-    // Just append ?lang=target_lang to the current URL
-    global $wp;
-    $current_url = home_url( add_query_arg( array(), $wp->request ) );
-    
-    // If it's the home page, $wp->request might be empty
-    if ( empty( $wp->request ) ) {
-        $current_url = home_url( '/' );
-    }
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+    $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+    $current_url = $protocol . $host . $uri;
     
     return add_query_arg( 'lang', $target_lang, $current_url );
 }
