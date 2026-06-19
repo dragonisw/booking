@@ -130,7 +130,7 @@ function bookingroom_lang_save_postdata( $post_id ) {
 // ==========================================
 // 5. OVERRIDE CONTENT DISPLAY FOR FRONTEND
 // ==========================================
-// add_filter( 'the_title', 'bookingroom_translate_title', 10, 2 );
+add_filter( 'the_title', 'bookingroom_translate_title', 10, 2 );
 function bookingroom_translate_title( $title, $id = null ) {
     if ( ! is_admin() && defined( 'SITE_LANG' ) && SITE_LANG === 'en' && $id ) {
         $en_title = get_post_meta( $id, '_title_en', true );
@@ -141,7 +141,7 @@ function bookingroom_translate_title( $title, $id = null ) {
     return $title;
 }
 
-// add_filter( 'the_content', 'bookingroom_translate_content', 10 );
+add_filter( 'the_content', 'bookingroom_translate_content', 10 );
 function bookingroom_translate_content( $content ) {
     if ( ! is_admin() && defined( 'SITE_LANG' ) && SITE_LANG === 'en' ) {
         global $post;
@@ -170,4 +170,25 @@ function bookingroom_translate_excerpt( $excerpt ) {
     return $excerpt;
 }
 
-// Menu translation temporarily removed for debugging.
+// ==========================================
+// 6. MENU TRANSLATION
+// ==========================================
+add_filter( 'wp_nav_menu_args', 'bookingroom_translate_menu' );
+function bookingroom_translate_menu( $args ) {
+    if ( defined( 'SITE_LANG' ) && SITE_LANG === 'en' ) {
+        $locations = get_nav_menu_locations();
+        
+        if ( is_object($args) && isset($args->theme_location) ) {
+            $en_location = $args->theme_location . '-en';
+            if ( isset( $locations[ $en_location ] ) && $locations[ $en_location ] != 0 ) {
+                $args->theme_location = $en_location;
+            }
+        } elseif ( is_array($args) && isset($args['theme_location']) ) {
+            $en_location = $args['theme_location'] . '-en';
+            if ( isset( $locations[ $en_location ] ) && $locations[ $en_location ] != 0 ) {
+                $args['theme_location'] = $en_location;
+            }
+        }
+    }
+    return $args;
+}
