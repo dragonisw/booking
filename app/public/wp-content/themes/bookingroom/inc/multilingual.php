@@ -170,25 +170,4 @@ function bookingroom_translate_excerpt( $excerpt ) {
     return $excerpt;
 }
 
-// ==========================================
-// 6. MENU TRANSLATION
-// ==========================================
-add_filter( 'wp_nav_menu_args', 'bookingroom_translate_menu' );
-function bookingroom_translate_menu( $args ) {
-    if ( defined( 'SITE_LANG' ) && SITE_LANG === 'en' ) {
-        $locations = get_nav_menu_locations();
-        
-        if ( is_object($args) && isset($args->theme_location) ) {
-            $en_location = $args->theme_location . '-en';
-            if ( isset( $locations[ $en_location ] ) && $locations[ $en_location ] != 0 ) {
-                $args->theme_location = $en_location;
-            }
-        } elseif ( is_array($args) && isset($args['theme_location']) ) {
-            $en_location = $args['theme_location'] . '-en';
-            if ( isset( $locations[ $en_location ] ) && $locations[ $en_location ] != 0 ) {
-                $args['theme_location'] = $en_location;
-            }
-        }
-    }
-    return $args;
-}
+// Menu translation temporarily removed for debugging.

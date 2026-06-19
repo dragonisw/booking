@@ -1,0 +1,1 @@
+<?php require 'wp-load.php'; wp_set_current_user(1); define('SITE_LANG', 'en'); wp_nav_menu(array('theme_location' => 'primary-menu')); echo 'SUCCESS'; ?>
