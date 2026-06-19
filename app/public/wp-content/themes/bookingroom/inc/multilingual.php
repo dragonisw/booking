@@ -15,30 +15,20 @@ add_action( 'init', 'bookingroom_language_init', 1 );
 function bookingroom_language_init() {
     $lang = 'vi'; // Default
 
-    // Allow overriding via URL ?lang=en (legacy fallback)
+    // If user clicks the language switcher (?lang=en or ?lang=vi)
     if ( isset( $_GET['lang'] ) && in_array( $_GET['lang'], array( 'vi', 'en' ) ) ) {
         $lang = sanitize_text_field( $_GET['lang'] );
+        // Set cookie for 30 days
         setcookie( 'booking_lang', $lang, time() + 30 * DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
-    } else {
-        // Read URL path to determine language
-        $uri = $_SERVER['REQUEST_URI'] ?? '';
-        $home_path = parse_url(home_url(), PHP_URL_PATH) ?: '';
-        if ( $home_path ) {
-            $uri = preg_replace('#^' . preg_quote($home_path, '#') . '#', '', $uri);
-        }
         
-        // Check if URI starts with /en/ or exactly /en
-        if ( preg_match('#^/en(/|\?|$)#i', $uri) ) {
-            $lang = 'en';
-            // Set cookie for reference
-            setcookie( 'booking_lang', 'en', time() + 30 * DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
-        } elseif ( isset( $_COOKIE['booking_lang'] ) && in_array( $_COOKIE['booking_lang'], array( 'vi', 'en' ) ) ) {
-            $cookie_lang = sanitize_text_field( $_COOKIE['booking_lang'] );
-            // Auto-redirect to /en/ only if on root homepage and cookie is 'en'
-            if ( $cookie_lang === 'en' && ($uri === '/' || $uri === '') && ! is_admin() ) {
-                wp_redirect( home_url('/en/') );
-                exit;
-            }
+        // Optional: Redirect to remove the ?lang parameter for clean URLs
+        // $redirect_url = remove_query_arg( 'lang' );
+        // wp_safe_redirect( $redirect_url );
+        // exit;
+    } else {
+        // Read cookie if no URL parameter
+        if ( isset( $_COOKIE['booking_lang'] ) && in_array( $_COOKIE['booking_lang'], array( 'vi', 'en' ) ) ) {
+            $lang = sanitize_text_field( $_COOKIE['booking_lang'] );
         }
     }
 
@@ -46,41 +36,6 @@ function bookingroom_language_init() {
         define( 'SITE_LANG', $lang );
     }
 }
-
-// ==========================================
-// 1.5 REWRITE RULES FOR /en/ DIRECTORY
-// ==========================================
-add_filter( 'query_vars', function( $vars ) {
-    $vars[] = 'lang';
-    return $vars;
-});
-
-add_filter( 'rewrite_rules_array', function( $rules ) {
-    $new_rules = array();
-    
-    // Front page rule
-    $new_rules['^en/?$'] = 'index.php?lang=en';
-    
-    // Duplicate existing rules with /en/ prefix
-    foreach ( $rules as $key => $val ) {
-        // Skip wp-json or other system endpoints if necessary
-        if ( strpos( $key, 'wp-json' ) === 0 || strpos( $key, 'en/' ) === 0 ) {
-            continue;
-        }
-        
-        $new_key = 'en/' . ltrim( $key, '^' );
-        $new_val = $val;
-        if ( strpos( $new_val, '?' ) !== false ) {
-            $new_val .= '&lang=en';
-        } else {
-            $new_val .= '?lang=en';
-        }
-        $new_rules['^' . $new_key] = $new_val;
-    }
-    
-    // Merge new rules BEFORE old rules
-    return $new_rules + $rules;
-});
 
 // ==========================================
 // 2. THEME STRING HELPER
@@ -97,51 +52,20 @@ function t( $vi_text, $en_text ) {
 }
 
 // ==========================================
-// 3. AUTO-APPEND ?lang=en TO LINKS
-// ==========================================
-function bookingroom_append_lang_to_link( $url ) {
-    if ( defined( 'SITE_LANG' ) && SITE_LANG === 'en' && ! is_admin() ) {
-        $home_url = home_url();
-        if ( strpos( $url, $home_url ) === 0 ) {
-            $path = substr( $url, strlen( $home_url ) );
-            if ( ! preg_match('#^/en(/|\?|$)#i', $path) ) {
-                $url = rtrim( $home_url, '/' ) . '/en' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
-            }
-        }
-    }
-    return $url;
-}
-
-// ==========================================
-// 3.5 URL HELPER FOR LANGUAGE SWITCHER
+// 3. URL HELPER FOR LANGUAGE SWITCHER
 // ==========================================
 function bookingroom_get_lang_switch_url( $target_lang ) {
-    $uri = $_SERVER['REQUEST_URI'] ?? '';
-    $home_path = parse_url(home_url(), PHP_URL_PATH) ?: '';
-    if ( $home_path ) {
-        $uri = preg_replace('#^' . preg_quote($home_path, '#') . '#', '', $uri);
+    // Just append ?lang=target_lang to the current URL
+    global $wp;
+    $current_url = home_url( add_query_arg( array(), $wp->request ) );
+    
+    // If it's the home page, $wp->request might be empty
+    if ( empty( $wp->request ) ) {
+        $current_url = home_url( '/' );
     }
     
-    // Remove /en if it exists to get the base VI path
-    $uri_no_en = preg_replace('#^/en(/|\?|$)#i', '$1', $uri);
-    $uri_vi = $uri_no_en ?: '/';
-    
-    if ( $target_lang === 'en' ) {
-        if ( $uri_vi === '/' || $uri_vi === '' ) {
-            $uri_en = '/en/';
-        } else {
-            $uri_en = '/en' . ( strpos( $uri_vi, '/' ) === 0 ? $uri_vi : '/' . $uri_vi );
-        }
-        return home_url( $uri_en );
-    }
-    
-    return home_url( $uri_vi );
+    return add_query_arg( 'lang', $target_lang, $current_url );
 }
-add_filter( 'post_link', 'bookingroom_append_lang_to_link', 10 );
-add_filter( 'page_link', 'bookingroom_append_lang_to_link', 10 );
-add_filter( 'post_type_link', 'bookingroom_append_lang_to_link', 10 );
-add_filter( 'term_link', 'bookingroom_append_lang_to_link', 10 );
-add_filter( 'home_url', 'bookingroom_append_lang_to_link', 10 );
 
 // ==========================================
 // 4. DYNAMIC CONTENT TRANSLATION (METABOXES)
