@@ -192,3 +192,17 @@ function bookingroom_translate_menu( $args ) {
     }
     return $args;
 }
+
+// ==========================================
+// 7. GET META FIELD (LANGUAGE AWARE)
+// ==========================================
+function bookingroom_get_meta_lang( $post_id, $key, $single = false ) {
+    if ( defined( 'SITE_LANG' ) && SITE_LANG === 'en' ) {
+        $en_key = $key . '_en';
+        $en_val = get_post_meta( $post_id, $en_key, $single );
+        if ( ! empty( $en_val ) ) {
+            return $en_val;
+        }
+    }
+    return get_post_meta( $post_id, $key, $single );
+}
