@@ -59,7 +59,12 @@ add_filter( 'rewrite_rules_array', function( $rules ) {
     $new_rules = array();
     
     // Front page rule
-    $new_rules['^en/?$'] = 'index.php?lang=en';
+    $front_page_id = get_option('page_on_front');
+    if ( get_option('show_on_front') == 'page' && $front_page_id ) {
+        $new_rules['^en/?$'] = 'index.php?page_id=' . $front_page_id . '&lang=en';
+    } else {
+        $new_rules['^en/?$'] = 'index.php?lang=en';
+    }
     
     // Duplicate existing rules with /en/ prefix
     foreach ( $rules as $key => $val ) {
