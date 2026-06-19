@@ -27,11 +27,13 @@ function bookingroom_language_init() {
             $uri = preg_replace('#^' . preg_quote($home_path, '#') . '#', '', $uri);
         }
         
-        // Check if URI starts with /en/ or exactly /en
+        // Check if URI starts with /en/ or /vn/
         if ( preg_match('#^/en(/|\?|$)#i', $uri) ) {
             $lang = 'en';
-            // Set cookie for reference
             setcookie( 'booking_lang', 'en', time() + 30 * DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+        } elseif ( preg_match('#^/vn(/|\?|$)#i', $uri) ) {
+            $lang = 'vi';
+            setcookie( 'booking_lang', 'vi', time() + 30 * DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
         } elseif ( isset( $_COOKIE['booking_lang'] ) && in_array( $_COOKIE['booking_lang'], array( 'vi', 'en' ) ) ) {
             $cookie_lang = sanitize_text_field( $_COOKIE['booking_lang'] );
             // Auto-redirect to /en/ only if on root homepage and cookie is 'en'
@@ -58,24 +60,26 @@ add_filter( 'query_vars', function( $vars ) {
 add_filter( 'rewrite_rules_array', function( $rules ) {
     $new_rules = array();
     
-    // Front page rule
+    // Front page rules
     $new_rules['^en/?$'] = 'index.php?lang=en';
+    $new_rules['^vn/?$'] = 'index.php?lang=vi';
     
-    // Duplicate existing rules with /en/ prefix
+    // Duplicate existing rules with /en/ and /vn/ prefix
     foreach ( $rules as $key => $val ) {
         // Skip wp-json or other system endpoints if necessary
-        if ( strpos( $key, 'wp-json' ) === 0 || strpos( $key, 'en/' ) === 0 ) {
+        if ( strpos( $key, 'wp-json' ) === 0 || strpos( $key, 'en/' ) === 0 || strpos( $key, 'vn/' ) === 0 ) {
             continue;
         }
         
-        $new_key = 'en/' . ltrim( $key, '^' );
-        $new_val = $val;
-        if ( strpos( $new_val, '?' ) !== false ) {
-            $new_val .= '&lang=en';
-        } else {
-            $new_val .= '?lang=en';
-        }
-        $new_rules['^' . $new_key] = $new_val;
+        // EN Rule
+        $new_key_en = 'en/' . ltrim( $key, '^' );
+        $new_val_en = $val . (strpos( $val, '?' ) !== false ? '&lang=en' : '?lang=en');
+        $new_rules['^' . $new_key_en] = $new_val_en;
+
+        // VN Rule
+        $new_key_vn = 'vn/' . ltrim( $key, '^' );
+        $new_val_vn = $val . (strpos( $val, '?' ) !== false ? '&lang=vi' : '?lang=vi');
+        $new_rules['^' . $new_key_vn] = $new_val_vn;
     }
     
     // Merge new rules BEFORE old rules
