@@ -100,12 +100,20 @@ function t( $vi_text, $en_text ) {
 // 3. AUTO-APPEND ?lang=en TO LINKS
 // ==========================================
 function bookingroom_append_lang_to_link( $url ) {
-    if ( defined( 'SITE_LANG' ) && SITE_LANG === 'en' && ! is_admin() ) {
+    if ( ! is_admin() && defined( 'SITE_LANG' ) ) {
         $home_url = home_url();
         if ( strpos( $url, $home_url ) === 0 ) {
             $path = substr( $url, strlen( $home_url ) );
-            if ( ! preg_match('#^/en(/|\?|$)#i', $path) ) {
-                $url = rtrim( $home_url, '/' ) . '/en' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
+            
+            if ( SITE_LANG === 'en' ) {
+                if ( ! preg_match('#^/en(/|\?|$)#i', $path) ) {
+                    $url = rtrim( $home_url, '/' ) . '/en' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
+                }
+            } elseif ( isset($_SERVER['REQUEST_URI']) && preg_match('#^/vn(/|\?|$)#i', $_SERVER['REQUEST_URI']) ) {
+                // If we are currently browsing the physical /vn/ folder, keep links in /vn/
+                if ( ! preg_match('#^/vn(/|\?|$)#i', $path) ) {
+                    $url = rtrim( $home_url, '/' ) . '/vn' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
+                }
             }
         }
     }
@@ -122,20 +130,31 @@ function bookingroom_get_lang_switch_url( $target_lang ) {
         $uri = preg_replace('#^' . preg_quote($home_path, '#') . '#', '', $uri);
     }
     
-    // Remove /en if it exists to get the base VI path
-    $uri_no_en = preg_replace('#^/en(/|\?|$)#i', '$1', $uri);
-    $uri_vi = $uri_no_en ?: '/';
+    // Remove /en or /vn if it exists to get the base path
+    $uri_base = preg_replace('#^/(en|vn)(/|\?|$)#i', '$2', $uri);
+    $uri_base = $uri_base ?: '/';
     
     if ( $target_lang === 'en' ) {
-        if ( $uri_vi === '/' || $uri_vi === '' ) {
+        if ( $uri_base === '/' || $uri_base === '' ) {
             $uri_en = '/en/';
         } else {
-            $uri_en = '/en' . ( strpos( $uri_vi, '/' ) === 0 ? $uri_vi : '/' . $uri_vi );
+            $uri_en = '/en' . ( strpos( $uri_base, '/' ) === 0 ? $uri_base : '/' . $uri_base );
         }
         return home_url( $uri_en );
+    } elseif ( $target_lang === 'vi' || $target_lang === 'vn' ) {
+        // If the user requested 'vn' as the physical folder, we can route them there
+        // Actually, the language switcher button is hardcoded to switch to VI, but we can direct them to /vn/
+        // However, root is fine for VI. If they want to specifically use /vn/, they can.
+        // Let's generate a /vn/ link for Vietnamese to match the user's folder!
+        if ( $uri_base === '/' || $uri_base === '' ) {
+            $uri_vn = '/vn/';
+        } else {
+            $uri_vn = '/vn' . ( strpos( $uri_base, '/' ) === 0 ? $uri_base : '/' . $uri_base );
+        }
+        return home_url( $uri_vn );
     }
     
-    return home_url( $uri_vi );
+    return home_url( $uri_base );
 }
 add_filter( 'post_link', 'bookingroom_append_lang_to_link', 10 );
 add_filter( 'page_link', 'bookingroom_append_lang_to_link', 10 );

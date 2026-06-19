@@ -73,6 +73,14 @@ function brd_destination_metabox_cb($post) {
     $badge        = get_post_meta($post->ID, '_dest_badge', true);
     $featured     = get_post_meta($post->ID, '_dest_featured', true);
     $sort_order   = get_post_meta($post->ID, '_dest_sort_order', true) ?: 0;
+    
+    // English versions
+    $hotel_count_en  = get_post_meta($post->ID, '_dest_hotel_count_en', true);
+    $tagline_en      = get_post_meta($post->ID, '_dest_tagline_en', true);
+    $country_en      = get_post_meta($post->ID, '_dest_country_en', true);
+    $region_en       = get_post_meta($post->ID, '_dest_region_en', true);
+    $highlight_en    = get_post_meta($post->ID, '_dest_highlight_en', true);
+    $badge_en        = get_post_meta($post->ID, '_dest_badge_en', true);
     ?>
     <style>
         .brd-metabox { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 4px 0; }
@@ -87,22 +95,27 @@ function brd_destination_metabox_cb($post) {
         <div class="brd-field">
             <label for="brd_tagline">📝 Slogan / Mô tả ngắn</label>
             <input type="text" id="brd_tagline" name="brd_tagline" value="<?php echo esc_attr($tagline); ?>" placeholder="VD: Thành phố đáng sống nhất Việt Nam">
+            <input type="text" id="brd_tagline_en" name="brd_tagline_en" value="<?php echo esc_attr($tagline_en); ?>" style="border-color:#93c5fd !important;" placeholder="English">
         </div>
         <div class="brd-field">
             <label for="brd_hotel_count">🏨 Số khách sạn</label>
             <input type="text" id="brd_hotel_count" name="brd_hotel_count" value="<?php echo esc_attr($hotel_count); ?>" placeholder="VD: 124 Khách sạn">
+            <input type="text" id="brd_hotel_count_en" name="brd_hotel_count_en" value="<?php echo esc_attr($hotel_count_en); ?>" style="border-color:#93c5fd !important;" placeholder="English">
         </div>
         <div class="brd-field">
             <label for="brd_country">🌍 Quốc gia</label>
             <input type="text" id="brd_country" name="brd_country" value="<?php echo esc_attr($country); ?>" placeholder="Việt Nam">
+            <input type="text" id="brd_country_en" name="brd_country_en" value="<?php echo esc_attr($country_en); ?>" style="border-color:#93c5fd !important;" placeholder="English">
         </div>
         <div class="brd-field">
             <label for="brd_region">📌 Vùng / Miền</label>
             <input type="text" id="brd_region" name="brd_region" value="<?php echo esc_attr($region); ?>" placeholder="VD: Miền Trung">
+            <input type="text" id="brd_region_en" name="brd_region_en" value="<?php echo esc_attr($region_en); ?>" style="border-color:#93c5fd !important;" placeholder="English">
         </div>
         <div class="brd-field">
             <label for="brd_badge">🏷️ Badge (Nhãn nổi bật)</label>
             <input type="text" id="brd_badge" name="brd_badge" value="<?php echo esc_attr($badge); ?>" placeholder="VD: Hot, Mới, Xu hướng">
+            <input type="text" id="brd_badge_en" name="brd_badge_en" value="<?php echo esc_attr($badge_en); ?>" style="border-color:#93c5fd !important;" placeholder="English">
             <span class="brd-tip">Hiển thị nhãn nhỏ trên ảnh điểm đến</span>
         </div>
         <div class="brd-field">
@@ -113,6 +126,7 @@ function brd_destination_metabox_cb($post) {
         <div class="brd-field brd-full">
             <label for="brd_highlight">✨ Điểm nổi bật (cách nhau bằng dấu phẩy)</label>
             <input type="text" id="brd_highlight" name="brd_highlight" value="<?php echo esc_attr($highlight); ?>" placeholder="VD: Bãi biển đẹp, Ẩm thực phong phú, Di sản UNESCO">
+            <input type="text" id="brd_highlight_en" name="brd_highlight_en" value="<?php echo esc_attr($highlight_en); ?>" style="border-color:#93c5fd !important;" placeholder="English">
             <span class="brd-tip">Hiển thị dưới dạng tags trong trang chi tiết</span>
         </div>
         <div class="brd-field brd-full">
@@ -171,6 +185,9 @@ function brd_save_destination_meta($post_id) {
     foreach ($text_fields as $post_key => $meta_key) {
         if (isset($_POST[$post_key])) {
             update_post_meta($post_id, $meta_key, sanitize_text_field($_POST[$post_key]));
+        }
+        if (isset($_POST[$post_key . '_en'])) {
+            update_post_meta($post_id, $meta_key . '_en', sanitize_text_field($_POST[$post_key . '_en']));
         }
     }
     // Checkboxes
