@@ -104,23 +104,30 @@ function t( $vi_text, $en_text ) {
 // 3. AUTO-APPEND ?lang=en TO LINKS
 // ==========================================
 function bookingroom_append_lang_to_link( $url ) {
-    if ( ! is_admin() && defined( 'SITE_LANG' ) ) {
-        $home_url = home_url();
-        if ( strpos( $url, $home_url ) === 0 ) {
-            $path = substr( $url, strlen( $home_url ) );
-            
-            if ( SITE_LANG === 'en' ) {
-                if ( ! preg_match('#^/en(/|\?|$)#i', $path) ) {
-                    $url = rtrim( $home_url, '/' ) . '/en' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
-                }
-            } elseif ( isset($_SERVER['REQUEST_URI']) && preg_match('#^/vn(/|\?|$)#i', $_SERVER['REQUEST_URI']) ) {
-                // If we are currently browsing the physical /vn/ folder, keep links in /vn/
-                if ( ! preg_match('#^/vn(/|\?|$)#i', $path) ) {
-                    $url = rtrim( $home_url, '/' ) . '/vn' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
-                }
+    if ( is_admin() || ! defined( 'SITE_LANG' ) ) {
+        return $url;
+    }
+
+    // Prevent infinite recursion by temporarily removing the filter
+    remove_filter( 'home_url', 'bookingroom_append_lang_to_link', 10 );
+    $home_url = home_url();
+    add_filter( 'home_url', 'bookingroom_append_lang_to_link', 10 );
+
+    if ( strpos( $url, $home_url ) === 0 ) {
+        $path = substr( $url, strlen( $home_url ) );
+        
+        if ( SITE_LANG === 'en' ) {
+            if ( ! preg_match('#^/en(/|\?|$)#i', $path) ) {
+                $url = rtrim( $home_url, '/' ) . '/en' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
+            }
+        } elseif ( isset($_SERVER['REQUEST_URI']) && preg_match('#^/vn(/|\?|$)#i', $_SERVER['REQUEST_URI']) ) {
+            // If we are currently browsing the physical /vn/ folder, keep links in /vn/
+            if ( ! preg_match('#^/vn(/|\?|$)#i', $path) ) {
+                $url = rtrim( $home_url, '/' ) . '/vn' . ( $path ? ( strpos( $path, '/' ) === 0 ? $path : '/' . $path ) : '/' );
             }
         }
     }
+    
     return $url;
 }
 
