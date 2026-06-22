@@ -1795,4 +1795,24 @@ function bookingroom_single_room_template($template) {
 }
 add_filter('template_include', 'bookingroom_single_room_template', 20);
 
+// ==========================================
+// AUTO-ADD BTN-MENU CLASS TO LAST MENU ITEM
+// ==========================================
+add_filter('wp_nav_menu_objects', 'bookingroom_auto_btn_last_menu_item', 10, 2);
+function bookingroom_auto_btn_last_menu_item($items, $args) {
+    if (($args->theme_location == 'primary' || $args->theme_location == 'primary-menu') && !empty($items)) {
+        // Tìm item cuối cùng ở cấp độ cao nhất (menu parent)
+        $last_item_key = null;
+        foreach ($items as $key => $item) {
+            if ($item->menu_item_parent == 0) {
+                $last_item_key = $key;
+            }
+        }
+        if ($last_item_key !== null) {
+            $items[$last_item_key]->classes[] = 'btn-menu';
+        }
+    }
+    return $items;
+}
+
 
