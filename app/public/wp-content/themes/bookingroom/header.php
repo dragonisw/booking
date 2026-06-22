@@ -589,8 +589,8 @@
 </div>
 
                 <!-- Nút đặt phòng (desktop) -->
-                <a href="<?php echo esc_url(home_url('/booking')); ?>" class="btn-booking">
-                    <?php echo t('Đặt phòng ngay', 'Book Now'); ?>
+                <a href="<?php echo esc_url(get_theme_mod('header_btn_url', home_url('/booking'))); ?>" class="btn-booking">
+                    <?php echo esc_html(get_theme_mod('header_btn_text', t('Đặt phòng ngay', 'Book Now'))); ?>
                 </a>
 
                 <!-- Hamburger (mobile) -->
@@ -640,8 +640,8 @@
 
         <!-- Drawer Footer -->
         <div class="drawer-footer">
-            <a href="<?php echo esc_url(home_url('/booking')); ?>">
-                <?php echo t('Đặt phòng ngay', 'Book Now'); ?>
+            <a href="<?php echo esc_url(get_theme_mod('header_btn_url', home_url('/booking'))); ?>">
+                <?php echo esc_html(get_theme_mod('header_btn_text', t('Đặt phòng ngay', 'Book Now'))); ?>
             </a>
         </div>
     </div>
