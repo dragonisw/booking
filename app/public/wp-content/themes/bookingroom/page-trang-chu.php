@@ -81,12 +81,12 @@
         0%   { transform: translate(0, 0); }
         100% { transform: translate(50px, 50px); }
     }
-
     /* Hero content container - chỉ chứa text, căn giữa */
     .hero-content-wrapper {
         position: absolute;
         inset: 0;
-        bottom: 160px; /* để lại chỗ cho search bar ở dưới */
+        bottom: 0;
+        padding-bottom: 160px; /* Để lại chỗ cho search bar ở dưới */
         z-index: 10;
         display: flex;
         flex-direction: column;
@@ -102,7 +102,6 @@
         padding: 0 1.5rem;
         text-align: center;
         pointer-events: auto;
-        padding-top: 5rem;
     }
 
     /* Search bar floating at bottom of banner */
@@ -123,9 +122,10 @@
         max-width: 1200px;
     }
 
-    @media (max-width: 767px) {
+    @media (max-width: 1023px) {
         .hero-content-wrapper {
-            bottom: 200px;
+            bottom: 0;
+            padding-bottom: 200px; /* More space for stacked search bar on mobile/tablet */
         }
         .hero-search-outer {
             padding: 0 0.75rem 1.5rem;
@@ -137,12 +137,13 @@
     /* Pill container */
     .sb-pill {
         display: flex;
-        align-items: center;
+        align-items: stretch;
         background: #ffffff;
         border-radius: 9999px;
         box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
-        overflow: visible;
+        padding: 10px;
         position: relative;
+        overflow: visible;
         width: 100%;
         border: 1.5px solid rgba(255,255,255,0.6);
     }
@@ -156,6 +157,9 @@
         transition: background 0.2s;
         position: relative;
         min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .sb-field:hover {
@@ -550,7 +554,7 @@
         .hero-counter { display: none; }
         .hero-nav-btn { width: 40px; height: 40px; }
         .hero-banner-section { min-height: 640px; height: 100vh; max-height: 780px; }
-        .hero-content-wrapper { bottom: 230px; }
+        .hero-content-wrapper { bottom: 0; padding-bottom: 230px; }
         .hero-search-outer { padding: 0 0.75rem 1rem; }
         .hero-pagination-wrap { bottom: 210px; }
     }
