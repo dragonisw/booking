@@ -1297,9 +1297,51 @@
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-[42px] font-light mb-24 tracking-wide" style="color: #5b488c;">Features Rooms & Suites</h2>
 
-            <!-- Loading Spinner Container -->
-            <div class="flex justify-center items-center h-20 mb-24">
-                <div class="animate-spin rounded-full h-[60px] w-[60px] border-[2px] border-slate-100 border-t-[#d15e70]"></div>
+            <!-- Room List Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 text-left">
+                <?php
+                $centara_rooms = new WP_Query(array(
+                    'post_type' => 'room',
+                    'posts_per_page' => 3,
+                ));
+
+                if ($centara_rooms->have_posts()):
+                    while ($centara_rooms->have_posts()):
+                        $centara_rooms->the_post();
+                        $price = bookingroom_get_meta_lang(get_the_ID(), '_price', true) ?: 1500000;
+                        ?>
+                        <div class="bg-white group cursor-pointer">
+                            <div class="relative overflow-hidden aspect-[4/3] mb-6">
+                                <a href="<?php the_permalink(); ?>" class="block h-full">
+                                    <?php if (has_post_thumbnail()): ?>
+                                        <?php the_post_thumbnail('large', array('class' => 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out')); ?>
+                                    <?php else: ?>
+                                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
+                                    <?php endif; ?>
+                                </a>
+                            </div>
+                            <div class="px-2">
+                                <a href="<?php the_permalink(); ?>">
+                                    <h3 class="text-2xl font-light text-slate-900 mb-3 group-hover:text-[#5b488c] transition-colors">
+                                        <?php the_title(); ?>
+                                    </h3>
+                                </a>
+                                <div class="text-slate-500 text-sm mb-4 line-clamp-2 leading-relaxed">
+                                    <?php echo has_excerpt() ? get_the_excerpt() : wp_trim_words(strip_shortcodes(get_the_content()), 15); ?>
+                                </div>
+                                <div class="text-sm font-medium text-slate-800 uppercase tracking-widest mt-6">
+                                    <?php echo t('Giá từ', 'From'); ?> <span class="text-lg font-normal text-[#5b488c] ml-1"><?php echo number_format($price); ?>đ</span>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    endwhile;
+                    wp_reset_postdata();
+                else:
+                    echo '<p class="col-span-3 text-center text-slate-500">' . t('Chưa có phòng nào.', 'No rooms found.') . '</p>';
+                endif;
+                ?>
             </div>
 
             <!-- Button -->
