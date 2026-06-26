@@ -1292,6 +1292,24 @@
         </div>
     </section>
 
+    <!-- Features Rooms & Suites Section (Centara Style) -->
+    <section class="py-24 bg-white" id="centara-features-rooms">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-[42px] font-light mb-24 tracking-wide" style="color: #5b488c;">Features Rooms & Suites</h2>
+
+            <!-- Loading Spinner Container -->
+            <div class="flex justify-center items-center h-20 mb-24">
+                <div class="animate-spin rounded-full h-[60px] w-[60px] border-[2px] border-slate-100 border-t-[#d15e70]"></div>
+            </div>
+
+            <!-- Button -->
+            <div class="text-center">
+                <a href="<?php echo esc_url(home_url('/rooms')); ?>" class="inline-block px-10 py-[18px] text-[15px] font-medium text-white transition-opacity hover:opacity-90 rounded-sm" style="background-color: #5b488c;">
+                    See all Room & Suites
+                </a>
+            </div>
+        </div>
+    </section>
 
     <!-- Premium Rooms Section -->
     <section class="py-24 bg-slate-50">
