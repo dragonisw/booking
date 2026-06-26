@@ -1292,13 +1292,24 @@
         </div>
     </section>
 
-    <!-- Features Rooms & Suites Section (Centara Style) -->
-    <section class="py-24 bg-white" id="centara-features-rooms">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-3xl md:text-[42px] font-light mb-24 tracking-wide" style="color: #5b488c;">Features Rooms & Suites</h2>
+    <!-- Features Rooms & Suites Section (Centara Style - Decorated) -->
+    <section class="py-28 relative overflow-hidden bg-slate-50" id="centara-features-rooms">
+        <!-- Subtle decorative background patterns -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none opacity-60">
+            <div class="absolute -top-[15%] -left-[10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-[#5b488c]/10 to-transparent blur-[100px]"></div>
+            <div class="absolute bottom-[5%] right-[5%] w-[40%] h-[60%] rounded-full bg-gradient-to-tl from-[#d15e70]/10 to-transparent blur-[100px]"></div>
+        </div>
+
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="inline-block mb-6">
+                <span class="block w-16 h-1 bg-gradient-to-r from-[#d15e70] to-[#5b488c] mx-auto rounded-full"></span>
+            </div>
+            <h2 class="text-4xl md:text-[46px] font-light mb-20 tracking-wide text-slate-800">
+                Features <span class="font-medium" style="color: #5b488c;">Rooms & Suites</span>
+            </h2>
 
             <!-- Room List Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 text-left">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-20 text-left">
                 <?php
                 $centara_rooms = new WP_Query(array(
                     'post_type' => 'room',
@@ -1310,28 +1321,40 @@
                         $centara_rooms->the_post();
                         $price = bookingroom_get_meta_lang(get_the_ID(), '_price', true) ?: 1500000;
                         ?>
-                        <div class="bg-white group cursor-pointer">
-                            <div class="relative overflow-hidden aspect-[4/3] mb-6">
-                                <a href="<?php the_permalink(); ?>" class="block h-full">
+                        <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(91,72,140,0.12)] hover:-translate-y-2 transition-all duration-500 group cursor-pointer border border-slate-100/50 flex flex-col h-full overflow-hidden relative">
+                            <!-- Card Hover Glow -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#5b488c]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"></div>
+                            
+                            <div class="relative overflow-hidden aspect-[4/3] z-20">
+                                <a href="<?php the_permalink(); ?>" class="block h-full w-full">
                                     <?php if (has_post_thumbnail()): ?>
-                                        <?php the_post_thumbnail('large', array('class' => 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out')); ?>
+                                        <?php the_post_thumbnail('large', array('class' => 'w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out')); ?>
                                     <?php else: ?>
                                         <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800"
-                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
+                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out">
                                     <?php endif; ?>
                                 </a>
+                                <!-- Overlay gradient -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                             </div>
-                            <div class="px-2">
+                            
+                            <div class="p-8 flex-grow flex flex-col z-20 bg-white">
                                 <a href="<?php the_permalink(); ?>">
-                                    <h3 class="text-2xl font-light text-slate-900 mb-3 group-hover:text-[#5b488c] transition-colors">
+                                    <h3 class="text-2xl font-normal text-slate-800 mb-3 group-hover:text-[#5b488c] transition-colors leading-tight">
                                         <?php the_title(); ?>
                                     </h3>
                                 </a>
-                                <div class="text-slate-500 text-sm mb-4 line-clamp-2 leading-relaxed">
+                                <div class="text-slate-500 text-[15px] mb-6 line-clamp-2 leading-relaxed flex-grow">
                                     <?php echo has_excerpt() ? get_the_excerpt() : wp_trim_words(strip_shortcodes(get_the_content()), 15); ?>
                                 </div>
-                                <div class="text-sm font-medium text-slate-800 uppercase tracking-widest mt-6">
-                                    <?php echo t('Giá từ', 'From'); ?> <span class="text-lg font-normal text-[#5b488c] ml-1"><?php echo number_format($price); ?>đ</span>
+                                
+                                <div class="pt-5 border-t border-slate-100 flex items-center justify-between mt-auto">
+                                    <div class="text-[13px] font-semibold text-slate-400 uppercase tracking-widest">
+                                        <?php echo t('Giá từ', 'From'); ?>
+                                    </div>
+                                    <div class="text-xl font-medium text-[#5b488c]">
+                                        <?php echo number_format($price); ?>đ <span class="text-sm text-slate-400 font-normal">/ <?php echo t('đêm', 'night'); ?></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1345,9 +1368,10 @@
             </div>
 
             <!-- Button -->
-            <div class="text-center">
-                <a href="<?php echo esc_url(home_url('/rooms')); ?>" class="inline-block px-10 py-[18px] text-[15px] font-medium text-white transition-opacity hover:opacity-90 rounded-sm" style="background-color: #5b488c;">
-                    See all Room & Suites
+            <div class="text-center relative z-10">
+                <a href="<?php echo esc_url(home_url('/rooms')); ?>" class="inline-flex items-center justify-center px-12 py-[18px] text-[15px] font-semibold text-white tracking-widest uppercase rounded-full shadow-xl shadow-[#5b488c]/30 hover:shadow-[#5b488c]/50 hover:-translate-y-1 transition-all duration-300 group" style="background: linear-gradient(135deg, #6a4a82 0%, #4b3875 100%);">
+                    <span>See all Room & Suites</span>
+                    <svg class="w-5 h-5 ml-3 group-hover:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7-7 7M3 12h18"></path></svg>
                 </a>
             </div>
         </div>
