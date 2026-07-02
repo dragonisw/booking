@@ -50,6 +50,12 @@ require_once get_stylesheet_directory() . '/inc/customer-manager.php';
 require_once get_stylesheet_directory() . '/inc/destination-cpt.php';
 
 /**
+ * Customer Review Custom Post Type
+ * Đánh giá khách hàng
+ */
+require_once get_stylesheet_directory() . '/inc/review-cpt.php';
+
+/**
  * WP Hotel Booking Integration (ThimPress)
  * Kết nối theme với plugin WP Hotel Booking – template overrides, helper functions
  * Plugin cần được cài và kích hoạt qua: Plugins → Add New → "WP Hotel Booking"

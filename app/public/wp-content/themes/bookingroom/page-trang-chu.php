@@ -1442,6 +1442,131 @@
         </section>
     <?php endif; ?>
 
+    <!-- Customer Reviews Section (TripAdvisor Style) -->
+    <section class="py-20 bg-slate-50 overflow-hidden">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-[46px] font-light mb-4 tracking-wide text-[#5b488c]">
+                Our Guests' Experience
+            </h2>
+            <div class="flex items-center justify-center gap-2 text-slate-600 mb-12">
+                <p class="text-xl">Được người dùng TripAdvisor tin cậy</p>
+                <div class="flex text-[#00aa6c]">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                </div>
+            </div>
+
+            <!-- Swiper -->
+            <div class="swiper review-swiper pb-16">
+                <div class="swiper-wrapper">
+                    <?php
+                    $reviews_query = new WP_Query(array(
+                        'post_type' => 'review',
+                        'posts_per_page' => 12,
+                        'meta_key' => '_review_sort_order',
+                        'orderby' => 'meta_value_num',
+                        'order' => 'ASC'
+                    ));
+
+                    if ($reviews_query->have_posts()):
+                        while ($reviews_query->have_posts()): $reviews_query->the_post();
+                            $reviewer_name  = get_post_meta(get_the_ID(), '_review_reviewer_name', true) ?: 'Guest';
+                            $rating         = get_post_meta(get_the_ID(), '_review_rating', true) ?: 5;
+                            $stay_date      = get_post_meta(get_the_ID(), '_review_stay_date', true);
+                            $location       = get_post_meta(get_the_ID(), '_review_location', true);
+                            $contributions  = get_post_meta(get_the_ID(), '_review_contributions', true) ?: '0';
+                            $avatar_url     = get_the_post_thumbnail_url(get_the_ID(), 'thumbnail');
+                            if (!$avatar_url) $avatar_url = 'https://ui-avatars.com/api/?name=' . urlencode($reviewer_name) . '&background=random';
+                            ?>
+                            <div class="swiper-slide h-auto">
+                                <div class="bg-white border border-slate-200 rounded-xl p-6 text-left h-full flex flex-col shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all">
+                                    <!-- Author Header -->
+                                    <div class="flex items-center gap-4 mb-4">
+                                        <img src="<?php echo esc_url($avatar_url); ?>" alt="<?php echo esc_attr($reviewer_name); ?>" class="w-12 h-12 rounded-full object-cover border border-slate-100">
+                                        <div>
+                                            <h4 class="font-bold text-slate-800 text-sm"><?php echo esc_html($reviewer_name); ?></h4>
+                                            <p class="text-[11px] text-slate-500">wrote a review <?php echo esc_html($stay_date); ?></p>
+                                            <p class="text-[11px] text-slate-400 mt-0.5" style="display:flex;align-items:center;gap:4px;">
+                                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg> 
+                                                <?php echo esc_html($location); ?> &bull; <?php echo esc_html($contributions); ?> contributions
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Stars -->
+                                    <div class="flex text-[#00aa6c] mb-3">
+                                        <?php for($i=1; $i<=5; $i++): ?>
+                                            <svg class="w-4 h-4 <?php echo ($i <= $rating) ? 'fill-current' : 'text-slate-200'; ?>" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                        <?php endfor; ?>
+                                    </div>
+                                    <!-- Review Content -->
+                                    <h3 class="font-bold text-slate-800 mb-2 text-[15px] leading-snug">"<?php echo esc_html(get_the_title()); ?>"</h3>
+                                    <div class="text-[13px] text-slate-600 line-clamp-4 mb-4 flex-grow leading-relaxed">
+                                        <?php echo wp_strip_all_tags(get_the_content()); ?>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 mt-2 mb-4">Date of stay: <?php echo esc_html($stay_date); ?></p>
+                                    <!-- Read more -->
+                                    <div class="mt-auto pt-4 border-t border-slate-100 text-[13px] font-semibold text-slate-800 cursor-pointer hover:underline flex items-center justify-between">
+                                        Đọc thêm 
+                                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        endwhile;
+                        wp_reset_postdata();
+                    else:
+                        echo '<p class="text-slate-500 text-center w-full">Chưa có bài đánh giá nào. Bạn hãy thêm đánh giá mới trong Admin nhé.</p>';
+                    endif;
+                    ?>
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Init Swiper for Reviews -->
+    <style>
+        .review-swiper .swiper-pagination {
+            bottom: 0px !important;
+        }
+        .review-swiper .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            background: #cbd5e1;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+        .review-swiper .swiper-pagination-bullet-active {
+            background: #5b488c;
+            width: 24px;
+            border-radius: 99px;
+        }
+    </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if(typeof Swiper !== 'undefined') {
+            new Swiper('.review-swiper', {
+                slidesPerView: 1.2,
+                spaceBetween: 16,
+                grabCursor: true,
+                pagination: {
+                    el: '.review-swiper .swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    640: { slidesPerView: 2.2, spaceBetween: 20 },
+                    1024: { slidesPerView: 3.5, spaceBetween: 24 },
+                    1280: { slidesPerView: 4.5, spaceBetween: 24 },
+                }
+            });
+        }
+    });
+    </script>
+
     <!-- Testimonials & News Section -->
     <section class="flex flex-col md:flex-row min-h-[600px] overflow-hidden py-24">
         <!-- Left: Testimonials -->
