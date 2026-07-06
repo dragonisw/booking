@@ -192,3 +192,173 @@ function brd_review_orderby($query) {
         $query->set('orderby', 'meta_value_num');
     }
 }
+
+// ============================================================
+// 4. SHORTCODE FORM GỬI ĐÁNH GIÁ (FRONTEND)
+// ============================================================
+add_shortcode('brd_submit_review', 'brd_submit_review_shortcode');
+function brd_submit_review_shortcode() {
+    ob_start();
+    ?>
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="text-2xl font-bold text-slate-800 mb-6 text-center">Gửi Đánh Giá Của Bạn</h3>
+        
+        <form id="brd-review-form" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tên -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Tên của bạn *</label>
+                    <input type="text" name="reviewer_name" required class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Nhập tên của bạn">
+                </div>
+                
+                <!-- Số sao -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Đánh giá *</label>
+                    <select name="rating" required class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white">
+                        <option value="5">5 Sao - Rất tuyệt vời</option>
+                        <option value="4">4 Sao - Tuyệt vời</option>
+                        <option value="3">3 Sao - Bình thường</option>
+                        <option value="2">2 Sao - Kém</option>
+                        <option value="1">1 Sao - Rất kém</option>
+                    </select>
+                </div>
+
+                <!-- Địa điểm -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Đến từ (Địa điểm)</label>
+                    <input type="text" name="location" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="VD: Hà Nội, Việt Nam">
+                </div>
+
+                <!-- Tháng/Năm lưu trú -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Thời gian lưu trú</label>
+                    <input type="text" name="stay_date" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="VD: Tháng 2 năm 2024">
+                </div>
+            </div>
+
+            <!-- Tiêu đề đánh giá -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Tiêu đề đánh giá *</label>
+                <input type="text" name="review_title" required class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="VD: Trải nghiệm tuyệt vời cùng gia đình">
+            </div>
+
+            <!-- Nội dung chi tiết -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Chi tiết đánh giá *</label>
+                <textarea name="review_content" required rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none" placeholder="Hãy chia sẻ cảm nhận chi tiết của bạn về kỳ nghỉ..."></textarea>
+            </div>
+
+            <!-- Nút gửi -->
+            <div class="text-center">
+                <button type="submit" id="brd-review-submit-btn" class="inline-flex items-center justify-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors duration-300 shadow-lg shadow-blue-200">
+                    Gửi Đánh Giá
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M3 12h18"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Message -->
+            <div id="brd-review-msg" class="hidden mt-4 p-4 rounded-lg text-center font-semibold text-sm"></div>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('brd-review-form');
+        const msgDiv = document.getElementById('brd-review-msg');
+        const submitBtn = document.getElementById('brd-review-submit-btn');
+
+        if(form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Disable button
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Đang gửi...';
+                
+                const formData = new FormData(form);
+                formData.append('action', 'submit_customer_review');
+                if (typeof booking_ajax !== 'undefined') {
+                    formData.append('nonce', booking_ajax.nonce);
+                }
+
+                fetch(booking_ajax.ajax_url, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    msgDiv.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
+                    if(data.success) {
+                        msgDiv.classList.add('bg-green-100', 'text-green-700');
+                        msgDiv.innerText = data.data.message;
+                        form.reset();
+                    } else {
+                        msgDiv.classList.add('bg-red-100', 'text-red-700');
+                        msgDiv.innerText = data.data.message || 'Có lỗi xảy ra, vui lòng thử lại sau.';
+                    }
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Gửi Đánh Giá <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M3 12h18"></path></svg>';
+                })
+                .catch(error => {
+                    msgDiv.classList.remove('hidden');
+                    msgDiv.classList.add('bg-red-100', 'text-red-700');
+                    msgDiv.innerText = 'Lỗi kết nối máy chủ.';
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Gửi Đánh Giá';
+                });
+            });
+        }
+    });
+    </script>
+    <?php
+    return ob_get_clean();
+}
+
+// ============================================================
+// 5. AJAX HANDLER GỬI ĐÁNH GIÁ
+// ============================================================
+add_action('wp_ajax_submit_customer_review', 'brd_ajax_handle_review_submit');
+add_action('wp_ajax_nopriv_submit_customer_review', 'brd_ajax_handle_review_submit');
+
+function brd_ajax_handle_review_submit() {
+    // Kiểm tra nonce nếu cần (ở đây theme dùng booking_nonce)
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'booking_nonce')) {
+        wp_send_json_error(array('message' => 'Phiên làm việc đã hết hạn. Vui lòng tải lại trang.'));
+    }
+
+    $name     = sanitize_text_field($_POST['reviewer_name']);
+    $title    = sanitize_text_field($_POST['review_title']);
+    $content  = sanitize_textarea_field($_POST['review_content']);
+    $rating   = intval($_POST['rating']);
+    $location = sanitize_text_field($_POST['location']);
+    $date     = sanitize_text_field($_POST['stay_date']);
+
+    if (empty($name) || empty($title) || empty($content)) {
+        wp_send_json_error(array('message' => 'Vui lòng điền đầy đủ các thông tin bắt buộc.'));
+    }
+
+    // Tạo Post mới
+    $post_data = array(
+        'post_title'   => $title,
+        'post_content' => $content,
+        'post_status'  => 'pending', // Lưu dạng chờ duyệt
+        'post_type'    => 'review',
+    );
+
+    $post_id = wp_insert_post($post_data);
+
+    if (is_wp_error($post_id)) {
+        wp_send_json_error(array('message' => 'Không thể lưu bài đánh giá. Vui lòng thử lại.'));
+    }
+
+    // Lưu custom meta
+    update_post_meta($post_id, '_review_reviewer_name', $name);
+    update_post_meta($post_id, '_review_rating', $rating);
+    update_post_meta($post_id, '_review_location', $location);
+    update_post_meta($post_id, '_review_stay_date', $date);
+    update_post_meta($post_id, '_review_contributions', 1);
+
+    // Có thể gửi email thông báo cho Admin ở đây nếu muốn
+    
+    wp_send_json_success(array('message' => 'Cảm ơn bạn! Đánh giá đã được gửi và đang chờ kiểm duyệt.'));
+}
