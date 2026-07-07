@@ -182,31 +182,7 @@
             letter-spacing: 0.01em;
         }
 
-        /* Biến Menu Item thành Button (thêm class 'btn-menu' trong WP Admin) */
-        #primary-menu-list > li.btn-menu > a {
-            background-color: #2563eb;
-            color: #ffffff !important;
-            border-radius: 9999px;
-            padding: 0.6rem 1.4rem;
-            margin-left: 8px;
-            font-weight: 600;
-        }
-        #primary-menu-list > li.btn-menu > a::after {
-            display: none !important; /* Bỏ gạch chân khi hover */
-        }
-        #primary-menu-list > li.btn-menu > a:hover {
-            background-color: #1d4ed8;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
-        }
-        .is-home-style #masthead:not(.is-scrolled) #primary-menu-list > li.btn-menu > a {
-            background-color: rgba(255,255,255,0.15) !important;
-            border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: none;
-        }
-        .is-home-style #masthead:not(.is-scrolled) #primary-menu-list > li.btn-menu > a:hover {
-            background-color: rgba(255,255,255,0.25) !important;
-        }
+
         #primary-menu-list > li > a::after {
             content: '';
             position: absolute;

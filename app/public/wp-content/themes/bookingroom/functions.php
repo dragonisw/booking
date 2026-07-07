@@ -1823,3 +1823,7 @@ function bookingroom_auto_btn_last_menu_item($items, $args) {
 
 
 
+
+
+// Hide admin bar on frontend
+add_filter('show_admin_bar', '__return_false');
