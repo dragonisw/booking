@@ -87,6 +87,12 @@ require_once get_stylesheet_directory() . '/inc/sms-manager.php';
 require_once get_stylesheet_directory() . '/inc/multilingual.php';
 
 /**
+ * Google Reviews Integration
+ * Fetches and displays reviews from Google Places API
+ */
+require_once get_stylesheet_directory() . '/inc/google-reviews.php';
+
+/**
  * Enqueue Admin Scripts for Media Uploader
  */
 function bookingroom_admin_scripts($hook) {
