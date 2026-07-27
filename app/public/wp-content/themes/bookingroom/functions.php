@@ -21,6 +21,9 @@ function bookingroom_style()
         'nonce' => wp_create_nonce('booking_nonce')
     ));
 
+    // Enqueue API Booking Script
+    wp_enqueue_script('api-booking-script', get_stylesheet_directory_uri() . '/assets/js/api-booking.js', array(), '1.0', true);
+
     // Google Maps API
     $api_key = get_theme_mod('google_maps_api_key', '');
     if (!empty($api_key)) {

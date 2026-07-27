@@ -89,12 +89,8 @@
                             <?php echo do_shortcode('[hotel_booking_search_form]'); ?>
                         </div>
                     <?php else : ?>
-                        <!-- Custom search form (hoạt động cả khi plugin chưa active) -->
-                        <form action="<?php echo esc_url($form_action); ?>" method="get" class="space-y-8">
-                            <?php if (!$wphb_active && $use_external !== 'yes') : ?>
-                                <input type="hidden" name="post_type" value="room">
-                            <?php endif; ?>
-
+                        <!-- API Booking Search Form -->
+                        <form id="api-booking-form" class="space-y-8">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <!-- Check-in -->
                                 <div class="space-y-2">
@@ -138,40 +134,24 @@
                                 </div>
                             </div>
 
-                            <div class="space-y-2">
-                                <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider"><?php echo t('Chọn loại phòng (Không bắt buộc)', 'Select Room Type (Optional)'); ?></label>
-                                <select name="<?php echo $wphb_active ? 'hb_room_type' : 's'; ?>"
-                                    class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all text-lg appearance-none cursor-pointer">
-                                    <option value=""><?php echo t('Tất cả các loại phòng', 'All Room Types'); ?></option>
-                                    <?php
-                                    if ($wphb_active) {
-                                        // Taxonomy của WP Hotel Booking
-                                        $room_types = get_terms(['taxonomy' => 'hb_room_type', 'hide_empty' => false]);
-                                        if (!is_wp_error($room_types) && !empty($room_types)) {
-                                            foreach ($room_types as $rt) {
-                                                echo '<option value="' . esc_attr($rt->slug) . '">' . esc_html($rt->name) . '</option>';
-                                            }
-                                        }
-                                    } else {
-                                        // Post type 'room' cũ
-                                        $rooms = get_posts(['post_type' => 'room', 'posts_per_page' => -1]);
-                                        foreach ($rooms as $room) {
-                                            echo '<option value="' . esc_attr($room->post_title) . '">' . esc_html($room->post_title) . '</option>';
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-
                             <div class="pt-4">
-                                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-5 rounded-2xl hover:bg-blue-700 transition-all shadow-xl hover:shadow-blue-200/50 text-xl flex items-center justify-center gap-3">
+                                <button type="submit" id="api-booking-submit" class="w-full bg-blue-600 text-white font-bold py-5 rounded-2xl hover:bg-blue-700 transition-all shadow-xl hover:shadow-blue-200/50 text-xl flex items-center justify-center gap-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
-                                    <?php echo t('Kiểm tra phòng trống', 'Check Availability'); ?>
+                                    <span class="btn-text"><?php echo t('Kiểm tra phòng trống', 'Check Availability'); ?></span>
+                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden spinner-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
                                 </button>
                             </div>
                         </form>
+                        
+                        <!-- Kết quả tìm kiếm từ API sẽ được hiển thị ở đây -->
+                        <div id="api-booking-results" class="mt-8 hidden">
+                            <!-- JS sẽ render HTML vào đây -->
+                        </div>
                     <?php endif; ?>
                     </div>
                 </div>
