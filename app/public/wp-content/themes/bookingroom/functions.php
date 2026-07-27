@@ -93,6 +93,52 @@ require_once get_stylesheet_directory() . '/inc/multilingual.php';
 require_once get_stylesheet_directory() . '/inc/google-reviews.php';
 
 /**
+ * 3rd-party Booking API Integration
+ * Kết nối với hệ thống Booking Engine / OTA / Channel Manager
+ */
+require_once get_stylesheet_directory() . '/inc/api-integration/class-booking-api-client.php';
+require_once get_stylesheet_directory() . '/inc/api-integration/class-booking-rest-controller.php';
+
+// Khởi tạo REST Controller
+add_action( 'rest_api_init', function() {
+    $controller = new BookingRoom_REST_Controller();
+    $controller->register_routes();
+} );
+
+// Đăng ký Customizer Settings cho Booking API
+add_action( 'customize_register', function( $wp_customize ) {
+    $wp_customize->add_section( 'bookingroom_api_section', array(
+        'title'       => __( 'Booking API Integration', 'bookingroom' ),
+        'description' => __( 'Cấu hình kết nối hệ thống Booking Engine (Channel Manager).', 'bookingroom' ),
+        'priority'    => 35,
+    ) );
+
+    // API Endpoint
+    $wp_customize->add_setting( 'booking_api_endpoint', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+    $wp_customize->add_control( 'booking_api_endpoint', array(
+        'label'       => __( 'API Endpoint URL', 'bookingroom' ),
+        'description' => __( 'Ví dụ: https://api.cloudbeds.com/api/v1.1/', 'bookingroom' ),
+        'section'     => 'bookingroom_api_section',
+        'type'        => 'url',
+    ) );
+
+    // API Key
+    $wp_customize->add_setting( 'booking_api_key', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'booking_api_key', array(
+        'label'       => __( 'API Key / Access Token', 'bookingroom' ),
+        'section'     => 'bookingroom_api_section',
+        'type'        => 'text',
+    ) );
+} );
+
+
+/**
  * Enqueue Admin Scripts for Media Uploader
  */
 function bookingroom_admin_scripts($hook) {
