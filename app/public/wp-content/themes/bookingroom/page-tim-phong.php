@@ -164,182 +164,67 @@ $room_types = get_terms( [ 'taxonomy' => $taxonomy, 'hide_empty' => false ] );
             </div>
         </div>
 
-        <!-- Loading indicator -->
+        <!-- Loading Skeleton (Ẩn mặc định) -->
         <div id="br-avail-loading" class="hidden">
-            <div class="flex flex-col items-center py-20 gap-4 text-slate-400">
-                <div class="w-12 h-12 border-4 border-slate-200 border-t-orange-500 rounded-full animate-spin"></div>
-                <p class="font-semibold"><?php echo t('Đang tìm phòng trống...', 'Finding available rooms...'); ?></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-pulse">
+                <!-- Skeleton Card 1 -->
+                <div class="bg-white rounded-3xl overflow-hidden border-2 border-slate-100 flex flex-col h-full">
+                    <div class="w-full h-52 bg-slate-200"></div>
+                    <div class="p-6 flex flex-col flex-1 gap-4">
+                        <div class="w-3/4 h-6 bg-slate-200 rounded-md"></div>
+                        <div class="w-full h-4 bg-slate-200 rounded-md"></div>
+                        <div class="w-5/6 h-4 bg-slate-200 rounded-md"></div>
+                        <div class="mt-4 flex gap-4">
+                            <div class="w-1/3 h-4 bg-slate-200 rounded-md"></div>
+                            <div class="w-1/3 h-4 bg-slate-200 rounded-md"></div>
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center">
+                            <div class="w-1/3 h-6 bg-slate-200 rounded-md"></div>
+                            <div class="w-1/3 h-10 bg-slate-200 rounded-xl"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Skeleton Card 2 -->
+                <div class="bg-white rounded-3xl overflow-hidden border-2 border-slate-100 flex flex-col h-full hidden md:flex">
+                    <div class="w-full h-52 bg-slate-200"></div>
+                    <div class="p-6 flex flex-col flex-1 gap-4">
+                        <div class="w-3/4 h-6 bg-slate-200 rounded-md"></div>
+                        <div class="w-full h-4 bg-slate-200 rounded-md"></div>
+                        <div class="w-5/6 h-4 bg-slate-200 rounded-md"></div>
+                        <div class="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center">
+                            <div class="w-1/3 h-6 bg-slate-200 rounded-md"></div>
+                            <div class="w-1/3 h-10 bg-slate-200 rounded-xl"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Skeleton Card 3 -->
+                <div class="bg-white rounded-3xl overflow-hidden border-2 border-slate-100 flex flex-col h-full hidden xl:flex">
+                    <div class="w-full h-52 bg-slate-200"></div>
+                    <div class="p-6 flex flex-col flex-1 gap-4">
+                        <div class="w-3/4 h-6 bg-slate-200 rounded-md"></div>
+                        <div class="w-full h-4 bg-slate-200 rounded-md"></div>
+                        <div class="w-5/6 h-4 bg-slate-200 rounded-md"></div>
+                        <div class="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center">
+                            <div class="w-1/3 h-6 bg-slate-200 rounded-md"></div>
+                            <div class="w-1/3 h-10 bg-slate-200 rounded-xl"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Results -->
+        <!-- Results (Hiển thị bằng Javascript) -->
         <div id="br-avail-results">
-            <?php
-            // Nếu đã có params trên URL → tự động tìm kiếm (server-side render)
-            if ( $pre_ci && $pre_co && function_exists( 'bookingroom_find_available_rooms' ) ) :
-                $rooms = bookingroom_find_available_rooms( $pre_ci, $pre_co, $pre_adults, $pre_children, $pre_type );
-                $ci_ts = strtotime( $pre_ci );
-                $co_ts = strtotime( $pre_co );
-                $available_count = count( array_filter( $rooms, fn($r) => $r['free_units'] > 0 ) );
-                $days = [ t('Chủ nhật', 'Sunday'), t('Thứ 2', 'Monday'), t('Thứ 3', 'Tuesday'), t('Thứ 4', 'Wednesday'), t('Thứ 5', 'Thursday'), t('Thứ 6', 'Friday'), t('Thứ 7', 'Saturday') ];
-            ?>
-                <!-- Summary bar -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-to-r from-[#d35400] to-[#b84300] text-white rounded-2xl p-5 mb-6 shadow-lg">
-                    <div>
-                        <div class="text-2xl font-black">
-                            <?php echo $available_count > 0 ? sprintf(t('%d loại phòng còn trống', '%d room types available'), $available_count) : t('Không có phòng trống', 'No rooms available'); ?>
-                        </div>
-                        <div class="text-orange-200 text-sm mt-1">
-                            <?php echo $pre_nights; ?> <?php echo t('đêm', 'nights'); ?> · <?php echo $pre_adults; ?> <?php echo t('người lớn', 'adults'); ?><?php echo $pre_children ? " + {$pre_children} " . t('trẻ em', 'children') : ''; ?>
-                        </div>
-                    </div>
-                    <div class="flex gap-3 flex-wrap">
-                        <div class="bg-white/15 backdrop-blur px-4 py-2 rounded-xl text-sm font-semibold">
-                            📅 <?php echo $days[date('w', $ci_ts)]; ?>, <?php echo date('d/m/Y', $ci_ts); ?>
-                        </div>
-                        <div class="bg-white/15 backdrop-blur px-4 py-2 rounded-xl text-sm font-semibold">
-                            📅 <?php echo $days[date('w', $co_ts)]; ?>, <?php echo date('d/m/Y', $co_ts); ?>
-                        </div>
-                    </div>
+            <!-- Placeholder khi chưa tìm -->
+            <div class="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-200">
+                <div class="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <svg class="w-10 h-10 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
                 </div>
-
-                <?php if ( empty( $rooms ) ) : ?>
-                    <div class="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-200">
-                        <svg class="w-16 h-16 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2"><?php echo t('Không có phòng trống', 'No rooms available'); ?></h3>
-                        <p class="text-slate-500"><?php echo t('Vui lòng thử chọn ngày khác hoặc loại phòng khác.', 'Please try choosing different dates or room types.'); ?></p>
-                    </div>
-                <?php else : ?>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <?php foreach ( $rooms as $room ) :
-                        $pb         = $room['price_breakdown'];
-                        $is_avail   = $room['free_units'] > 0;
-                        $book_url   = add_query_arg([
-                            'check_in'  => $pre_ci,
-                            'check_out' => $pre_co,
-                            'adults'    => $pre_adults,
-                            'children'  => $pre_children,
-                            'step'      => 'book',
-                        ], $room['permalink']);
-                    ?>
-                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl border-2 <?php echo $is_avail ? 'border-slate-100 hover:border-orange-300' : 'border-slate-100 opacity-70'; ?> transition-all duration-300 group flex flex-col">
-
-                        <!-- Image -->
-                        <div class="relative h-52 overflow-hidden bg-slate-200">
-                            <img src="<?php echo esc_url($room['thumbnail']); ?>"
-                                 alt="<?php echo esc_attr($room['title']); ?>"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-
-                            <?php if ($room['type_name']) : ?>
-                            <div class="absolute top-3 left-3 bg-[#d35400] text-white text-[10px] font-black uppercase px-3 py-1 rounded-full">
-                                <?php echo esc_html($room['type_name']); ?>
-                            </div>
-                            <?php endif; ?>
-
-                            <div class="absolute top-3 right-3">
-                                <?php if ($is_avail) : ?>
-                                <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
-                                    ✓ <?php echo $room['free_units']; ?> <?php echo t('phòng trống', 'rooms available'); ?>
-                                </span>
-                                <?php else : ?>
-                                <span class="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full">
-                                    ✗ <?php echo t('Hết phòng', 'Fully booked'); ?>
-                                </span>
-                                <?php endif; ?>
-                            </div>
-
-                            <div class="absolute bottom-3 right-3 bg-white/95 backdrop-blur rounded-xl px-3 py-2 shadow">
-                                <div class="text-[#d35400] font-black text-sm"><?php echo number_format($room['price']); ?>đ</div>
-                                <div class="text-slate-400 text-[9px] font-medium">/ <?php echo t('đêm', 'night'); ?></div>
-                            </div>
-                        </div>
-
-                        <!-- Body -->
-                        <div class="p-6 flex flex-col flex-1 gap-4">
-                            <div>
-                                <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-[#d35400] transition-colors">
-                                    <?php echo esc_html($room['title']); ?>
-                                </h3>
-                                <?php if ($room['excerpt']) : ?>
-                                <p class="text-slate-500 text-sm leading-relaxed"><?php echo esc_html($room['excerpt']); ?></p>
-                                <?php endif; ?>
-                            </div>
-
-                            <!-- Meta -->
-                            <div class="flex items-center gap-5 text-sm text-slate-500">
-                                <span class="flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                                    <?php echo $room['capacity']; ?> <?php echo t('khách', 'guests'); ?>
-                                </span>
-                                <span class="flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                                    <?php echo $pre_nights; ?> <?php echo t('đêm', 'nights'); ?>
-                                </span>
-                                <span class="flex items-center gap-1.5 text-<?php echo $is_avail ? 'blue' : 'red'; ?>-600 font-semibold">
-                                    <?php echo $is_avail ? $room['free_units'] . '/' . $room['total_units'] . ' ' . t('phòng', 'rooms') : t('Hết phòng', 'Fully booked'); ?>
-                                </span>
-                            </div>
-
-                            <!-- Price breakdown -->
-                            <?php if ($pb && $pb['total_nights'] > 0) : ?>
-                            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 text-sm space-y-2">
-                                <?php if ($pb['weekday_nights'] > 0 && $pb['weekend_nights'] > 0) : ?>
-                                <div class="flex justify-between text-slate-500">
-                                    <span><?php echo t('Trong tuần', 'Weekdays'); ?> (<?php echo $pb['weekday_nights']; ?> <?php echo t('đêm', 'nights'); ?>)</span>
-                                    <span class="font-semibold"><?php echo number_format($pb['weekday_price']); ?>đ</span>
-                                </div>
-                                <div class="flex justify-between text-slate-500">
-                                    <span><?php echo t('Cuối tuần', 'Weekend'); ?> (<?php echo $pb['weekend_nights']; ?> <?php echo t('đêm', 'nights'); ?>)</span>
-                                    <span class="font-semibold"><?php echo number_format($pb['weekend_price']); ?>đ</span>
-                                </div>
-                                <?php else : ?>
-                                <div class="flex justify-between text-slate-500">
-                                    <span><?php echo $pb['total_nights']; ?> <?php echo t('đêm', 'nights'); ?> × <?php echo number_format($room['price']); ?>đ</span>
-                                </div>
-                                <?php endif; ?>
-                                <div class="flex justify-between items-center pt-2 border-t border-slate-200">
-                                    <span class="font-bold text-slate-900"><?php echo t('Tổng cộng', 'Total'); ?></span>
-                                    <span class="text-xl font-black text-[#d35400]"><?php echo number_format($pb['subtotal']); ?>đ</span>
-                                </div>
-                            </div>
-                            <?php endif; ?>
-
-                            <!-- CTA -->
-                            <div class="mt-auto pt-2">
-                                <?php if ($is_avail) : ?>
-                                <a href="<?php echo esc_url($book_url); ?>"
-                                   class="block w-full text-center bg-[#d35400] hover:bg-[#b84300] text-white font-bold py-3.5 rounded-2xl transition-all shadow-md hover:shadow-lg hover:shadow-orange-200/50">
-                                    <?php echo t('Đặt phòng ngay →', 'Book Now →'); ?>
-                                </a>
-                                <?php else : ?>
-                                <a href="<?php echo get_permalink($room['id']); ?>"
-                                   class="block w-full text-center bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl">
-                                    <?php echo t('Xem chi tiết phòng', 'View room details'); ?>
-                                </a>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-
-                <?php endif; // endif rooms ?>
-
-            <?php else : ?>
-                <!-- Placeholder khi chưa tìm -->
-                <div class="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-200">
-                    <div class="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-5">
-                        <svg class="w-10 h-10 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2"><?php echo t('Chọn ngày để tìm phòng', 'Select dates to find rooms'); ?></h3>
-                    <p class="text-slate-500 max-w-sm mx-auto"><?php echo t('Nhập ngày nhận phòng và trả phòng phía trên để xem danh sách phòng còn trống.', 'Enter check-in and check-out dates above to see available rooms.'); ?></p>
-                </div>
-            <?php endif; ?>
+                <h3 class="text-xl font-bold text-slate-900 mb-2"><?php echo t('Chọn ngày để tìm phòng', 'Select dates to find rooms'); ?></h3>
+                <p class="text-slate-500 max-w-sm mx-auto"><?php echo t('Nhập ngày nhận phòng và trả phòng phía trên để xem danh sách phòng còn trống.', 'Enter check-in and check-out dates above to see available rooms.'); ?></p>
+            </div>
         </div>
     </div>
 </main>
