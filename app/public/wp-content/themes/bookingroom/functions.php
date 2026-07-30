@@ -1685,6 +1685,253 @@ function bookingroom_customize_register($wp_customize)
             'type'    => $cfg[0],
         ));
     }
+
+    // ── Trang Liên hệ – Contact Page ────────────────────────────────────
+    $wp_customize->add_section('bookingroom_contact_section', array(
+        'title'    => __('Trang Liên hệ (Contact)', 'bookingroom'),
+        'priority' => 36,
+    ));
+
+    // --- Hero ---
+    $wp_customize->add_setting('contact_hero_title', array(
+        'default'           => 'Liên hệ với Chúng tôi',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_hero_title', array(
+        'label'   => __('Hero – Tiêu đề', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_hero_desc', array(
+        'default'           => 'Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy để lại lời nhắn hoặc liên hệ trực tiếp qua hotline.',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_hero_desc', array(
+        'label'   => __('Hero – Mô tả', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'textarea',
+    ));
+
+    // --- Quick Info Card 1: Giờ làm việc ---
+    $wp_customize->add_setting('contact_card1_title', array(
+        'default'           => 'Giờ làm việc',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_card1_title', array(
+        'label'   => __('Card 1 – Tiêu đề (Giờ làm việc)', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_card1_desc', array(
+        'default'           => 'Thứ 2 – Thứ 6: 8:00 – 18:00<br>Thứ 7 – CN: 9:00 – 17:00',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+    $wp_customize->add_control('contact_card1_desc', array(
+        'label'       => __('Card 1 – Nội dung', 'bookingroom'),
+        'description' => __('Dùng &lt;br&gt; để xuống dòng', 'bookingroom'),
+        'section'     => 'bookingroom_contact_section',
+        'type'        => 'textarea',
+    ));
+
+    // --- Quick Info Card 2: Hotline ---
+    $wp_customize->add_setting('contact_card2_title', array(
+        'default'           => 'Hotline hỗ trợ',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_card2_title', array(
+        'label'   => __('Card 2 – Tiêu đề (Hotline)', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_card2_phone', array(
+        'default'           => '0123 456 789',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_card2_phone', array(
+        'label'   => __('Card 2 – Số hotline', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_card2_phone_link', array(
+        'default'           => 'tel:01234567890',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('contact_card2_phone_link', array(
+        'label'       => __('Card 2 – Link gọi điện', 'bookingroom'),
+        'description' => __('VD: tel:01234567890', 'bookingroom'),
+        'section'     => 'bookingroom_contact_section',
+        'type'        => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_card2_desc', array(
+        'default'           => 'Hỗ trợ 24/7 mọi ngày',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_card2_desc', array(
+        'label'   => __('Card 2 – Mô tả phụ', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    // --- Quick Info Card 3: Email ---
+    $wp_customize->add_setting('contact_card3_title', array(
+        'default'           => 'Phản hồi email',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_card3_title', array(
+        'label'   => __('Card 3 – Tiêu đề (Email)', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_card3_desc', array(
+        'default'           => 'Trong vòng 2–4 giờ làm việc',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_card3_desc', array(
+        'label'   => __('Card 3 – Mô tả', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_card3_email', array(
+        'default'           => 'support@bookingroom.com',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_email',
+    ));
+    $wp_customize->add_control('contact_card3_email', array(
+        'label'   => __('Card 3 – Địa chỉ email', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'email',
+    ));
+
+    // --- Info Panel: Địa chỉ ---
+    $wp_customize->add_setting('contact_info_address', array(
+        'default'           => '123 Đường Trần Hưng Đạo<br>Quận 1, TP. Hồ Chí Minh',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+    $wp_customize->add_control('contact_info_address', array(
+        'label'       => __('Info Panel – Địa chỉ', 'bookingroom'),
+        'description' => __('Dùng &lt;br&gt; để xuống dòng', 'bookingroom'),
+        'section'     => 'bookingroom_contact_section',
+        'type'        => 'textarea',
+    ));
+
+    // --- Info Panel: Điện thoại ---
+    $wp_customize->add_setting('contact_info_phone1', array(
+        'default'           => '0123 456 789',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_info_phone1', array(
+        'label'   => __('Info Panel – Số điện thoại 1', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_info_phone1_link', array(
+        'default'           => 'tel:01234567890',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('contact_info_phone1_link', array(
+        'label'   => __('Info Panel – Link gọi SĐT 1', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_info_phone2', array(
+        'default'           => '1900 1234',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_info_phone2', array(
+        'label'   => __('Info Panel – Số điện thoại 2', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('contact_info_phone2_link', array(
+        'default'           => 'tel:19001234',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('contact_info_phone2_link', array(
+        'label'   => __('Info Panel – Link gọi SĐT 2', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'text',
+    ));
+
+    // --- Info Panel: Email ---
+    $wp_customize->add_setting('contact_info_email1', array(
+        'default'           => 'support@bookingroom.com',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_email',
+    ));
+    $wp_customize->add_control('contact_info_email1', array(
+        'label'   => __('Info Panel – Email 1', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'email',
+    ));
+
+    $wp_customize->add_setting('contact_info_email2', array(
+        'default'           => 'info@bookingroom.com',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_email',
+    ));
+    $wp_customize->add_control('contact_info_email2', array(
+        'label'   => __('Info Panel – Email 2', 'bookingroom'),
+        'section' => 'bookingroom_contact_section',
+        'type'    => 'email',
+    ));
+
+    // --- Info Panel: Social links ---
+    $contact_social = array(
+        'contact_social_facebook'  => array('url', __('Facebook URL', 'bookingroom'),  '#'),
+        'contact_social_instagram' => array('url', __('Instagram URL', 'bookingroom'), '#'),
+        'contact_social_youtube'   => array('url', __('YouTube URL', 'bookingroom'),   '#'),
+        'contact_social_zalo'      => array('url', __('Zalo URL', 'bookingroom'),      '#'),
+    );
+    foreach ($contact_social as $key => $cfg) {
+        $wp_customize->add_setting($key, array(
+            'default'           => $cfg[2],
+            'transport'         => 'refresh',
+            'sanitize_callback' => 'esc_url_raw',
+        ));
+        $wp_customize->add_control($key, array(
+            'label'   => $cfg[1],
+            'section' => 'bookingroom_contact_section',
+            'type'    => $cfg[0],
+        ));
+    }
+
+    // --- Google Maps embed address ---
+    $wp_customize->add_setting('contact_map_query', array(
+        'default'           => '123+Tran+Hung+Dao,+Ho+Chi+Minh+City',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_map_query', array(
+        'label'       => __('Google Maps – Địa chỉ tìm kiếm', 'bookingroom'),
+        'description' => __('Dùng dấu + thay khoảng trắng. VD: 123+Tran+Hung+Dao', 'bookingroom'),
+        'section'     => 'bookingroom_contact_section',
+        'type'        => 'text',
+    ));
 }
 add_action('customize_register', 'bookingroom_customize_register');
 

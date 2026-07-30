@@ -399,10 +399,43 @@
 
 <main class="contact-page">
 
+<?php
+// ── Lấy tất cả settings từ Customizer ──
+$ct_hero_title    = get_theme_mod('contact_hero_title', 'Liên hệ với Chúng tôi');
+$ct_hero_desc     = get_theme_mod('contact_hero_desc', 'Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy để lại lời nhắn hoặc liên hệ trực tiếp qua hotline.');
+
+$ct_card1_title   = get_theme_mod('contact_card1_title', 'Giờ làm việc');
+$ct_card1_desc    = get_theme_mod('contact_card1_desc', 'Thứ 2 – Thứ 6: 8:00 – 18:00<br>Thứ 7 – CN: 9:00 – 17:00');
+
+$ct_card2_title   = get_theme_mod('contact_card2_title', 'Hotline hỗ trợ');
+$ct_card2_phone   = get_theme_mod('contact_card2_phone', '0123 456 789');
+$ct_card2_link    = get_theme_mod('contact_card2_phone_link', 'tel:01234567890');
+$ct_card2_desc    = get_theme_mod('contact_card2_desc', 'Hỗ trợ 24/7 mọi ngày');
+
+$ct_card3_title   = get_theme_mod('contact_card3_title', 'Phản hồi email');
+$ct_card3_desc    = get_theme_mod('contact_card3_desc', 'Trong vòng 2–4 giờ làm việc');
+$ct_card3_email   = get_theme_mod('contact_card3_email', 'support@bookingroom.com');
+
+$ct_address       = get_theme_mod('contact_info_address', '123 Đường Trần Hưng Đạo<br>Quận 1, TP. Hồ Chí Minh');
+$ct_phone1        = get_theme_mod('contact_info_phone1', '0123 456 789');
+$ct_phone1_link   = get_theme_mod('contact_info_phone1_link', 'tel:01234567890');
+$ct_phone2        = get_theme_mod('contact_info_phone2', '1900 1234');
+$ct_phone2_link   = get_theme_mod('contact_info_phone2_link', 'tel:19001234');
+$ct_email1        = get_theme_mod('contact_info_email1', 'support@bookingroom.com');
+$ct_email2        = get_theme_mod('contact_info_email2', 'info@bookingroom.com');
+
+$ct_fb            = get_theme_mod('contact_social_facebook', '#');
+$ct_ig            = get_theme_mod('contact_social_instagram', '#');
+$ct_yt            = get_theme_mod('contact_social_youtube', '#');
+$ct_zalo          = get_theme_mod('contact_social_zalo', '#');
+
+$ct_map_query     = get_theme_mod('contact_map_query', '123+Tran+Hung+Dao,+Ho+Chi+Minh+City');
+?>
+
     <!-- ── Hero ── -->
     <section class="contact-hero">
-        <h1><?php echo t('Liên hệ với Chúng tôi', 'Contact Us'); ?></h1>
-        <p><?php echo t('Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Hãy để lại lời nhắn hoặc liên hệ trực tiếp qua hotline.', 'We are always ready to listen and support you. Please leave a message or contact us directly via hotline.'); ?></p>
+        <h1><?php echo esc_html($ct_hero_title); ?></h1>
+        <p><?php echo esc_html($ct_hero_desc); ?></p>
     </section>
 
     <!-- ── Quick Info Cards ── -->
@@ -412,8 +445,8 @@
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <div>
-                <h3><?php echo t('Giờ làm việc', 'Working Hours'); ?></h3>
-                <p><?php echo t('Thứ 2 – Thứ 6: 8:00 – 18:00<br>Thứ 7 – CN: 9:00 – 17:00', 'Mon – Fri: 8:00 – 18:00<br>Sat – Sun: 9:00 – 17:00'); ?></p>
+                <h3><?php echo esc_html($ct_card1_title); ?></h3>
+                <p><?php echo wp_kses_post($ct_card1_desc); ?></p>
             </div>
         </div>
         <div class="contact-quick-card">
@@ -421,8 +454,8 @@
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
             </div>
             <div>
-                <h3><?php echo t('Hotline hỗ trợ', 'Support Hotline'); ?></h3>
-                <p><a href="tel:01234567890" style="color:#16a34a;font-weight:700;">0123 456 789</a><br><?php echo t('Hỗ trợ 24/7 mọi ngày', '24/7 Support every day'); ?></p>
+                <h3><?php echo esc_html($ct_card2_title); ?></h3>
+                <p><a href="<?php echo esc_url($ct_card2_link); ?>" style="color:#16a34a;font-weight:700;"><?php echo esc_html($ct_card2_phone); ?></a><br><?php echo esc_html($ct_card2_desc); ?></p>
             </div>
         </div>
         <div class="contact-quick-card">
@@ -430,8 +463,8 @@
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             </div>
             <div>
-                <h3><?php echo t('Phản hồi email', 'Email Feedback'); ?></h3>
-                <p><?php echo t('Trong vòng 2–4 giờ làm việc', 'Within 2-4 working hours'); ?><br>support@bookingroom.com</p>
+                <h3><?php echo esc_html($ct_card3_title); ?></h3>
+                <p><?php echo esc_html($ct_card3_desc); ?><br><?php echo esc_html($ct_card3_email); ?></p>
             </div>
         </div>
     </div>
@@ -450,7 +483,7 @@
                         </div>
                         <div class="contact-info-text">
                             <h4><?php echo t('Địa chỉ', 'Address'); ?></h4>
-                            <p><?php echo t('123 Đường Trần Hưng Đạo<br>Quận 1, TP. Hồ Chí Minh', '123 Tran Hung Dao Street<br>District 1, Ho Chi Minh City'); ?></p>
+                            <p><?php echo wp_kses_post($ct_address); ?></p>
                         </div>
                     </li>
                     <li class="contact-info-item">
@@ -459,7 +492,7 @@
                         </div>
                         <div class="contact-info-text">
                             <h4><?php echo t('Điện thoại', 'Phone'); ?></h4>
-                            <p><a href="tel:01234567890">0123 456 789</a><br><a href="tel:19001234">1900 1234</a></p>
+                            <p><a href="<?php echo esc_url($ct_phone1_link); ?>"><?php echo esc_html($ct_phone1); ?></a><br><a href="<?php echo esc_url($ct_phone2_link); ?>"><?php echo esc_html($ct_phone2); ?></a></p>
                         </div>
                     </li>
                     <li class="contact-info-item">
@@ -468,7 +501,7 @@
                         </div>
                         <div class="contact-info-text">
                             <h4><?php echo t('Email', 'Email'); ?></h4>
-                            <p><a href="mailto:support@bookingroom.com">support@bookingroom.com</a><br><a href="mailto:info@bookingroom.com">info@bookingroom.com</a></p>
+                            <p><a href="mailto:<?php echo esc_attr($ct_email1); ?>"><?php echo esc_html($ct_email1); ?></a><br><a href="mailto:<?php echo esc_attr($ct_email2); ?>"><?php echo esc_html($ct_email2); ?></a></p>
                         </div>
                     </li>
                 </ul>
@@ -476,16 +509,16 @@
                 <div class="contact-social">
                     <h4><?php echo t('Theo dõi chúng tôi', 'Follow Us'); ?></h4>
                     <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Facebook">
+                        <a href="<?php echo esc_url($ct_fb); ?>" class="social-link" aria-label="Facebook">
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
                         </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
+                        <a href="<?php echo esc_url($ct_ig); ?>" class="social-link" aria-label="Instagram">
                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                         </a>
-                        <a href="#" class="social-link" aria-label="YouTube">
+                        <a href="<?php echo esc_url($ct_yt); ?>" class="social-link" aria-label="YouTube">
                             <svg fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon fill="#1d4ed8" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
                         </a>
-                        <a href="#" class="social-link" aria-label="Zalo">
+                        <a href="<?php echo esc_url($ct_zalo); ?>" class="social-link" aria-label="Zalo">
                             <svg fill="currentColor" viewBox="0 0 24 24"><text x="3" y="17" font-size="10" font-weight="bold">Zalo</text></svg>
                         </a>
                     </div>
@@ -583,7 +616,7 @@
         if ($maps_api) :
         ?>
             <iframe
-                src="https://www.google.com/maps/embed/v1/place?key=<?php echo esc_attr($maps_api); ?>&q=123+Tran+Hung+Dao,+Ho+Chi+Minh+City"
+                src="https://www.google.com/maps/embed/v1/place?key=<?php echo esc_attr($maps_api); ?>&q=<?php echo esc_attr($ct_map_query); ?>"
                 allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
             </iframe>
         <?php else : ?>
