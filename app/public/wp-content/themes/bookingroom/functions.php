@@ -1932,6 +1932,115 @@ function bookingroom_customize_register($wp_customize)
         'section'     => 'bookingroom_contact_section',
         'type'        => 'text',
     ));
+    // ── Trang Vị trí – Location Page ─────────────────────────────────────
+    $wp_customize->add_section('bookingroom_location_section', array(
+        'title'    => __('Trang Vị trí (Location)', 'bookingroom'),
+        'priority' => 37,
+    ));
+
+    // Hero
+    $wp_customize->add_setting('loc_hero_title', array(
+        'default'           => 'Vị trí của chúng tôi',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('loc_hero_title', array(
+        'label'   => __('Hero – Tiêu đề', 'bookingroom'),
+        'section' => 'bookingroom_location_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('loc_hero_desc', array(
+        'default'           => 'Toạ lạc tại trung tâm thành phố, Sonata dễ dàng tiếp cận từ mọi hướng.',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('loc_hero_desc', array(
+        'label'   => __('Hero – Mô tả', 'bookingroom'),
+        'section' => 'bookingroom_location_section',
+        'type'    => 'textarea',
+    ));
+
+    $wp_customize->add_setting('loc_hero_image', array(
+        'default'           => '',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'loc_hero_image', array(
+        'label'   => __('Hero – Ảnh nền', 'bookingroom'),
+        'section' => 'bookingroom_location_section',
+    )));
+
+    // Contact details
+    $wp_customize->add_setting('loc_address_full', array(
+        'default'           => '123 Đường Trần Hưng Đạo, Phường Nguyễn Cư Trinh, Quận 1, TP. Hồ Chí Minh',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('loc_address_full', array(
+        'label'   => __('Địa chỉ đầy đủ', 'bookingroom'),
+        'section' => 'bookingroom_location_section',
+        'type'    => 'textarea',
+    ));
+
+    $wp_customize->add_setting('loc_phone', array(
+        'default'           => '0123 456 789',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('loc_phone', array(
+        'label'   => __('Số điện thoại', 'bookingroom'),
+        'section' => 'bookingroom_location_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('loc_phone_link', array(
+        'default'           => 'tel:0123456789',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('loc_phone_link', array(
+        'label'       => __('Link gọi điện', 'bookingroom'),
+        'description' => __('VD: tel:0123456789', 'bookingroom'),
+        'section'     => 'bookingroom_location_section',
+        'type'        => 'text',
+    ));
+
+    $wp_customize->add_setting('loc_email', array(
+        'default'           => 'info@sonata.vn',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_email',
+    ));
+    $wp_customize->add_control('loc_email', array(
+        'label'   => __('Email', 'bookingroom'),
+        'section' => 'bookingroom_location_section',
+        'type'    => 'email',
+    ));
+
+    // Map settings
+    $wp_customize->add_setting('loc_map_query', array(
+        'default'           => '123+Tran+Hung+Dao,+Ho+Chi+Minh+City',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('loc_map_query', array(
+        'label'       => __('Google Maps – Địa chỉ tìm kiếm', 'bookingroom'),
+        'description' => __('Dùng dấu + thay khoảng trắng. VD: 123+Tran+Hung+Dao', 'bookingroom'),
+        'section'     => 'bookingroom_location_section',
+        'type'        => 'text',
+    ));
+
+    $wp_customize->add_setting('loc_map_embed', array(
+        'default'           => '',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+    $wp_customize->add_control('loc_map_embed', array(
+        'label'       => __('Google Maps – Embed HTML (tuỳ chọn)', 'bookingroom'),
+        'description' => __('Dán toàn bộ thẻ &lt;iframe&gt; từ Google Maps → Share → Embed a map. Nếu để trống sẽ dùng API Key hoặc bản đồ mặc định.', 'bookingroom'),
+        'section'     => 'bookingroom_location_section',
+        'type'        => 'textarea',
+    ));
 }
 add_action('customize_register', 'bookingroom_customize_register');
 
