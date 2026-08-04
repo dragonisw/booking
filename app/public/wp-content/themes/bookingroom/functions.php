@@ -96,6 +96,12 @@ require_once get_stylesheet_directory() . '/inc/multilingual.php';
 require_once get_stylesheet_directory() . '/inc/google-reviews.php';
 
 /**
+ * Location Page Meta Boxes
+ * Cho phép chỉnh sửa toàn bộ nội dung trang Vị trí qua WordPress Editor
+ */
+require_once get_stylesheet_directory() . '/inc/location-metabox.php';
+
+/**
  * 3rd-party Booking API Integration
  * Kết nối với hệ thống Booking Engine / OTA / Channel Manager
  */

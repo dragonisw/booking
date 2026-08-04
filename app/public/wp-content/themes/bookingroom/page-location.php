@@ -5,16 +5,79 @@
  */
 get_header();
 
-// ── Customizer values ───────────────────────────────────────
-$loc_hero_title    = get_theme_mod('loc_hero_title',    'Vị trí của chúng tôi');
-$loc_hero_desc     = get_theme_mod('loc_hero_desc',     'Toạ lạc tại trung tâm thành phố, Sonata dễ dàng tiếp cận từ mọi hướng. Chỉ vài phút đến các điểm du lịch nổi tiếng nhất.');
-$loc_address_full  = get_theme_mod('loc_address_full',  '123 Đường Trần Hưng Đạo, Phường Nguyễn Cư Trinh, Quận 1, TP. Hồ Chí Minh');
-$loc_phone         = get_theme_mod('loc_phone',         '0123 456 789');
-$loc_phone_link    = get_theme_mod('loc_phone_link',    'tel:0123456789');
-$loc_email         = get_theme_mod('loc_email',         'info@sonata.vn');
-$loc_map_embed     = get_theme_mod('loc_map_embed',     '');
-$loc_map_query     = get_theme_mod('loc_map_query',     '123+Tran+Hung+Dao,+Ho+Chi+Minh+City');
-$maps_api          = get_theme_mod('google_maps_api_key', '');
+// ── Lấy dữ liệu từ Post Meta (chỉnh sửa qua Editor) ────────────────────────
+$pid = get_the_ID();
+
+// Hero
+$loc_hero_title   = get_post_meta($pid, '_loc_hero_title',  true) ?: get_theme_mod('loc_hero_title', 'Vị trí của chúng tôi');
+$loc_hero_desc    = get_post_meta($pid, '_loc_hero_desc',   true) ?: get_theme_mod('loc_hero_desc',  'Toạ lạc tại trung tâm thành phố, Sonata dễ dàng tiếp cận từ mọi hướng. Chỉ vài phút đến các điểm du lịch nổi tiếng nhất.');
+$loc_hero_badge   = get_post_meta($pid, '_loc_hero_badge',  true) ?: 'Trung tâm thành phố';
+$loc_hero_image   = get_post_meta($pid, '_loc_hero_image',  true) ?: get_theme_mod('loc_hero_image', '');
+
+// Contact
+$loc_address_full = get_post_meta($pid, '_loc_address',     true) ?: get_theme_mod('loc_address_full', '123 Đường Trần Hưng Đạo, Phường Nguyễn Cư Trinh, Quận 1, TP. Hồ Chí Minh');
+$loc_phone        = get_post_meta($pid, '_loc_phone',       true) ?: get_theme_mod('loc_phone',        '0123 456 789');
+$loc_phone_link   = get_post_meta($pid, '_loc_phone_link',  true) ?: get_theme_mod('loc_phone_link',   'tel:0123456789');
+$loc_email        = get_post_meta($pid, '_loc_email',       true) ?: get_theme_mod('loc_email',        'info@sonata.vn');
+$loc_checkin      = get_post_meta($pid, '_loc_checkin',     true) ?: '14:00 – 24:00 mọi ngày';
+$loc_checkout     = get_post_meta($pid, '_loc_checkout',    true) ?: 'Trước 12:00';
+
+// Map
+$loc_map_embed    = get_post_meta($pid, '_loc_map_embed',   true) ?: get_theme_mod('loc_map_embed', '');
+$loc_map_query    = get_post_meta($pid, '_loc_map_query',   true) ?: get_theme_mod('loc_map_query', '123+Tran+Hung+Dao,+Ho+Chi+Minh+City');
+$maps_api         = get_theme_mod('google_maps_api_key', '');
+
+// Repeaters
+$loc_stats = get_post_meta($pid, '_loc_stats', true);
+if (empty($loc_stats) || !is_array($loc_stats)) {
+    $loc_stats = array(
+        array('num' => '5',   'unit' => 'km', 'label' => t('Từ sân bay',             'From Airport')),
+        array('num' => '200', 'unit' => 'm',  'label' => t('Đến trung tâm',          'To City Center')),
+        array('num' => '12',  'unit' => '+',  'label' => t('Điểm nổi tiếng gần đây', 'Nearby Attractions')),
+    );
+}
+
+$loc_transport = get_post_meta($pid, '_loc_transport', true);
+if (empty($loc_transport) || !is_array($loc_transport)) {
+    $loc_transport = array(
+        array('icon'=>'✈️','title'=>t('Máy bay','By Plane'),      'time'=>'~20 '.t('phút','min'),'color'=>'blue',  'desc'=>t('Từ sân bay Tân Sơn Nhất, đi taxi hoặc xe buýt sân bay đến trung tâm, chỉ cách 5km.','From Tan Son Nhat Airport, take a taxi or airport bus to the city center, only 5km away.')),
+        array('icon'=>'🚌','title'=>t('Xe buýt','By Bus'),        'time'=>'~10 '.t('phút','min'),'color'=>'teal',  'desc'=>t('Nhiều tuyến xe buýt đi qua khu vực. Trạm xe buýt gần nhất chỉ cách 150m.','Multiple bus lines pass through the area. The nearest bus stop is only 150m away.')),
+        array('icon'=>'🚖','title'=>t('Taxi / Grab','Taxi / Grab'),'time'=>'~15 '.t('phút','min'),'color'=>'amber', 'desc'=>t('Taxi và Grab luôn sẵn sàng. Nhân viên lễ tân có thể đặt xe hộ bất kỳ lúc nào.','Taxis and Grab are always available. Front desk staff can book for you anytime.')),
+        array('icon'=>'🚗','title'=>t('Xe tự lái','By Car'),      'time'=>t('Bãi đỗ xe','Parking'),'color'=>'purple','desc'=>t('Bãi đỗ xe tại chỗ và đường phố. Nhập địa chỉ vào GPS để được chỉ đường chính xác.','On-site and street parking available. Enter our address into GPS for accurate directions.')),
+    );
+}
+
+$loc_attractions = get_post_meta($pid, '_loc_attractions', true);
+if (empty($loc_attractions) || !is_array($loc_attractions)) {
+    $loc_attractions = array(
+        array('emoji'=>'🏛️','name'=>t('Bến Nhà Rồng','Ben Nha Rong Wharf'),                'cat'=>t('Di tích lịch sử','Historic Site'),'dist'=>'1.2 km','walk'=>'15 '.t('phút đi bộ','min walk'),'desc'=>t('Bến cảng lịch sử nổi tiếng, nơi Bác Hồ ra đi tìm đường cứu nước năm 1911.','Famous historic wharf where Ho Chi Minh left to find a path to save the country in 1911.')),
+        array('emoji'=>'🛍️','name'=>t('Chợ Bến Thành','Ben Thanh Market'),                  'cat'=>t('Mua sắm','Shopping'),            'dist'=>'800 m', 'walk'=>'10 '.t('phút đi bộ','min walk'),'desc'=>t('Biểu tượng của TP.HCM với hàng trăm gian hàng ẩm thực, đặc sản và hàng lưu niệm.','Icon of HCMC with hundreds of food stalls, local specialties and souvenirs.')),
+        array('emoji'=>'⛪', 'name'=>t('Nhà thờ Đức Bà','Notre-Dame Cathedral'),             'cat'=>t('Kiến trúc','Architecture'),       'dist'=>'1.5 km','walk'=>'20 '.t('phút đi bộ','min walk'),'desc'=>t('Công trình kiến trúc Gothic nổi tiếng nhất Sài Gòn, được xây dựng từ thế kỷ 19.','Saigon\'s most famous Gothic architecture, built in the 19th century.')),
+        array('emoji'=>'🎭','name'=>t('Phố đi bộ Nguyễn Huệ','Nguyen Hue Walking Street'), 'cat'=>t('Giải trí','Entertainment'),       'dist'=>'600 m', 'walk'=>'8 '.t('phút đi bộ','min walk'), 'desc'=>t('Con phố hiện đại sầm uất với nhiều nhà hàng, quán cà phê và sự kiện âm nhạc về đêm.','Bustling modern street with many restaurants, cafes and nighttime music events.')),
+        array('emoji'=>'🏅','name'=>t('Bảo tàng Chứng tích Chiến tranh','War Remnants Museum'),'cat'=>t('Bảo tàng','Museum'),          'dist'=>'2 km',  'walk'=>'25 '.t('phút đi bộ','min walk'),'desc'=>t('Một trong những bảo tàng được tham quan nhiều nhất Đông Nam Á.','One of the most visited museums in Southeast Asia.')),
+        array('emoji'=>'🏰','name'=>t('Dinh Thống Nhất','Reunification Palace'),              'cat'=>t('Di tích lịch sử','Historic Site'),'dist'=>'2.3 km','walk'=>'30 '.t('phút đi bộ','min walk'),'desc'=>t('Cung điện lịch sử mang kiến trúc độc đáo, chứng kiến nhiều sự kiện lịch sử trọng đại.','Historic palace with unique architecture, witness to many major historical events.')),
+    );
+}
+
+$loc_landmarks = get_post_meta($pid, '_loc_landmarks', true);
+if (empty($loc_landmarks) || !is_array($loc_landmarks)) {
+    $loc_landmarks = array(
+        array('emoji'=>'🛍️','name'=>t('Chợ Bến Thành',        'Ben Thanh Market'),      'dist'=>'800m',  'time'=>'10 phút'),
+        array('emoji'=>'🎭','name'=>t('Phố đi bộ Nguyễn Huệ', 'Nguyen Hue Walking St'), 'dist'=>'600m',  'time'=>'8 phút'),
+        array('emoji'=>'⛪', 'name'=>t('Nhà thờ Đức Bà',       'Notre-Dame Cathedral'),  'dist'=>'1.5km', 'time'=>'20 phút'),
+        array('emoji'=>'🏛️','name'=>t('Bến Nhà Rồng',          'Ben Nha Rong'),           'dist'=>'1.2km', 'time'=>'15 phút'),
+        array('emoji'=>'🌿','name'=>t('Thảo Cầm Viên',         'Saigon Zoo & Botanical'), 'dist'=>'2.5km', 'time'=>'12 phút xe'),
+        array('emoji'=>'✈️','name'=>t('Sân bay Tân Sơn Nhất', 'Tan Son Nhat Airport'),   'dist'=>'5km',   'time'=>'20 phút xe'),
+    );
+}
+
+// CTA
+$loc_cta_title     = get_post_meta($pid, '_loc_cta_title',    true) ?: t('Sẵn sàng đến với Sonata?', 'Ready to Visit Sonata?');
+$loc_cta_desc      = get_post_meta($pid, '_loc_cta_desc',     true) ?: t('Đặt phòng ngay hôm nay và trải nghiệm sự tiện lợi của vị trí trung tâm cùng dịch vụ đẳng cấp.', 'Book today and experience the convenience of a central location with world-class service.');
+$loc_cta_btn1_text = get_post_meta($pid, '_loc_cta_btn1_text',true) ?: t('Đặt phòng ngay', 'Book Now');
+$loc_cta_btn1_url  = get_post_meta($pid, '_loc_cta_btn1_url', true) ?: home_url('/dat-phong');
+$loc_cta_btn2_text = get_post_meta($pid, '_loc_cta_btn2_text',true) ?: t('Liên hệ chúng tôi', 'Contact Us');
+$loc_cta_btn2_url  = get_post_meta($pid, '_loc_cta_btn2_url', true) ?: home_url('/lien-he');
 ?>
 
 <style>
@@ -914,22 +977,16 @@ $maps_api          = get_theme_mod('google_maps_api_key', '');
     <section class="lp-hero">
         <div class="lp-hero__grid"></div>
 
-        <?php
-        // Background image from featured image or theme mod
-        $hero_img = get_theme_mod('loc_hero_image', '');
-        if (!$hero_img) {
-            // Use a gradient placeholder
-        } else {
-            echo '<img class="lp-hero__bg" src="' . esc_url($hero_img) . '" alt="Vị trí Sonata" loading="eager">';
-        }
-        ?>
+        <?php if ($loc_hero_image) : ?>
+            <img class="lp-hero__bg" src="<?php echo esc_url($loc_hero_image); ?>" alt="<?php echo esc_attr($loc_hero_title); ?>" loading="eager">
+        <?php endif; ?>
         <div class="lp-hero__overlay"></div>
 
         <div class="lp-container">
             <div class="lp-hero__content">
                 <div class="lp-hero__badge">
                     <span class="lp-hero__badge-dot"></span>
-                    <?php echo t('Trung tâm thành phố', 'City Center Location'); ?>
+                    <?php echo esc_html($loc_hero_badge); ?>
                 </div>
                 <h1 class="lp-hero__title">
                     <?php
@@ -954,20 +1011,14 @@ $maps_api          = get_theme_mod('google_maps_api_key', '');
             </div>
         </div>
 
-        <!-- Stat bar -->
+        <!-- Stat bar (from meta) -->
         <div class="lp-hero__stats" style="padding-bottom:0;">
+            <?php foreach ($loc_stats as $stat) : ?>
             <div class="lp-hero__stat">
-                <div class="lp-hero__stat-num">5<span>km</span></div>
-                <div class="lp-hero__stat-label"><?php echo t('Từ sân bay', 'From Airport'); ?></div>
+                <div class="lp-hero__stat-num"><?php echo esc_html($stat['num']); ?><span><?php echo esc_html($stat['unit']); ?></span></div>
+                <div class="lp-hero__stat-label"><?php echo esc_html($stat['label']); ?></div>
             </div>
-            <div class="lp-hero__stat">
-                <div class="lp-hero__stat-num">200<span>m</span></div>
-                <div class="lp-hero__stat-label"><?php echo t('Đến trung tâm', 'To City Center'); ?></div>
-            </div>
-            <div class="lp-hero__stat">
-                <div class="lp-hero__stat-num">12<span>+</span></div>
-                <div class="lp-hero__stat-label"><?php echo t('Điểm nổi tiếng gần đây', 'Nearby Attractions'); ?></div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </section>
 
@@ -1008,7 +1059,7 @@ $maps_api          = get_theme_mod('google_maps_api_key', '');
                     </div>
                     <div>
                         <div class="lp-strip__label"><?php echo t('Giờ check-in', 'Check-in Time'); ?></div>
-                        <div class="lp-strip__value"><?php echo t('14:00 – 24:00 mọi ngày', '14:00 – Midnight daily'); ?></div>
+                        <div class="lp-strip__value"><?php echo esc_html($loc_checkin); ?></div>
                     </div>
                 </div>
             </div>
@@ -1125,48 +1176,18 @@ $maps_api          = get_theme_mod('google_maps_api_key', '');
                 <p class="lp-section-desc"><?php echo t('Nhiều lựa chọn phương tiện di chuyển thuận tiện từ mọi điểm trong thành phố và cả tỉnh thành khác.', 'Multiple convenient transport options from anywhere in the city and beyond.'); ?></p>
             </div>
             <div class="lp-transport__grid">
-                <div class="lp-transport-card blue">
+                <?php foreach ($loc_transport as $tc) :
+                    $tc_color = esc_attr($tc['color'] ?? 'blue');
+                ?>
+                <div class="lp-transport-card <?php echo $tc_color; ?>">
                     <div class="lp-transport-card__icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                        </svg>
+                        <span style="font-size:2rem;"><?php echo $tc['icon']; ?></span>
                     </div>
-                    <div class="lp-transport-card__title"><?php echo t('Máy bay', 'By Plane'); ?></div>
-                    <span class="lp-transport-card__time">~20 <?php echo t('phút', 'min'); ?></span>
-                    <p class="lp-transport-card__desc"><?php echo t('Từ sân bay Tân Sơn Nhất, đi taxi hoặc xe buýt sân bay đến trung tâm, chỉ cách 5km.', 'From Tan Son Nhat Airport, take a taxi or airport bus to the city center, only 5km away.'); ?></p>
+                    <div class="lp-transport-card__title"><?php echo esc_html($tc['title']); ?></div>
+                    <span class="lp-transport-card__time"><?php echo esc_html($tc['time']); ?></span>
+                    <p class="lp-transport-card__desc"><?php echo esc_html($tc['desc']); ?></p>
                 </div>
-                <div class="lp-transport-card teal">
-                    <div class="lp-transport-card__icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
-                        </svg>
-                    </div>
-                    <div class="lp-transport-card__title"><?php echo t('Xe buýt', 'By Bus'); ?></div>
-                    <span class="lp-transport-card__time">~10 <?php echo t('phút', 'min'); ?></span>
-                    <p class="lp-transport-card__desc"><?php echo t('Nhiều tuyến xe buýt đi qua khu vực. Trạm xe buýt gần nhất chỉ cách 150m.', 'Multiple bus lines pass through the area. The nearest bus stop is only 150m away.'); ?></p>
-                </div>
-                <div class="lp-transport-card amber">
-                    <div class="lp-transport-card__icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 1h8z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 8h4l3 5v3h-7V8z"/>
-                        </svg>
-                    </div>
-                    <div class="lp-transport-card__title"><?php echo t('Taxi / Grab', 'Taxi / Grab'); ?></div>
-                    <span class="lp-transport-card__time">~15 <?php echo t('phút', 'min'); ?></span>
-                    <p class="lp-transport-card__desc"><?php echo t('Taxi và Grab luôn sẵn sàng. Nhân viên lễ tân có thể đặt xe hộ bất kỳ lúc nào.', 'Taxis and Grab are always available. Front desk staff can book for you anytime.'); ?></p>
-                </div>
-                <div class="lp-transport-card purple">
-                    <div class="lp-transport-card__icon">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 3l14 9-14 9V3z"/>
-                        </svg>
-                    </div>
-                    <div class="lp-transport-card__title"><?php echo t('Xe tự lái', 'By Car'); ?></div>
-                    <span class="lp-transport-card__time"><?php echo t('Bãi đỗ xe', 'Parking'); ?></span>
-                    <p class="lp-transport-card__desc"><?php echo t('Bãi đỗ xe tại chỗ và đường phố. Nhập địa chỉ vào GPS để được chỉ đường chính xác.', 'On-site and street parking available. Enter our address into GPS for accurate directions.'); ?></p>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -1182,59 +1203,7 @@ $maps_api          = get_theme_mod('google_maps_api_key', '');
                 <p class="lp-section-desc"><?php echo t('Hàng chục địa điểm du lịch, ẩm thực và giải trí nằm ngay trong tầm tay.', 'Dozens of tourist spots, dining and entertainment venues are right at your fingertips.'); ?></p>
             </div>
             <div class="lp-nearby__grid">
-
-                <?php
-                $attractions = array(
-                    array(
-                        'name'  => t('Bến Nhà Rồng', 'Ben Nha Rong Wharf'),
-                        'cat'   => t('Di tích lịch sử', 'Historic Site'),
-                        'desc'  => t('Bến cảng lịch sử nổi tiếng, nơi Bác Hồ ra đi tìm đường cứu nước năm 1911.', 'Famous historic wharf where Ho Chi Minh left to find a path to save the country in 1911.'),
-                        'dist'  => '1.2 km',
-                        'walk'  => '15 ' . t('phút đi bộ', 'min walk'),
-                        'emoji' => '🏛️',
-                    ),
-                    array(
-                        'name'  => t('Chợ Bến Thành', 'Ben Thanh Market'),
-                        'cat'   => t('Mua sắm', 'Shopping'),
-                        'desc'  => t('Biểu tượng của TP.HCM với hàng trăm gian hàng ẩm thực, đặc sản và hàng lưu niệm.', 'Icon of HCMC with hundreds of food stalls, local specialties and souvenirs.'),
-                        'dist'  => '800 m',
-                        'walk'  => '10 ' . t('phút đi bộ', 'min walk'),
-                        'emoji' => '🛍️',
-                    ),
-                    array(
-                        'name'  => t('Nhà thờ Đức Bà', 'Notre-Dame Cathedral'),
-                        'cat'   => t('Kiến trúc', 'Architecture'),
-                        'desc'  => t('Công trình kiến trúc Gothic nổi tiếng nhất Sài Gòn, được xây dựng từ thế kỷ 19.', 'Saigon\'s most famous Gothic architecture, built in the 19th century.'),
-                        'dist'  => '1.5 km',
-                        'walk'  => '20 ' . t('phút đi bộ', 'min walk'),
-                        'emoji' => '⛪',
-                    ),
-                    array(
-                        'name'  => t('Phố đi bộ Nguyễn Huệ', 'Nguyen Hue Walking Street'),
-                        'cat'   => t('Giải trí', 'Entertainment'),
-                        'desc'  => t('Con phố hiện đại sầm uất với nhiều nhà hàng, quán cà phê và sự kiện âm nhạc về đêm.', 'Bustling modern street with many restaurants, cafes and nighttime music events.'),
-                        'dist'  => '600 m',
-                        'walk'  => '8 ' . t('phút đi bộ', 'min walk'),
-                        'emoji' => '🎭',
-                    ),
-                    array(
-                        'name'  => t('Bảo tàng Chứng tích Chiến tranh', 'War Remnants Museum'),
-                        'cat'   => t('Bảo tàng', 'Museum'),
-                        'desc'  => t('Một trong những bảo tàng được tham quan nhiều nhất Đông Nam Á, lưu giữ nhiều hiện vật chiến tranh quý giá.', 'One of the most visited museums in Southeast Asia, preserving valuable war artifacts.'),
-                        'dist'  => '2 km',
-                        'walk'  => '25 ' . t('phút đi bộ', 'min walk'),
-                        'emoji' => '🏅',
-                    ),
-                    array(
-                        'name'  => t('Dinh Thống Nhất', 'Reunification Palace'),
-                        'cat'   => t('Di tích lịch sử', 'Historic Site'),
-                        'desc'  => t('Cung điện lịch sử mang kiến trúc độc đáo, chứng kiến nhiều sự kiện lịch sử trọng đại.', 'Historic palace with unique architecture, witness to many major historical events.'),
-                        'dist'  => '2.3 km',
-                        'walk'  => '30 ' . t('phút đi bộ', 'min walk'),
-                        'emoji' => '🏰',
-                    ),
-                );
-                foreach ($attractions as $att) : ?>
+                <?php foreach ($loc_attractions as $att) : ?>
                     <div class="lp-nearby-card">
                         <div class="lp-nearby-card__img">
                             <span style="position:relative;z-index:1;font-size:3.5rem;"><?php echo $att['emoji']; ?></span>
@@ -1258,7 +1227,6 @@ $maps_api          = get_theme_mod('google_maps_api_key', '');
                         </div>
                     </div>
                 <?php endforeach; ?>
-
             </div>
         </div>
     </section>
@@ -1275,32 +1243,22 @@ $maps_api          = get_theme_mod('google_maps_api_key', '');
                     <p class="lp-section-desc" style="color:rgba(255,255,255,0.6);margin-bottom:36px;"><?php echo t('Từ Sonata, bạn chỉ cần vài phút để chạm đến những trải nghiệm đặc sắc nhất của thành phố.', 'From Sonata, you are just minutes away from the city\'s most iconic experiences.'); ?></p>
 
                     <div class="lp-landmark-list">
-                        <?php
-                        $landmarks = array(
-                            array('🛍️', t('Chợ Bến Thành',           'Ben Thanh Market'),      '800m',   '10 phút'),
-                            array('🎭', t('Phố đi bộ Nguyễn Huệ',    'Nguyen Hue Walking St'), '600m',   '8 phút'),
-                            array('⛪', t('Nhà thờ Đức Bà',           'Notre-Dame Cathedral'),  '1.5km',  '20 phút'),
-                            array('🏛️', t('Bến Nhà Rồng',             'Ben Nha Rong'),           '1.2km',  '15 phút'),
-                            array('🌿', t('Thảo Cầm Viên',            'Saigon Zoo & Botanical'), '2.5km',  '12 phút xe'),
-                            array('✈️', t('Sân bay Tân Sơn Nhất',    'Tan Son Nhat Airport'),   '5km',    '20 phút xe'),
-                        );
-                        foreach ($landmarks as $lm) :
-                        ?>
+                        <?php foreach ($loc_landmarks as $lm) : ?>
                         <div class="lp-landmark-item">
                             <div class="lp-landmark-item__dot" style="background:rgba(255,255,255,0.06);">
-                                <?php echo $lm[0]; ?>
+                                <?php echo $lm['emoji']; ?>
                             </div>
                             <div>
-                                <div class="lp-landmark-item__name"><?php echo esc_html($lm[1]); ?></div>
-                                <div class="lp-landmark-item__dist"><?php echo esc_html($lm[2]); ?></div>
+                                <div class="lp-landmark-item__name"><?php echo esc_html($lm['name']); ?></div>
+                                <div class="lp-landmark-item__dist"><?php echo esc_html($lm['dist']); ?></div>
                             </div>
-                            <div class="lp-landmark-item__time"><?php echo esc_html($lm[3]); ?></div>
+                            <div class="lp-landmark-item__time"><?php echo esc_html($lm['time']); ?></div>
                         </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
 
-                <!-- Visual radial map -->
+                <!-- Visual radial map (emoji từ landmarks) -->
                 <div class="lp-visual-map">
                     <div class="lp-visual-map__ring"></div>
                     <div class="lp-visual-map__ring"></div>
@@ -1310,12 +1268,12 @@ $maps_api          = get_theme_mod('google_maps_api_key', '');
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                         </svg>
                     </div>
-                    <div class="lp-visual-map__dot lp-visual-map__dot--1" title="Chợ Bến Thành">🛍️</div>
-                    <div class="lp-visual-map__dot lp-visual-map__dot--2" title="Nhà thờ Đức Bà">⛪</div>
-                    <div class="lp-visual-map__dot lp-visual-map__dot--3" title="Bến Nhà Rồng">🏛️</div>
-                    <div class="lp-visual-map__dot lp-visual-map__dot--4" title="Thảo Cầm Viên">🌿</div>
-                    <div class="lp-visual-map__dot lp-visual-map__dot--5" title="Phố đi bộ">🎭</div>
-                    <div class="lp-visual-map__dot lp-visual-map__dot--6" title="Sân bay">✈️</div>
+                    <?php
+                    $dot_positions = array('--1','--2','--3','--4','--5','--6');
+                    foreach (array_slice($loc_landmarks, 0, 6) as $di => $dlm) :
+                    ?>
+                    <div class="lp-visual-map__dot lp-visual-map__dot<?php echo $dot_positions[$di]; ?>" title="<?php echo esc_attr($dlm['name']); ?>"><?php echo $dlm['emoji']; ?></div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
@@ -1327,20 +1285,20 @@ $maps_api          = get_theme_mod('google_maps_api_key', '');
     <section class="lp-cta">
         <div class="lp-container">
             <div class="lp-cta__content">
-                <h2 class="lp-cta__title"><?php echo t('Sẵn sàng đến với Sonata?', 'Ready to Visit Sonata?'); ?></h2>
-                <p class="lp-cta__desc"><?php echo t('Đặt phòng ngay hôm nay và trải nghiệm sự tiện lợi của vị trí trung tâm cùng dịch vụ đẳng cấp.', 'Book today and experience the convenience of a central location with world-class service.'); ?></p>
+                <h2 class="lp-cta__title"><?php echo esc_html($loc_cta_title); ?></h2>
+                <p class="lp-cta__desc"><?php echo esc_html($loc_cta_desc); ?></p>
                 <div class="lp-cta__buttons">
-                    <a href="<?php echo home_url('/dat-phong'); ?>" class="lp-cta-btn-primary">
+                    <a href="<?php echo esc_url($loc_cta_btn1_url); ?>" class="lp-cta-btn-primary">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
-                        <?php echo t('Đặt phòng ngay', 'Book Now'); ?>
+                        <?php echo esc_html($loc_cta_btn1_text); ?>
                     </a>
-                    <a href="<?php echo home_url('/lien-he'); ?>" class="lp-cta-btn-secondary">
+                    <a href="<?php echo esc_url($loc_cta_btn2_url); ?>" class="lp-cta-btn-secondary">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                         </svg>
-                        <?php echo t('Liên hệ chúng tôi', 'Contact Us'); ?>
+                        <?php echo esc_html($loc_cta_btn2_text); ?>
                     </a>
                 </div>
             </div>
