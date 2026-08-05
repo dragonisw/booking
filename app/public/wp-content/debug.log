@@ -1,0 +1,1 @@
+[05-Aug-2026 04:29:28 UTC] PHP Warning:  mysqli_real_connect(): (HY000/2002): No connection could be made because the target machine actively refused it in C:\Users\Minh\Local Sites\booking\app\public\wp-includes\class-wpdb.php on line 1994
