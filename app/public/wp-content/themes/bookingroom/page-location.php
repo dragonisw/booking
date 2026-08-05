@@ -884,7 +884,91 @@ $loc_cta_btn2_url  = get_post_meta($pid, '_loc_cta_btn2_url', true) ?: home_url(
 }
 
 /* ===================================================================
-   7. CTA BANNER
+   7. MY LOCATION BUTTON & USER MARKER
+   =================================================================== */
+/* My Location Btn */
+.lp-myloc-btn {
+    position: absolute;
+    bottom: 16px; left: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid var(--lp-border);
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--lp-dark);
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    transition: all .25s;
+    z-index: 10;
+    white-space: nowrap;
+}
+.lp-myloc-btn:hover {
+    background: var(--lp-blue);
+    color: #fff;
+    border-color: var(--lp-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37,99,235,0.3);
+}
+.lp-myloc-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+.lp-myloc-btn.loading { pointer-events: none; opacity: 0.7; }
+.lp-myloc-btn.loading .lp-myloc-icon { animation: lpLocSpin 1s linear infinite; }
+@keyframes lpLocSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* Distance badge (shown after geolocation) */
+.lp-distance-badge {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-top: 10px;
+    width: fit-content;
+    box-shadow: 0 4px 12px rgba(16,185,129,0.35);
+    animation: lpFadeUp 0.4s var(--lp-ease) both;
+}
+.lp-distance-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+.lp-distance-badge.visible { display: inline-flex; }
+
+/* Directions from my location button */
+.lp-btn-from-me {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 24px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all .25s;
+    box-shadow: 0 4px 16px rgba(16,185,129,0.35);
+    width: 100%;
+    text-decoration: none;
+}
+.lp-btn-from-me:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(16,185,129,0.45);
+    color: #fff;
+}
+.lp-btn-from-me svg { width: 18px; height: 18px; }
+.lp-btn-from-me:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ===================================================================
+   8. CTA BANNER
    =================================================================== */
 .lp-cta {
     padding: 80px 0;
@@ -1074,26 +1158,41 @@ $loc_cta_btn2_url  = get_post_meta($pid, '_loc_cta_btn2_url', true) ?: home_url(
             <div class="lp-map-layout">
 
                 <!-- Interactive map -->
-                <div class="lp-map-frame">
+                <div class="lp-map-frame" id="lp-map-frame">
+                    <?php
+                    // Store hotel coordinates for JS use
+                    $hotel_lat = 10.757627;
+                    $hotel_lng = 106.690443;
+                    ?>
                     <?php if ($loc_map_embed) : ?>
                         <?php echo $loc_map_embed; // Allow iframe from Customizer ?>
                     <?php elseif ($maps_api) : ?>
-                        <iframe
+                        <iframe id="lp-map-iframe"
                             src="https://www.google.com/maps/embed/v1/place?key=<?php echo esc_attr($maps_api); ?>&q=<?php echo esc_attr($loc_map_query); ?>&zoom=15"
                             allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     <?php else : ?>
-                        <iframe
+                        <iframe id="lp-map-iframe"
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.664228018082!2d106.69044291462196!3d10.757626992303655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f38f9ed887b%3A0x14aded5703768989!2zVHLhuqduIEjGsG5nIMSQxqFvLCBUcC4gSOG7kyBDaMOtIE1pbmg!5e0!3m2!1svi!2svn!4v1627000000000!5m2!1svi!2svn"
                             allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     <?php endif; ?>
+
+                    <!-- Open in Google Maps button (top right) -->
                     <a href="https://www.google.com/maps/search/<?php echo urlencode($loc_address_full); ?>" target="_blank" rel="noopener" class="lp-map-open-btn">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                         </svg>
                         <?php echo t('Mở Google Maps', 'Open in Google Maps'); ?>
                     </a>
+
+                    <!-- My Location button (bottom left) -->
+                    <button id="lp-myloc-btn" class="lp-myloc-btn" onclick="lpGetMyLocation()" title="<?php echo t('Đánh dấu vị trí của tôi', 'Mark my location'); ?>">
+                        <svg class="lp-myloc-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+                        </svg>
+                        <span id="lp-myloc-label"><?php echo t('Vị trí của tôi', 'My Location'); ?></span>
+                    </button>
                 </div>
 
                 <!-- Address info card -->
@@ -1153,11 +1252,28 @@ $loc_cta_btn2_url  = get_post_meta($pid, '_loc_cta_btn2_url', true) ?: home_url(
                         </div>
                     </div>
 
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=<?php echo urlencode($loc_address_full); ?>" target="_blank" rel="noopener" class="lp-btn-directions">
+                    <!-- Distance badge (shown after location detected) -->
+                    <div id="lp-distance-badge" class="lp-distance-badge">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        </svg>
+                        <span id="lp-distance-text"></span>
+                    </div>
+
+                    <!-- Standard directions button -->
+                    <a id="lp-btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=<?php echo urlencode($loc_address_full); ?>" target="_blank" rel="noopener" class="lp-btn-directions">
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
                         </svg>
                         <?php echo t('Chỉ đường đến đây', 'Get Directions'); ?>
+                    </a>
+
+                    <!-- Directions FROM my location (shown after GPS fix) -->
+                    <a id="lp-btn-from-me" href="#" class="lp-btn-from-me" target="_blank" rel="noopener" style="display:none;">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+                        </svg>
+                        <?php echo t('Chỉ đường từ vị trí của tôi', 'Route from My Location'); ?>
                     </a>
                 </div>
 
@@ -1306,5 +1422,109 @@ $loc_cta_btn2_url  = get_post_meta($pid, '_loc_cta_btn2_url', true) ?: home_url(
     </section>
 
 </div><!-- .lp-page -->
+
+<script>
+(function() {
+    // ── Hotel location (fixed) ────────────────────────────────────────
+    var HOTEL_LAT = 10.757627;
+    var HOTEL_LNG = 106.690443;
+    var HOTEL_ADDR = encodeURIComponent('<?php echo addslashes($loc_address_full); ?>');
+
+    // ── Haversine distance (km) ───────────────────────────────────────
+    function haversine(lat1, lon1, lat2, lon2) {
+        var R = 6371;
+        var dLat = (lat2 - lat1) * Math.PI / 180;
+        var dLon = (lon2 - lon1) * Math.PI / 180;
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+    }
+
+    // ── Format distance ───────────────────────────────────────────────
+    function formatDist(km) {
+        if (km < 1) return Math.round(km * 1000) + ' m';
+        return km.toFixed(1) + ' km';
+    }
+
+    // ── Main geolocation function ─────────────────────────────────────
+    window.lpGetMyLocation = function() {
+        var btn   = document.getElementById('lp-myloc-btn');
+        var label = document.getElementById('lp-myloc-label');
+        var badge = document.getElementById('lp-distance-badge');
+        var distText = document.getElementById('lp-distance-text');
+        var btnFromMe = document.getElementById('lp-btn-from-me');
+        var btnDir    = document.getElementById('lp-btn-directions');
+        var iframe    = document.getElementById('lp-map-iframe');
+
+        if (!navigator.geolocation) {
+            alert('<?php echo t('Trình duyệt không hỗ trợ định vị GPS.', 'Your browser does not support geolocation.'); ?>');
+            return;
+        }
+
+        // Loading state
+        btn.classList.add('loading');
+        label.textContent = '<?php echo t('Đang định vị...', 'Locating...'); ?>';
+
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                var lat = pos.coords.latitude;
+                var lng = pos.coords.longitude;
+                var dist = haversine(lat, lng, HOTEL_LAT, HOTEL_LNG);
+
+                // ── Update map iframe to show both user + hotel ───────
+                if (iframe) {
+                    var mapUrl = 'https://www.google.com/maps/embed/v1/directions'
+                        + '?key=AIzaSyBiB01mNIWcWKJTbLWHHYXDOj_vPKVEYXk'
+                        + '&origin=' + lat + ',' + lng
+                        + '&destination=' + HOTEL_LAT + ',' + HOTEL_LNG
+                        + '&mode=driving'
+                        + '&language=vi';
+                    // Fallback: use directions URL in a new search if no API key
+                    // We use a directions embed without API key (search mode)
+                    iframe.src = 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d'
+                        + '3919.664228018082!2d106.69044291462196!3d10.757626992303655'
+                        + '!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0'
+                        + '!4m5!1s0x0%3A0x0!2s' + lat + '%2C' + lng
+                        + '!3m2!1d' + lat + '!2d' + lng
+                        + '!4m5!1s0x31752f38f9ed887b%3A0x14aded5703768989'
+                        + '!2zVHLhuqduIEjGsG5nIMSQxqFvLCBUcC4gSOG7kyBDaMOtIE1pbmg'
+                        + '!3m2!1d10.757627!2d106.690443!5e0!3m2!1svi!2svn!4v1627000000001!5m2!1svi!2svn';
+                }
+
+                // ── Distance badge ────────────────────────────────────
+                var distLabel = formatDist(dist);
+                distText.textContent = '<?php echo t('Bạn cách chúng tôi', 'You are'); ?> ' + distLabel;
+                badge.classList.add('visible');
+
+                // ── "From my location" directions button ──────────────
+                var gmapUrl = 'https://www.google.com/maps/dir/?api=1'
+                    + '&origin=' + lat + ',' + lng
+                    + '&destination=' + HOTEL_LAT + ',' + HOTEL_LNG
+                    + '&travelmode=driving';
+                btnFromMe.href = gmapUrl;
+                btnFromMe.style.display = 'flex';
+                if (btnDir) btnDir.style.display = 'none';
+
+                // ── Reset button ──────────────────────────────────────
+                btn.classList.remove('loading');
+                btn.style.background = '#10b981';
+                btn.style.color = '#fff';
+                btn.style.borderColor = '#10b981';
+                label.textContent = '<?php echo t('Đã định vị ✓', 'Located ✓'); ?>';
+            },
+            function(err) {
+                btn.classList.remove('loading');
+                label.textContent = '<?php echo t('Vị trí của tôi', 'My Location'); ?>';
+                var msg = '<?php echo t('Không thể lấy vị trí. Vui lòng cho phép truy cập GPS.', 'Cannot get location. Please allow GPS access.'); ?>';
+                if (err.code === 1) msg = '<?php echo t('Bạn đã từ chối quyền truy cập vị trí.', 'You denied location access.'); ?>';
+                alert(msg);
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+        );
+    };
+})();
+</script>
 
 <?php get_footer(); ?>

@@ -73,6 +73,20 @@ $table_prefix = 'wp_';
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+// ── HTTPS / SSL ──────────────────────────────────────────────────────────
+// Cho phép WordPress nhận diện HTTPS khi chạy qua Local by Flywheel proxy
+if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ) {
+    $_SERVER['HTTPS'] = 'on';
+}
+// Ép HTTPS cho toàn bộ site (bật sau khi đã Enable SSL trong Local app)
+define( 'FORCE_SSL_ADMIN', true );
+// Báo cho WordPress biết đang chạy sau reverse proxy
+if ( isset( $_SERVER['HTTP_X_FORWARDED_HOST'] ) ) {
+    define( 'WP_HOME',    'https://' . $_SERVER['HTTP_X_FORWARDED_HOST'] );
+    define( 'WP_SITEURL', 'https://' . $_SERVER['HTTP_X_FORWARDED_HOST'] );
+}
+// ─────────────────────────────────────────────────────────────────────────
+
 
 
 /**

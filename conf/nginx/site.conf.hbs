@@ -52,6 +52,8 @@ server {
         log_not_found     off;
         expires           5m;
         add_header        Cache-Control "public";
+        # Cho phép Geolocation API (GPS) hoạt động trên HTTPS
+        add_header        Permissions-Policy "geolocation=(self)";
     }
 
     location ~* \.(?:eot|woff|woff2|ttf|svg|otf) {
@@ -111,5 +113,12 @@ server {
 		proxy_buffer_size        64k;
 		proxy_buffers            32 32k;
 		proxy_busy_buffers_size  256k;
+
+		# ── HTTPS & Geolocation headers ──────────────────────────────
+		# Cho phép Geolocation API (GPS) hoạt động khi chạy HTTPS
+		add_header Permissions-Policy "geolocation=(self)" always;
+		# Bảo mật HTTPS
+		add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+		add_header X-Content-Type-Options "nosniff" always;
 	}
 }
