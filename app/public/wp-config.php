@@ -30,7 +30,9 @@ define( 'DB_USER', 'root' );
 define( 'DB_PASSWORD', 'root' );
 
 /** Database hostname */
-define( 'DB_HOST', 'localhost' );
+// Dung 127.0.0.1:3306 thay vi 'localhost' de ep ket noi TCP tren Windows
+// 'localhost' co the dung named pipe gay loi connection refused
+define( 'DB_HOST', '127.0.0.1:3306' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -73,19 +75,19 @@ $table_prefix = 'wp_';
 
 /* Add any custom values between this line and the "stop editing" line. */
 
-// ── HTTPS / SSL ──────────────────────────────────────────────────────────
-// Cho phép WordPress nhận diện HTTPS khi chạy qua Local by Flywheel proxy
+// == HTTPS / SSL ==
+// Nhan dien HTTPS khi chay qua Local by Flywheel proxy (reverse proxy)
 if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ) {
     $_SERVER['HTTPS'] = 'on';
 }
-// Ép HTTPS cho toàn bộ site (bật sau khi đã Enable SSL trong Local app)
-define( 'FORCE_SSL_ADMIN', true );
-// Báo cho WordPress biết đang chạy sau reverse proxy
+// Luu y: Chi bat FORCE_SSL_ADMIN sau khi da Enable SSL trong Local app.
+// Neu chua bat SSL, giu dong nay la comment de tranh bi khoa khoi Admin.
+// define( 'FORCE_SSL_ADMIN', true );
 if ( isset( $_SERVER['HTTP_X_FORWARDED_HOST'] ) ) {
     define( 'WP_HOME',    'https://' . $_SERVER['HTTP_X_FORWARDED_HOST'] );
     define( 'WP_SITEURL', 'https://' . $_SERVER['HTTP_X_FORWARDED_HOST'] );
 }
-// ─────────────────────────────────────────────────────────────────────────
+// ===========================================================================
 
 
 
