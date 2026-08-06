@@ -53,6 +53,13 @@ require_once get_stylesheet_directory() . '/inc/customer-manager.php';
 require_once get_stylesheet_directory() . '/inc/destination-cpt.php';
 
 /**
+ * Destination Custom Editor
+ * Giao diện editor tùy chỉnh thay thế Gutenberg cho "Điểm đến"
+ */
+require_once get_stylesheet_directory() . '/inc/destination-editor.php';
+
+
+/**
  * Customer Review Custom Post Type
  * Đánh giá khách hàng
  */
