@@ -58,6 +58,12 @@ require_once get_stylesheet_directory() . '/inc/destination-cpt.php';
  */
 require_once get_stylesheet_directory() . '/inc/destination-editor.php';
 
+/**
+ * Popup Tư Vấn
+ * Form đăng ký tư vấn hiển thị popup với auto-trigger và lưu leads vào admin
+ */
+require_once get_stylesheet_directory() . '/inc/popup-tuvan.php';
+
 
 /**
  * Customer Review Custom Post Type

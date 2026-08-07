@@ -1,0 +1,507 @@
+/* ============================================================
+   POPUP TƯ VẤN — popup-tuvan.css
+   Thiết kế cao cấp: glassmorphism + animation mượt mà
+   ============================================================ */
+
+/* ── CSS CUSTOM PROPERTIES ── */
+:root {
+  --tv-primary:      #1a6b4a;
+  --tv-primary-dark: #134d35;
+  --tv-primary-rgb:  26, 107, 74;
+  --tv-accent:       #c0392b;
+  --tv-accent-light: #e74c3c;
+  --tv-white:        #ffffff;
+  --tv-text:         #1e2d3d;
+  --tv-text-muted:   #6b7f8f;
+  --tv-border:       rgba(255,255,255,0.25);
+  --tv-radius:       16px;
+  --tv-shadow:       0 32px 80px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.2);
+  --tv-timing:       cubic-bezier(0.34, 1.56, 0.64, 1);
+  --tv-ease:         cubic-bezier(0.4, 0, 0.2, 1);
+  --tv-popup-w:      900px;
+  --tv-popup-h:      540px;
+  --tv-image-w:      42%;
+  --tv-z:            999999;
+}
+
+/* ── OVERLAY ── */
+.tuvan-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--tv-z);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(10, 18, 30, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s var(--tv-ease), visibility 0.35s var(--tv-ease);
+  will-change: opacity;
+}
+
+.tuvan-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── POPUP BOX ── */
+.tuvan-popup {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: var(--tv-popup-w);
+  height: auto;
+  max-height: 92vh;
+  border-radius: var(--tv-radius);
+  overflow: hidden;
+  box-shadow: var(--tv-shadow);
+  background: var(--tv-white);
+  transform: scale(0.88) translateY(24px);
+  transition: transform 0.45s var(--tv-timing);
+  will-change: transform;
+}
+
+.tuvan-overlay.is-open .tuvan-popup {
+  transform: scale(1) translateY(0);
+}
+
+/* ── CLOSE BUTTON ── */
+.tuvan-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--tv-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s var(--tv-ease), transform 0.2s var(--tv-ease);
+  line-height: 1;
+  padding: 0;
+}
+
+.tuvan-close:hover {
+  background: rgba(255,255,255,0.28);
+  transform: rotate(90deg);
+}
+
+/* ── IMAGE COLUMN ── */
+.tuvan-image-col {
+  position: relative;
+  flex: 0 0 var(--tv-image-w);
+  width: var(--tv-image-w);
+  overflow: hidden;
+}
+
+.tuvan-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 6s ease;
+}
+
+.tuvan-overlay.is-open .tuvan-image {
+  transform: scale(1.04);
+}
+
+.tuvan-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.05) 0%,
+    rgba(0,0,0,0.15) 50%,
+    rgba(10, 40, 25, 0.75) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px 20px;
+}
+
+.tuvan-image-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 100px;
+  padding: 5px 14px;
+  color: var(--tv-white);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.tuvan-image-tagline {
+  color: rgba(255,255,255,0.92);
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ── FORM COLUMN ── */
+.tuvan-form-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--tv-primary);
+  padding: 32px 28px 24px;
+  overflow-y: auto;
+}
+
+/* ── FORM HEADER ── */
+.tuvan-form-header {
+  margin-bottom: 22px;
+  text-align: center;
+}
+
+.tuvan-form-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  color: var(--tv-white);
+}
+
+.tuvan-title {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: var(--tv-white) !important;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0 0 6px !important;
+  line-height: 1.2 !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+}
+
+.tuvan-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.72);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ── FORM FIELDS ── */
+.tuvan-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.tuvan-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.tuvan-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tuvan-field--full {
+  grid-column: 1 / -1;
+}
+
+.tuvan-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8) !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+}
+
+.tuvan-required {
+  color: #f9a8a0;
+}
+
+.tuvan-input {
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1.5px solid rgba(255,255,255,0.35) !important;
+  border-radius: 0 !important;
+  padding: 8px 0 !important;
+  color: var(--tv-white) !important;
+  font-size: 14px !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s var(--tv-ease) !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.tuvan-input::placeholder {
+  color: rgba(255,255,255,0.38) !important;
+}
+
+.tuvan-input:focus {
+  border-bottom-color: rgba(255,255,255,0.9) !important;
+}
+
+.tuvan-input:focus + .tuvan-input-line,
+.tuvan-input.is-valid {
+  border-bottom-color: rgba(255,255,255,0.9) !important;
+}
+
+.tuvan-textarea {
+  resize: none !important;
+  min-height: 60px !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+}
+
+/* ── RESULT MESSAGES ── */
+.tuvan-result {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.tuvan-result.is-success {
+  background: rgba(255,255,255,0.18);
+  color: #b9f5d5;
+  border: 1px solid rgba(185,245,213,0.4);
+}
+
+.tuvan-result.is-error {
+  background: rgba(231,76,60,0.2);
+  color: #ffd5d0;
+  border: 1px solid rgba(231,76,60,0.4);
+}
+
+/* ── SUBMIT BUTTON ── */
+.tuvan-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 20px;
+  background: var(--tv-accent);
+  border: none;
+  border-radius: 8px;
+  color: var(--tv-white);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.25s var(--tv-ease),
+    transform 0.15s var(--tv-ease),
+    box-shadow 0.25s var(--tv-ease);
+  box-shadow: 0 4px 18px rgba(192, 57, 43, 0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+.tuvan-submit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.tuvan-submit:hover {
+  background: var(--tv-accent-light);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(231, 76, 60, 0.5);
+}
+
+.tuvan-submit:active {
+  transform: translateY(0);
+}
+
+.tuvan-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tuvan-submit-icon {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s var(--tv-ease);
+}
+
+.tuvan-submit:hover .tuvan-submit-icon {
+  transform: translateX(3px);
+}
+
+/* ── SPINNER ── */
+@keyframes tuvan-spin {
+  to { transform: rotate(360deg); }
+}
+
+.tuvan-spinner {
+  animation: tuvan-spin 1s linear infinite;
+}
+
+/* ── PHONE NOTE ── */
+.tuvan-phone-note {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.58);
+  margin: 0;
+}
+
+.tuvan-phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.2s var(--tv-ease);
+}
+
+.tuvan-phone-link:hover {
+  color: var(--tv-white);
+}
+
+/* ══════════════════════════════════════════════════
+   TRIGGER BUTTON (góc phải màn hình)
+   ══════════════════════════════════════════════════ */
+.tuvan-trigger {
+  position: fixed;
+  right: 24px;
+  bottom: 90px;
+  z-index: calc(var(--tv-z) - 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: var(--tv-primary);
+  color: var(--tv-white);
+  border: none;
+  border-radius: 50px;
+  padding: 14px 16px 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 28px rgba(var(--tv-primary-rgb), 0.55), 0 2px 8px rgba(0,0,0,0.2);
+  transition: transform 0.25s var(--tv-timing), box-shadow 0.25s var(--tv-ease);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  line-height: 1;
+}
+
+.tuvan-trigger:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 10px 36px rgba(var(--tv-primary-rgb), 0.65), 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.tuvan-trigger-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tuvan-trigger-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* Pulse ring */
+.tuvan-trigger-pulse {
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 2px solid var(--tv-primary);
+  opacity: 0;
+  animation: tuvan-pulse 2.4s ease-out infinite;
+}
+
+@keyframes tuvan-pulse {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  70%  { transform: scale(1.25); opacity: 0;   }
+  100% { transform: scale(1.25); opacity: 0;   }
+}
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .tuvan-popup {
+    flex-direction: column;
+    max-height: 95vh;
+  }
+
+  .tuvan-image-col {
+    flex: 0 0 160px;
+    width: 100%;
+  }
+
+  .tuvan-image-overlay {
+    padding: 14px 16px;
+  }
+
+  .tuvan-image-tagline {
+    font-size: 12px;
+  }
+
+  .tuvan-form-col {
+    padding: 22px 18px 18px;
+  }
+
+  .tuvan-title {
+    font-size: 20px !important;
+  }
+
+  .tuvan-row {
+    grid-template-columns: 1fr;
+  }
+
+  .tuvan-close {
+    background: rgba(0,0,0,0.25);
+    color: var(--tv-white);
+  }
+
+  .tuvan-trigger {
+    right: 14px;
+    bottom: 75px;
+    padding: 12px 13px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tuvan-image-col {
+    flex: 0 0 130px;
+  }
+
+  .tuvan-form-col {
+    padding: 18px 16px 16px;
+  }
+}
