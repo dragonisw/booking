@@ -11,17 +11,24 @@ if (!defined('ABSPATH')) exit;
 // ──────────────────────────────────────────────────────────────────────────────
 add_action('wp_enqueue_scripts', 'tuvan_popup_assets');
 function tuvan_popup_assets() {
+    // Google Font – Be Vietnam Pro
+    wp_enqueue_style(
+        'tuvan-bevietnam-font',
+        'https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap',
+        [],
+        null
+    );
     wp_enqueue_style(
         'tuvan-popup-css',
         get_stylesheet_directory_uri() . '/assets/css/popup-tuvan.css',
-        [],
-        '1.0.0'
+        ['tuvan-bevietnam-font'],
+        '2.0.0'
     );
     wp_enqueue_script(
         'tuvan-popup-js',
         get_stylesheet_directory_uri() . '/assets/js/popup-tuvan.js',
         ['jquery'],
-        '1.0.0',
+        '2.0.0',
         true
     );
     wp_localize_script('tuvan-popup-js', 'tuvan_ajax', [
