@@ -402,6 +402,131 @@ $loc_cta_btn2_url  = get_post_meta($pid, '_loc_cta_btn2_url', true) ?: home_url(
 .lp-map-placeholder svg { width: 56px; height: 56px; opacity: 0.4; }
 .lp-map-placeholder p { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
 
+/* ── Animated Map Pin ── */
+@keyframes lpPinBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    30%       { transform: translateY(-18px) scale(1.08); }
+    55%       { transform: translateY(-8px) scale(1.04); }
+    75%       { transform: translateY(-14px) scale(1.06); }
+    90%       { transform: translateY(-4px) scale(1.02); }
+}
+@keyframes lpPinRipple {
+    0%   { transform: scale(0.5); opacity: 0.6; }
+    100% { transform: scale(3.2); opacity: 0; }
+}
+@keyframes lpPinGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.5), 0 6px 20px rgba(220,38,38,0.4); }
+    50%       { box-shadow: 0 0 0 8px rgba(220,38,38,0.15), 0 6px 28px rgba(220,38,38,0.6); }
+}
+@keyframes lpPinShadowPulse {
+    0%, 100% { transform: translateX(-50%) scale(1);   opacity: 0.35; }
+    30%       { transform: translateX(-50%) scale(0.55); opacity: 0.15; }
+    55%       { transform: translateX(-50%) scale(0.8);  opacity: 0.25; }
+}
+@keyframes lpTooltipFade {
+    from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.lp-map-pin-wrapper {
+    position: absolute;
+    /* Đặt pin ở giữa bản đồ – điều chỉnh left/top nếu muốn */
+    left: 50%;
+    top: 42%;
+    transform: translate(-50%, -100%);
+    z-index: 20;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Tooltip nổi bên trên pin */
+.lp-map-pin-tooltip {
+    position: absolute;
+    bottom: calc(100% + 14px);
+    left: 50%;
+    white-space: nowrap;
+    background: #0f172a;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 7px 14px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    animation: lpTooltipFade 0.5s var(--lp-ease) 1s both;
+    pointer-events: none;
+}
+.lp-map-pin-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #0f172a;
+}
+
+/* Thân pin */
+.lp-map-pin {
+    width: 52px;
+    height: 52px;
+    border-radius: 50% 50% 50% 4px;
+    transform: rotate(-45deg);
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation:
+        lpPinBounce 2.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite,
+        lpPinGlow   2.2s ease-in-out infinite;
+    position: relative;
+    cursor: pointer;
+    pointer-events: all;
+}
+.lp-map-pin:hover { animation-play-state: paused; }
+
+/* Icon bên trong pin */
+.lp-map-pin-inner {
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+.lp-map-pin-inner svg { width: 22px; height: 22px; }
+
+/* Ripple rings */
+.lp-map-pin-ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(220,38,38,0.35);
+    transform: translate(-50%, -50%) scale(0.5);
+    animation: lpPinRipple 2.2s ease-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+.lp-map-pin-ripple:nth-child(2) { animation-delay: 0.55s; }
+.lp-map-pin-ripple:nth-child(3) { animation-delay: 1.1s; }
+
+/* Bóng dưới pin */
+.lp-map-pin-shadow {
+    width: 20px;
+    height: 6px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    margin-top: 4px;
+    animation: lpPinShadowPulse 2.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+    transform: translateX(-50%);
+    position: relative;
+    left: 50%;
+}
+
 /* ── Map Open button ── */
 .lp-map-open-btn {
     position: absolute;
@@ -1177,6 +1302,33 @@ $loc_cta_btn2_url  = get_post_meta($pid, '_loc_cta_btn2_url', true) ?: home_url(
                             allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     <?php endif; ?>
+
+                    <!-- ── Animated Map Pin Overlay ── -->
+                    <div class="lp-map-pin-wrapper" id="lp-map-pin" title="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <!-- Tooltip -->
+                        <div class="lp-map-pin-tooltip">
+                            <?php echo esc_html(get_bloginfo('name')); ?>
+                        </div>
+
+                        <!-- Ripple rings -->
+                        <div style="position:relative;display:flex;align-items:center;justify-content:center;">
+                            <span class="lp-map-pin-ripple"></span>
+                            <span class="lp-map-pin-ripple"></span>
+                            <span class="lp-map-pin-ripple"></span>
+
+                            <!-- Pin body -->
+                            <div class="lp-map-pin">
+                                <div class="lp-map-pin-inner">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-2.083 3.939-5.265 3.939-9.124a8.25 8.25 0 00-16.5 0c0 3.859 1.995 7.04 3.94 9.124a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shadow -->
+                        <div class="lp-map-pin-shadow"></div>
+                    </div>
 
                     <!-- Open in Google Maps button (top right) -->
                     <a href="https://www.google.com/maps/search/<?php echo urlencode($loc_address_full); ?>" target="_blank" rel="noopener" class="lp-map-open-btn">
