@@ -187,6 +187,7 @@ function bookingroom_register_menus()
             'footer-support-en'      => __('Footer – Hỗ trợ (English)', 'bookingroom'),
             'footer-destination'     => __('Footer – Điểm đến', 'bookingroom'),
             'footer-destination-en'  => __('Footer – Điểm đến (English)', 'bookingroom'),
+            'fs-menu-right'          => __('Fullscreen Menu – Cột phải', 'bookingroom'),
         )
     );
 }
