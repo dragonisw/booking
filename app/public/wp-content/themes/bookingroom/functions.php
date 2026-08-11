@@ -115,6 +115,12 @@ require_once get_stylesheet_directory() . '/inc/google-reviews.php';
 require_once get_stylesheet_directory() . '/inc/location-metabox.php';
 
 /**
+ * Header Customizer – Tùy chọn sắp xếp Header
+ * Layout, màu sắc, logo, CTA, sticky, mobile menu
+ */
+require_once get_stylesheet_directory() . '/inc/header-customizer.php';
+
+/**
  * 3rd-party Booking API Integration
  * Kết nối với hệ thống Booking Engine / OTA / Channel Manager
  */

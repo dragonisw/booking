@@ -850,14 +850,49 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // ── Scroll effect ──
             var header = document.getElementById('masthead');
+
+            // ── Cấu hình từ Customizer (PHP inject) ──
+            var HEADER_STICKY_TYPE  = '<?php echo esc_js( get_theme_mod("header_sticky_type", "sticky") ); ?>';
+            var HEADER_SCROLL_THR   = <?php echo absint( get_theme_mod("header_scroll_threshold", 20) ); ?>;
+            var HEADER_DRAWER_POS   = '<?php echo esc_js( get_theme_mod("header_drawer_position", "right") ); ?>';
+
+            // ── Apply sticky type ──
+            if ( HEADER_STICKY_TYPE === 'static' ) {
+                header.style.position = 'relative';
+            } else if ( HEADER_STICKY_TYPE === 'fixed-always' ) {
+                header.style.position = 'fixed';
+            }
+
+            // ── Apply drawer position ──
+            var drawer = document.getElementById('mobile-menu-drawer');
+            if ( drawer && HEADER_DRAWER_POS === 'left' ) {
+                drawer.style.right = 'auto';
+                drawer.style.left  = '0';
+                drawer.style.transform = 'translateX(-100%)';
+                drawer.style.boxShadow = '8px 0 40px rgba(0,0,0,0.12)';
+            }
+
+            // ── Scroll effect ──
+            var lastScrollY = 0;
             function onScroll() {
-                if (window.scrollY > 20) {
+                var sy = window.scrollY;
+                // is-scrolled
+                if ( sy > HEADER_SCROLL_THR ) {
                     header.classList.add('is-scrolled');
                 } else {
                     header.classList.remove('is-scrolled');
                 }
+                // Hide on scroll down / show on scroll up
+                if ( HEADER_STICKY_TYPE === 'hide-on-scroll' ) {
+                    if ( sy > lastScrollY && sy > 80 ) {
+                        header.style.transform = 'translateY(-100%)';
+                        header.style.transition = 'transform 0.35s ease';
+                    } else {
+                        header.style.transform = 'translateY(0)';
+                    }
+                }
+                lastScrollY = sy;
             }
             window.addEventListener('scroll', onScroll, { passive: true });
             onScroll();
