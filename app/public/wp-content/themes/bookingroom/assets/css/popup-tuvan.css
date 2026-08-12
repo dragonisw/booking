@@ -9,10 +9,10 @@
 
 /* ── CSS VARIABLES ── */
 :root {
-  --tv-green:        #1b6b4a;
-  --tv-green-dark:   #134d35;
-  --tv-green-deep:   #0e3c28;
-  --tv-green-rgb:    27, 107, 74;
+  --tv-green:        #1e4d8c;
+  --tv-green-dark:   #163a6e;
+  --tv-green-deep:   #0e2850;
+  --tv-green-rgb:    30, 77, 140;
   --tv-red:          #c0392b;
   --tv-red-hover:    #a93226;
   --tv-white:        #ffffff;
@@ -144,7 +144,7 @@
     175deg,
     rgba(0, 0, 0, 0.08) 0%,
     rgba(0, 0, 0, 0.12) 45%,
-    rgba(8, 32, 18, 0.82) 100%
+    rgba(10, 20, 50, 0.82) 100%
   );
   display: flex;
   flex-direction: column;
@@ -198,7 +198,7 @@
   background-image: linear-gradient(
     160deg,
     var(--tv-green) 0%,
-    #175f41 60%,
+    #1a4580 60%,
     var(--tv-green-dark) 100%
   );
   padding: 36px 34px 28px;
@@ -336,7 +336,7 @@
 .tuvan-input:-webkit-autofill:hover,
 .tuvan-input:-webkit-autofill:focus {
   -webkit-text-fill-color: #fff !important;
-  -webkit-box-shadow: 0 0 0 1000px var(--tv-green) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #1e4d8c inset !important;
   transition: background-color 5000s ease-in-out 0s !important;
 }
 

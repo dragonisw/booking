@@ -295,7 +295,7 @@ function tuvan_popup_customizer($wp_customize) {
     ]);
 
     // Màu chủ đạo
-    $wp_customize->add_setting('tuvan_popup_color', ['default' => '#1a6b4a', 'sanitize_callback' => 'sanitize_hex_color']);
+    $wp_customize->add_setting('tuvan_popup_color', ['default' => '#1e4d8c', 'sanitize_callback' => 'sanitize_hex_color']);
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'tuvan_popup_color', [
         'label'   => 'Màu chủ đạo form',
         'section' => 'tuvan_popup_section',
