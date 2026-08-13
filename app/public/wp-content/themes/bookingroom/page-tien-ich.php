@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name: Tiện Ích
+ * Template Name: Tiện Ích 22
  * Description: Trang tiện ích resort cao cấp
  */
 get_header();
