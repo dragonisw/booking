@@ -474,31 +474,93 @@ add_action('wp_ajax_nopriv_process_booking', 'br_process_booking_enhanced');
 function br_process_booking_enhanced() {
     check_ajax_referer('booking_nonce', 'nonce');
 
-    $room_id       = intval($_POST['room_id']       ?? 0);
-    $check_in      = sanitize_text_field($_POST['check_in']      ?? '');
-    $check_out     = sanitize_text_field($_POST['check_out']     ?? '');
-    $guests        = intval($_POST['guests']        ?? 1);
-    $name          = sanitize_text_field($_POST['name']          ?? '');
-    $phone         = sanitize_text_field($_POST['phone']         ?? '');
-    $email         = sanitize_email($_POST['email']             ?? '');
-    $note          = sanitize_textarea_field($_POST['note']      ?? '');
-    $selected_rooms= sanitize_text_field($_POST['selected_rooms']?? '');
-    $user_id       = get_current_user_id();
+    $room_id        = intval($_POST['room_id']        ?? 0);
+    $check_in       = sanitize_text_field($_POST['check_in']       ?? '');
+    $check_out      = sanitize_text_field($_POST['check_out']      ?? '');
+    $guests         = intval($_POST['guests']         ?? 1);
+    $name           = sanitize_text_field($_POST['name']           ?? '');
+    $phone          = sanitize_text_field($_POST['phone']          ?? '');
+    $email          = sanitize_email($_POST['email']              ?? '');
+    $note           = sanitize_textarea_field($_POST['note']       ?? '');
+    $selected_rooms = sanitize_text_field($_POST['selected_rooms'] ?? '');
+    $user_id        = get_current_user_id();
 
     if (!$room_id || !$check_in || !$check_out || !$phone || !$name) {
-        wp_send_json_error(array('message' => t('Vui lòng điền đầy đủ thông tin bắt buộc (Tên, SĐT, ngày nhận/trả phòng).', 'Please fill in all required fields (Name, Phone, Check-in/Check-out dates).')));
+        wp_send_json_error(array('message' => t(
+            'Vui lòng điền đầy đủ thông tin bắt buộc (Tên, SĐT, ngày nhận/trả phòng).',
+            'Please fill in all required fields (Name, Phone, Check-in/Check-out dates).'
+        )));
     }
 
-    // Tính tổng tiền
-    $base_price   = floatval(get_post_meta($room_id, '_price', true) ?: 0);
-    $d1           = new DateTime($check_in);
-    $d2           = new DateTime($check_out);
-    $nights_n     = max(1, (int)$d2->diff($d1)->days);
-    $rooms_n      = $selected_rooms ? count(array_filter(array_map('trim', explode(',', $selected_rooms)))) : 1;
-    $subtotal     = $base_price * $nights_n * $rooms_n;
-    $total_price  = round($subtotal * 1.05); // +5% phí
+    global $wpdb;
 
-    // Tạo booking post
+    // ╔════════════════════════════════════════════════════════╗
+    // LỚP 1 – MySQL GET_LOCK() – ATOMIC MUTEX
+    //
+    // MySQL GET_LOCK() là server-side lock, chạy hoàn toàn trong
+    // DB engine, đảm bảo chỉ MỘT connection giành được lock
+    // tại một thời điểm, dù có 1000 request cùng millisecond.
+    // ╚════════════════════════════════════════════════════════╝
+    $lock_name    = 'br_room_' . $room_id . '_' . md5($check_in . '|' . $check_out);
+    $lock_timeout = 8; // giây chờ tối đa; 0 = trả ngay không đợi
+
+    $got_lock = (int) $wpdb->get_var(
+        $wpdb->prepare('SELECT GET_LOCK(%s, %d)', $lock_name, $lock_timeout)
+    );
+
+    if ($got_lock !== 1) {
+        // GET_LOCK trả 0 (timeout) hoặc NULL (lỗi)
+        wp_send_json_error(array(
+            'message' => t(
+                '⏳ Hệ thống đang xử lý đặt phòng khác cùng loại. Vui lòng thử lại ngay.',
+                '⏳ Another booking for this room is being processed. Please try again.'
+            ),
+            'retry' => true,
+        ));
+    }
+
+    // ╔════════════════════════════════════════════════════════╗
+    // LỚP 2 – DOUBLE-CHECK TỒN KHO (bên trong lock)
+    //
+    // Tại đây chỉ có MỘT PHP process chạy (nhờ GET_LOCK).
+    // Query này sẽ thấy mọi booking vừa được insert bởi
+    // process trước đó – không có race window.
+    // ╚════════════════════════════════════════════════════════╝
+    $post_type       = get_post_type($room_id) ?: 'room';
+    $total_units     = bookingroom_get_room_total_units($room_id, $post_type);
+    $booked_units    = bookingroom_get_booked_units($room_id, $check_in, $check_out, $post_type);
+    $rooms_requested = $selected_rooms
+        ? count(array_filter(array_map('trim', explode(',', $selected_rooms))))
+        : 1;
+    $free_units = max(0, $total_units - $booked_units);
+
+    if ($free_units < $rooms_requested) {
+        $wpdb->get_var($wpdb->prepare('SELECT RELEASE_LOCK(%s)', $lock_name));
+
+        $msg = ($free_units <= 0)
+            ? t('😔 Rất tiếc, phòng này vừa được đặt hết. Vui lòng chọn loại phòng hoặc ngày khác.',
+                '😔 Sorry, this room was just fully booked. Please choose a different room or dates.')
+            : t('😔 Chỉ còn {n} phòng nhưng bạn yêu cầu {r} phòng. Vui lòng điều chỉnh.',
+                '😔 Only {n} room(s) left but you requested {r}. Please adjust your selection.');
+        $msg = str_replace(array('{n}', '{r}'), array($free_units, $rooms_requested), $msg);
+
+        wp_send_json_error(array(
+            'message'    => $msg,
+            'free_units' => $free_units,
+            'sold_out'   => ($free_units <= 0),
+        ));
+    }
+
+    // ╔════════════════════════════════════════════════════════╗
+    // TẠO BOOKING (phòng đã xác nhận còn trống, đang giữ lock)
+    // ╚════════════════════════════════════════════════════════╝
+    $base_price  = floatval(get_post_meta($room_id, '_price', true) ?: 0);
+    $d1          = new DateTime($check_in);
+    $d2          = new DateTime($check_out);
+    $nights_n    = max(1, (int) $d2->diff($d1)->days);
+    $rooms_n     = $rooms_requested;
+    $total_price = round($base_price * $nights_n * $rooms_n * 1.05);
+
     $booking_id = wp_insert_post(array(
         'post_type'   => 'booking',
         'post_status' => 'publish',
@@ -506,11 +568,52 @@ function br_process_booking_enhanced() {
         'post_author' => $user_id ?: 1,
     ));
 
+    // ╔════════════════════════════════════════════════════════╗
+    // GIẢI PHÓNG LOCK (ngay sau khi row đã vào DB)
+    // Các request đang đợi sẽ nối tiếp – nhưng khi chạy
+    // double-check (LỚP 2) sẽ thấy booking mới được tính.
+    // ╚════════════════════════════════════════════════════════╝
+    $wpdb->get_var($wpdb->prepare('SELECT RELEASE_LOCK(%s)', $lock_name));
+
     if (is_wp_error($booking_id)) {
-        wp_send_json_error(array('message' => t('Lỗi hệ thống, vui lòng thử lại.', 'System error, please try again.')));
+        wp_send_json_error(array('message' => t(
+            'Lỗi hệ thống khi tạo đơn đặt phòng. Vui lòng thử lại.',
+            'System error while creating booking. Please try again.'
+        )));
     }
 
-    // Lưu tất cả meta
+    // ╔════════════════════════════════════════════════════════╗
+    // LỚP 3 – POST-INSERT OVERBOOKING CHECK (lưới an toàn cuối)
+    //
+    // Kiểm tra sau khi insert: nếu vì lý do nào đó (edge case
+    // trên multi-server) số phòng bị vượt, tự động huỷ và
+    // thông báo admin xử lý thủ công.
+    // ╚════════════════════════════════════════════════════════╝
+    $booked_after = bookingroom_get_booked_units($room_id, $check_in, $check_out, $post_type);
+    if ($booked_after > $total_units) {
+        // Overbooked: đơn này được tạo nhưng vượt số lượng
+        update_post_meta($booking_id, '_status', 'cancelled');
+        update_post_meta($booking_id, '_cancel_reason', 'auto_overbook_prevention');
+
+        // Cảnh báo admin để xử lý thủ công nếu cần
+        wp_mail(
+            get_option('admin_email'),
+            '[Cảnh báo] Overbook tự động được ngăn – ' . get_bloginfo('name'),
+            "Booking #{$booking_id} vừa bị tự động huỷ vì vượt số phòng (tổng: {$total_units}, đã đặt: {$booked_after}). Vui lòng kiểm tra thủ công."
+        );
+
+        wp_send_json_error(array(
+            'message' => t(
+                '😔 Rất tiếc, phòng vừa hết đúng lúc bạn đặt. Vui lòng chọn ngày hoặc loại phòng khác.',
+                '😔 Sorry, the room was taken at the exact moment you booked. Please choose a different date or room type.'
+            ),
+            'sold_out' => true,
+        ));
+    }
+
+    // ════════════════════════════════════════════════════════
+    // LƯU META & GỬI THÔNG BÁO
+    // ════════════════════════════════════════════════════════
     $metas = array(
         '_room_id'        => $room_id,
         '_check_in'       => $check_in,
@@ -531,10 +634,7 @@ function br_process_booking_enhanced() {
         update_post_meta($booking_id, $key, $val);
     }
 
-    // Gửi email thông báo cho ADMIN
     br_notify_admin_new_booking($booking_id, $name, $phone, $email, $room_id, $check_in, $check_out, $selected_rooms, $total_price);
-
-    // Gửi email pending cho KHÁCH HÀNG
     br_send_pending_booking_email($booking_id);
 
     // Gửi SMS thông báo
