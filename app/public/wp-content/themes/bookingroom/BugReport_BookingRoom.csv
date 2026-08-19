@@ -1,0 +1,19 @@
+﻿"ID","Module","Title","Severity","Priority","StepsToReproduce","ExpectedResult","ActualResult","Status","AssignedTo","Notes"
+"BUG-001","Tìm phòng","Param URL chưa trim() khoảng trắng khi pre-fill form tìm kiếm","Trung bình","P2 - Bình thường","1. Truy cập URL /tim-phong?check_in=2026-08-20%20&check_out=2026-08-22
+2. Quan sát ô input date","Dữ liệu ngày được trim khoảng trắng và parse đúng YYYY-MM-DD.","Dữ liệu ngày chứa khoảng trắng gây lệch định dạng date picker trên Safari.","Đã khắc phục","Dev Team","Đã bổ sung sanitize_text_field() và trim() trong handler JS/PHP."
+"BUG-002","Header","Text nút CTA Header bị đè viền ở breakpoint 768px-820px","Thấp","P3 - Thấp","1. Thu nhỏ màn hình trình duyệt về 800px
+2. Quan sát nút ""ĐẶT PHÒNG NGAY"" trên Header","Nút CTA co giãn tự động hoặc ẩn bớt icon để không bị tràn.","Text nút bấm đè sát vào logo khi tiêu đề hotel dài.","Đã khắc phục","Frontend Dev","Đã bổ sung CSS class white-space: nowrap và responsive padding."
+"BUG-003","Logic nghiệp vụ","Trường hợp booking thiếu _check_out trong meta data","Trung bình","P2 - Bình thường","1. Tạo booking thủ công trong Admin nhưng xoá meta _check_out
+2. Chạy hàm bookingroom_get_booked_units()","Hàm xử lý fallback an toàn không gây ra mảng ngày âm.","Lấy timestamp mặc định gây tính nhầm số lượng phòng còn trống.","Đã khắc phục","Backend Dev","Đã thêm fallback _check_out = _check_in + 1 ngày trong inc/room-availability.php."
+"BUG-004","Đa ngôn ngữ","Một số chuỗi thông báo lỗi payment stub thiếu key dịch tiếng Anh","Thấp","P3 - Thấp","1. Chuyển sang ngôn ngữ English
+2. Thực hiện submit form thanh toán lỗi","Thông báo hiển thị 100% bằng tiếng Anh.","Có 1 chuỗi fallback hiển thị tiếng Việt ""Vui lòng chọn phương thức"".","Đã khắc phục","Frontend Dev","Đã đăng ký bổ sung key dịch trong inc/multilingual.php."
+"BUG-005","Hiệu năng","Enqueue thư viện Swiper JS/CSS ở các trang không có slider","Thấp","P3 - Thấp","1. Mở Network Tab tại trang /tra-cuu
+2. Kiểm tra các file assets được load","Chỉ enqueue Swiper JS/CSS ở Trang chủ hoặc trang có slider.","Swiper JS/CSS vẫn được load trên toàn bộ các trang subpage.","Đã khắc phục","WordPress Dev","Đã thêm is_page_template() check trong wp_enqueue_scripts."
+"BUG-006","Popup Tư vấn","Toast thông báo lỗi tự đóng quá nhanh (3 giây) trên màn hình mobile","Thấp","P3 - Thấp","1. Mở popup tư vấn trên màn hình 360px
+2. Nhập sai SĐT và submit
+3. Đọc thông báo lỗi","Toast thông báo duy trì 5 giây hoặc cho tới khi user tắt.","Toast biến mất sau 3s khiến người dùng không đọc kịp.","Đã khắc phục","UI/UX Dev","Đã điều chỉnh timeout toast notification thành 5000ms."
+"BUG-007","Liên hệ","Bản đồ Google Maps rỗng khi chưa cài API Key trong Customizer","Trung bình","P2 - Bình thường","1. Xoá API key Google Maps trong Customizer
+2. Truy cập trang /lien-he","Hiển thị thẻ fallback placeholder ""Vui lòng cấu hình Google Maps API Key trong Admin"".","Khung bản đồ xám rỗng không hiển thị hướng dẫn.","Đã khắc phục","WordPress Dev","Đã thêm UI fallback placeholder chỉ dẫn Admin trong page-contact.php."
+"BUG-008","Tra cứu đặt phòng","SĐT dán từ clipboard bị thừa khoảng trắng không tra cứu được","Trung bình","P2 - Bình thường","1. Copy SĐT "" 0901234567 ""
+2. Dán vào ô SĐT trang tra cứu
+3. Click Tra cứu ngay","Hệ thống tự động strip/trim khoảng trắng trước khi query DB.","Query không khớp SĐT do lưu trong DB không có khoảng trắng.","Đã khắc phục","Backend Dev","Đã xử lý trim() SĐT cả ở client JS lẫn server AJAX handler."
